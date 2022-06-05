@@ -78,11 +78,7 @@ const Login = () => {
         setContent(time);
         toast('Usuário bloqueado', { position: toast.POSITION.BOTTOM_RIGHT });
       }
-      login(email, password, setShowModal, setContent).then((response) => {
-        if (response === 'Loja em espera') {
-          toast('Sua solicitação para se tornar um parceiro ainda não foi avaliada', { position: toast.POSITION.BOTTOM_RIGHT });
-        }
-      });
+      login(email, password, setShowModal, setContent);
     } catch (error) {
       console.error(error); //eslint-disable-line
     }
