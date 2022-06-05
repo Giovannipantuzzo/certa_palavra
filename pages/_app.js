@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
       <AuthProvider>
-        <Header categories={categories} />
+        <Header />
         <Component {...pageProps} />
         <Footer />
       </AuthProvider>

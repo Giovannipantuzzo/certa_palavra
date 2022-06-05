@@ -11,7 +11,6 @@ toast.configure();
 
 const emptyContextInfo = {
   user: undefined,
-  store: undefined,
   login: async () => null,
   logout: async () => null,
   forgottenPassword: async () => null,
@@ -23,7 +22,6 @@ const AuthContext = React.createContext(emptyContextInfo);
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(undefined);
-  const [store, setStore] = useState(undefined);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   // eslint-disable-next-line consistent-return
@@ -36,10 +34,6 @@ function AuthProvider({ children }) {
 
       if (response.data.user !== undefined) {
         setUser(response.data.user);
-      } else {
-        setStore(response.data.store);
-      }
-      if (response.data.user !== undefined) {
         router.push('/Home');
         toast('Login efetuado com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
       }
@@ -70,7 +64,6 @@ function AuthProvider({ children }) {
     try {
       await api.get('logout');
       setUser(undefined);
-      setStore(undefined);
       router.push('/login');
     } catch (error) {
       console.error(error); //eslint-disable-line
@@ -83,9 +76,6 @@ function AuthProvider({ children }) {
       if (response.data.user !== undefined) {
         setUser(response.data.user);
         setIsLoading(false);
-      } else {
-        setStore(response.data.store);
-        setIsLoading(false);
       }
     } catch (error) {
       console.error(error); //eslint-disable-line
@@ -94,7 +84,7 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     validateSession();
-    if (!user && !store) {
+    if (!user) {
       setIsLoading(false);
     }
   }, []);
@@ -102,7 +92,7 @@ function AuthProvider({ children }) {
   return (
     <AuthContext.Provider value={{
       // eslint-disable-next-line max-len
-      user, store, login, setUser, logout, forgottenPassword, setStore, isLoading,
+      user, login, setUser, logout, forgottenPassword, isLoading,
     }}
     >
       {children}
