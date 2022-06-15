@@ -16,7 +16,7 @@ const buttons = [
   { buttonName: 'Sair' },
 ];
 
-export default function Home({ setSelectedButton, selectedButton }) {
+export default function MenuHome({ setSelectedButton, selectedButton }) {
   const defineBackgroundColor = (buttonType) => (selectedButton === buttonType
     ? 'menuSideClickButton'
     : 'menuSideGrupButton');

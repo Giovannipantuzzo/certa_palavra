@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import menuHome from '../../src/components/MenuHome';
+import MenuHome from '../../src/components/MenuHome';
 import {
-  meanHomeContainer,
-  sideMenuDashboard,
-  meanDashboard,
+  MeanHomeContainer,
+  SideMenuDashboard,
+  MeanDashboard,
 } from '../../styles/homeStyles';
 
 toast.configure();
 
 function Intranet() {
   const [selectedButton, setSelectedButton] = useState('');
-
   const menuDashboard = () => {
     switch (selectedButton) {
       case 'Enquetes': return <ResultadoQuizzes />;
@@ -21,14 +20,14 @@ function Intranet() {
   };
 
   return (
-    <meanHomeContainer>
-      <sideMenuDashboard>
-        <menuHome setSelectedButton={setSelectedButton} selectedButton={selectedButton} />
-      </sideMenuDashboard>
-      <meanDashboard>
+    <MeanHomeContainer>
+      <SideMenuDashboard>
+        <MenuHome setSelectedButton={setSelectedButton} selectedButton={selectedButton} />
+      </SideMenuDashboard>
+      <MeanDashboard>
         {menuDashboard()}
-      </meanDashboard>
-    </meanHomeContainer>
+      </MeanDashboard>
+    </MeanHomeContainer>
   );
 }
 

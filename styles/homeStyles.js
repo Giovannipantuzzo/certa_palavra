@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const meanHomeContainer = styled.div`
+export const MeanHomeContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -8,11 +8,11 @@ export const meanHomeContainer = styled.div`
     min-height: calc(100vh - 221px);
 `;
 
-export const sideMenuDashboard = styled.div`
+export const SideMenuDashboard = styled.div`
   padding: 150px 0;
 `;
 
-export const meanDashboard = styled.div`
+export const MeanDashboard = styled.div`
     padding: 75px 30px;
     width: 100%;
 `;
