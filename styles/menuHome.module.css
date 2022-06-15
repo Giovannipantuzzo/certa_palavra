@@ -1,0 +1,14 @@
+.menuSideGrupButton {
+  background-color: #F8F8F8;
+}
+
+.menuSideClickButton {
+  color: var(--fontColor2);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+.menuSideGrupButton:hover {
+  color: var(--fontColor2);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}

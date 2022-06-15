@@ -1,51 +1,35 @@
-import React from 'react';
-// import './MenuLateral.css';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import Button from '@mui/material/Button';
-// import ButtonGroup from '@mui/material/ButtonGroup';
-// import Box from '@mui/material/Box';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import menuHome from '../../src/components/MenuHome';
+import {
+  meanHomeContainer,
+  sideMenuDashboard,
+  meanDashboard,
+} from '../../styles/homeStyles';
 
-// const buttons = [
-//   { buttonName: 'Dashboard' },
-//   { buttonName: 'Informações' },
-// ];
+toast.configure();
 
-// const theme = createTheme({
-//   palette: {
-//     secondary: {
-//       main: '#264A6F',
-//     },
-//   },
-// });
+function Intranet() {
+  const [selectedButton, setSelectedButton] = useState('');
 
-export default function Home({ setSelectedButton, selectedButton }) {
-  // const defineBackgroundColor = (buttonType) => (selectedButton === buttonType
-  //   ? 'menuSideClickButton'
-  //   : 'menuSideGrupButton');
+  const menuDashboard = () => {
+    switch (selectedButton) {
+      case 'Enquetes': return <ResultadoQuizzes />;
+
+      default: return <div />;
+    }
+  };
 
   return (
-    // <Box>
-    //   <div className="menuSidepage">
-    //     <div className="menuSideContainer">
-    //       <ThemeProvider theme={theme}>
-    //         <ButtonGroup
-    //           className="menuSideAll"
-    //           size="large"
-    //           orientation="vertical"
-    //           aria-label="vertical contained button group"
-    //           variant="text"
-    //           color="secondary"
-    //         >
-
-    //           {buttons.map((button) => (
-    //             <Button key={`${button.buttonName}`} className={defineBackgroundColor(button.buttonName)} onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}</Button>
-    //           ))}
-
-    //         </ButtonGroup>
-    //       </ThemeProvider>
-    //     </div>
-    //   </div>
-    // </Box>
-    <>biro do biro biro</>
+    <meanHomeContainer>
+      <sideMenuDashboard>
+        <menuHome setSelectedButton={setSelectedButton} selectedButton={selectedButton} />
+      </sideMenuDashboard>
+      <meanDashboard>
+        {menuDashboard()}
+      </meanDashboard>
+    </meanHomeContainer>
   );
 }
+
+export default Intranet;
