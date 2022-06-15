@@ -4,7 +4,7 @@ import {
   FormLabel, FormGroup,
 } from 'react-bootstrap';
 import Image from 'next/image';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+// import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -149,14 +149,14 @@ export default function Signup() {
 
               <MyFormGroup>
                 <FormLabel>Data de Nascimento</FormLabel>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <KeyboardDatePicker
                     value={date}
                     onChange={(newDate) => { setDate(newDate); }}
                     variant="inline"
                     format="dd/MM/yyyy"
                   />
-                </MuiPickersUtilsProvider>
+                </MuiPickersUtilsProvider> */}
 
               </MyFormGroup>
               <MyFormGroup>
