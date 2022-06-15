@@ -1,8 +1,17 @@
-import '../globals.css'
-import { ThemeProvider } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { AuthProvider } from '../src/contexts/AuthContext';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #F8F8F8;
+  }
+`;
 
 const theme = {
   colors: {
@@ -23,16 +32,20 @@ const theme = {
 
 
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component }) {
   return (
+    <>
+    <GlobalStyle/>
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <Header />
-        <Component {...pageProps} />
+        <Component />
         <Footer />
       </AuthProvider>
     </ThemeProvider>
+    </>
   );
 }
+
 
 export default MyApp
