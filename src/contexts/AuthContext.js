@@ -28,10 +28,6 @@ function AuthProvider({ children }) {
   async function login(email, password, setShowModal, setContent) {
     try {
       const response = await api.post('login', { email, password });
-      if (response.data === 'Loja sem cadastro' || response.data === 'Loja em espera') {
-        return response.data;
-      }
-
       if (response.data.user !== undefined) {
         setUser(response.data.user);
         router.push('/Home');

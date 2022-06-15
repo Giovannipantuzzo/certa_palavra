@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { GrLocation } from 'react-icons/gr';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FiLogIn } from 'react-icons/fi';
 import Link from 'next/link';
@@ -7,9 +6,6 @@ import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
 import {
   ImageBox,
-  Location,
-  LocationContainer,
-  TextBox,
   YourSpace,
   YourSpaceContainer,
   LogOut,

@@ -122,7 +122,7 @@ const Login = () => {
               />
             </ItemFormulary>
             <ItemFormulary>
-              <Link href="/ForgetPass">
+              <Link href="/esqueciMinhaSenha">
                 <ForgotPassword>Esqueceu a senha?</ForgotPassword>
               </Link>
             </ItemFormulary>
@@ -131,7 +131,7 @@ const Login = () => {
             </BottomFormulary>
             <BottomFormulary>
               <CreateAccount>Não tem uma conta?</CreateAccount>
-              <Link href="/Register">
+              <Link href="/cadastro">
                 <CreateAccount.Right>Cadastre-se</CreateAccount.Right>
               </Link>
             </BottomFormulary>
