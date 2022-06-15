@@ -18,7 +18,7 @@ const theme = {
     primary: '#004e7b',
     yellow: '#fddf4e',
     green: '#91ca6c',
-    lightGreen: '##00b7a1',
+    lightGreen: '#00b7a1',
     pink: '##ef476d',
     lightBlue: '##038dbe',
     background: '#F8F8F8',
@@ -35,14 +35,14 @@ const theme = {
 function MyApp({ Component }) {
   return (
     <>
-    <GlobalStyle/>
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <Header />
-        <Component />
-        <Footer />
-      </AuthProvider>
-    </ThemeProvider>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <Header />
+          <Component />
+          <Footer />
+        </AuthProvider>
+      </ThemeProvider>
     </>
   );
 }
