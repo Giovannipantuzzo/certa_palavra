@@ -3,16 +3,15 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import {
-  menuSidepage,
-  menuSideContainer,
-  menuSideGrupButton,
-  menuSideClickButton,
+  MenuSidepage,
+  MenuSideContainer,
 } from '../../../styles/menuHomeStyles';
 import '../../../styles/menuHome.module.css';
 
 const buttons = [
   { buttonName: 'Home' },
   { buttonName: 'Informações' },
+  { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
 ];
 
@@ -23,15 +22,14 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
 
   return (
     <Box>
-      <menuSidepage>
-        <menuSideContainer>
+      <MenuSidepage>
+        <MenuSideContainer>
           <ButtonGroup
             style={{ padding: '10px' }}
             size="large"
             orientation="vertical"
             aria-label="vertical contained button group"
             variant="text"
-            color="secondary"
           >
 
             {buttons.map((button) => (
@@ -43,8 +41,8 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
             ))}
 
           </ButtonGroup>
-        </menuSideContainer>
-      </menuSidepage>
+        </MenuSideContainer>
+      </MenuSidepage>
     </Box>
   );
 }
