@@ -61,7 +61,7 @@ export default function Header() {
       <Header.Top>
         <ImageBox>
           <Link href="/Home">
-            <Image src="/images/LogoWeb.png" alt="" width="250" height="100" />
+            <Image src="/logo.png" alt="" width="250" height="100" />
           </Link>
         </ImageBox>
         <YourSpaceContainer>

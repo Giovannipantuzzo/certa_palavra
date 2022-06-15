@@ -1,15 +1,16 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.up = function(knex) {
-  
+exports.up = function (knex) {
+  return knex.schema.createTable('user', (table) => {
+    table.string('firebase_id').primary().notNullable();
+    table.string('email').notNullable();
+    table.string('name').notNullable();
+    table.string('cpf').notNullable();
+    table.date('birth_date').notNullable();
+    table.string('phone').notNullable();
+    table.string('type').notNullable();
+    table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
+  });
 };
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
-exports.down = function(knex) {
-  
+exports.down = function (knex) {
+  return knex.schema.dropTable('user');
 };
