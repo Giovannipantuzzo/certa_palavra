@@ -16,14 +16,13 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import api from '../../src/utils/api';
 import { BodyUser, ItemFormulary } from '../../src/components/BodyForms';
-import WindowDivider from '../../src/components/WindowDivider';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   WordFormGroup, MyFormGroup, Phone, Pass, NumbersForms, DDD,
   Subtitle, Register,
-  Buttons, FormRegister, Submit, ButtonLogin,
+  Buttons, FormRegister, Submit, ButtonLogin, MyFormGroupPass, MyFormGroupConfirmPass, MyFormGroupDDD
 } from '../../styles/cadastroStyles';
-import { TextBox2 } from '../../src/components/FormComponents';
+import { TextBox2, Senha, ConfirmarSenha, TextDDD, Select } from '../../src/components/FormComponents';
 
 import ptBR from 'date-fns/locale/pt-BR';
 
@@ -119,16 +118,11 @@ export default function Signup() {
   return (
     <>
       <BodyUser>
-        <BodyUser.LeftUser>
-
-          <Image src="/images/doguinho.jpg" alt="" width="450" height="483" />
-        </BodyUser.LeftUser>
-        <WindowDivider />
-        <BodyUser.Right>
+        <BodyUser.center>
           <Register>
             <FormRegister>
 
-              <Subtitle>Vamos Começar?</Subtitle>
+              <Subtitle>Cadastro</Subtitle>
               <MyFormGroup>
                 <FormLabel>Nome</FormLabel>
                 <ItemFormulary>
@@ -155,14 +149,6 @@ export default function Signup() {
 
               <MyFormGroup>
                 <FormLabel>Data de Nascimento</FormLabel>
-                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    value={date}
-                    onChange={(newDate) => { setDate(newDate); }}
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                  />
-                </MuiPickersUtilsProvider> */}
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
                 <DatePicker
                     value={date}
@@ -173,7 +159,7 @@ export default function Signup() {
                     }}
                     renderInput={(props) => (
                       <TextField {...props} helperText={props.error ? "Por favor, selecione uma data válida" : "Selecione uma data"} 
-                      style={{width: '90%',
+                      style={{width: '100%',
                       paddingTop: '4px',
                       borderRadius: '5px',
                       border: '1px solid ${({ theme }) => theme.colors.baseGray}',
@@ -196,10 +182,23 @@ export default function Signup() {
                   onChange={handleEmailChange}
                 />
               </MyFormGroup>
+              <MyFormGroup>
+                <FormLabel>Tipo</FormLabel>
+                <Select 
+                // name={name}
+                // id={id}
+                // onChange={(e) => onChange(e.target.value)}
+                // value={value}
+                >
+                  <option value="">Selecione o tipo do usuario</option>
+                  <option value="Usuario">Usuario</option>
+                  <option value="Corretor">Corretor</option>
+                </Select>
+              </MyFormGroup>
               <Pass>
-                <MyFormGroup>
+                <MyFormGroupPass>
                   <FormLabel>Senha</FormLabel>
-                  <TextBox2
+                  <Senha
                     type="password"
                     placeholder="Senha"
                     required
@@ -208,10 +207,10 @@ export default function Signup() {
                     value={password}
                     onChange={handlePasswordChange}
                   />
-                </MyFormGroup>
-                <WordFormGroup>
+                </MyFormGroupPass>
+                <MyFormGroupConfirmPass>
                   <FormLabel>Confirmar Senha</FormLabel>
-                  <TextBox2
+                  <ConfirmarSenha
                     type="password"
                     placeholder="Senha"
                     required
@@ -219,7 +218,7 @@ export default function Signup() {
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
                   />
-                </WordFormGroup>
+                </MyFormGroupConfirmPass>
               </Pass>
               <NumbersForms>
                 <MyFormGroup>
@@ -233,12 +232,11 @@ export default function Signup() {
                     value={cpf}
                     onChange={handleCpfChange}
                   />
-                </MyFormGroup>
-                <Phone>
+                </MyFormGroup>                 
                   <DDD>
-                    <MyFormGroup>
+                    <MyFormGroupDDD>
                       <FormLabel>DDD</FormLabel>
-                      <TextBox2
+                      <TextDDD
                         type="numbers"
                         placeholder="(00)"
                         pattern="[0-9]$"
@@ -246,7 +244,7 @@ export default function Signup() {
                         value={ddd}
                         onChange={handleDddChange}
                       />
-                    </MyFormGroup>
+                    </MyFormGroupDDD>
                   </DDD>
                   <MyFormGroup>
                     <FormLabel>Telefone</FormLabel>
@@ -259,7 +257,6 @@ export default function Signup() {
                       onChange={handleTelephoneChange}
                     />
                   </MyFormGroup>
-                </Phone>
               </NumbersForms>
               <Buttons>
                 <Submit onClick={handleSubmit}>Cadastrar</Submit>
@@ -277,7 +274,7 @@ export default function Signup() {
             </FormRegister>
 
           </Register>
-        </BodyUser.Right>
+        </BodyUser.center>
 
       </BodyUser>
     </>

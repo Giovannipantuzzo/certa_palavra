@@ -18,6 +18,36 @@ export const MyFormGroup = styled(FormGroup)`
 display : flex;
 flex-direction: column;
 align-items: flex-start;
+margin-bottom: 5%;
+`;
+
+export const MyFormGroupDDD = styled(FormGroup)`
+display : flex;
+flex-direction: column;
+align-items: center;
+margin-bottom: 5%;
+
+@media (max-width: 300px) {
+  width: 100%;
+}
+`;
+
+export const MyFormGroupPass = styled(FormGroup)`
+margin-bottom: 5%;
+width: 50%;
+
+@media (max-width: 300px) {
+  width: 100%;
+}
+`;
+
+export const MyFormGroupConfirmPass = styled(FormGroup)`
+margin-bottom: 5%;
+width: 50%;
+
+@media (max-width: 300px) {
+  width: 100%;
+}
 `;
 
 export const Phone = styled.div`
@@ -55,7 +85,6 @@ display: flex;
 export const DDD = styled.div`
 flex-direction:row ;
 display: flex;
-margin-right: 10px;
 `;
 export const EmailFormControl = styled(FormControl)`
 display: flex;
@@ -101,7 +130,7 @@ export const Submit = styled.button`
     font-family: Roboto;
     font-size: 20px;
     font-weight: 500;
-    background-color: ${({ theme }) => theme.colors.mediumGreen};
+    background-color: ${({ theme }) => theme.colors.lightGreen};
     color: white;
     border: 0;
     border-radius: 5px;
@@ -109,12 +138,10 @@ export const Submit = styled.button`
 `;
 
 export const ButtonLogin = styled.button`
-display: flex;
-align-items: center;
-justify-content: center;
-width: 100%;
+width: 50%;
 outline: none;
 border:0;
-background-color: ${({ theme }) => theme.colors.background};
+background-color: ${({ theme }) => theme.colors.blueButton};
+border-radius: 5px;
 cursor: pointer;
 `;

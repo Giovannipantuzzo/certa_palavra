@@ -55,26 +55,12 @@ export const BodyUser = styled.div`
     }
 `;
 
-BodyUser.LeftUser = styled.div`
-display: flex;
-justify-content: center;
-padding: 10px;
-align-items: center;
-height: 100%;
-width: 50%;
-margin: 10px;
-
-@media screen and (max-width: 800px) {
-    display: none !important;
-}
-`;
-
-BodyUser.Right = styled.div`
+BodyUser.center = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    width: 50%;
+    width: 100%;
 
     @media screen and (max-width: 900px) {
       width: 75%;

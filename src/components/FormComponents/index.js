@@ -54,6 +54,16 @@ export const SubText = styled.p`
   margin-bottom: 5px;
 `;
 
+export const Select = styled.select`
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  background: #F2F2F2;
+`;
+
 export const TextBox = styled.input`
   width: 90%;
   margin-top: 10px;
@@ -65,12 +75,48 @@ export const TextBox = styled.input`
 `;
 
 export const TextBox2 = styled.input`
+  width: 100%;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  background: #F2F2F2;
+`;
+
+export const Senha = styled.input`
+  width: 96%;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  background: #F2F2F2;
+
+  @media (max-width: 300px) {
+  width: 100%;
+  }
+`;
+
+export const ConfirmarSenha = styled.input`
+  width: 100%;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  background: #F2F2F2;
+
+`;
+
+export const TextDDD = styled.input`
   width: 90%;
   padding: 5px;
   height: 25px;
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.colors.baseGray};
   background: #F2F2F2;
+  
+  @media (max-width: 300px) {
+  width: 100%;
+  }
 `;
 
 
