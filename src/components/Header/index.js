@@ -16,8 +16,8 @@ Header.Wrapper = styled.div`
   width: 100%;
   height: 25vh;
   flex-direction: column;
-  @media (max-width: 800px) {
-    display: none;
+  @media (max-width: 400px) {
+    height: 21vh;
   }
 `;
 
@@ -25,26 +25,13 @@ Header.Top = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 75%;
-  background-color: ${({ theme }) => theme.colors.rose};
-`;
-
-Header.Carrinho = styled.span`
-  font-size: 12px;
-  background: #ff0000;
-  color: #fff;
-  padding: 0 5px;
-  vertical-align: top;
-  margin-left: -10px;
-  margin-bottom: 25px;
-  margin-top: -10px;
-  font-weight: 600;
-  border-radius: 9px; 
+  background-color: ${({ theme }) => theme.colors.lightGreen};
 `;
 
 export default function Header() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   // const handleKeypress = (e) => {
   //   if (e.key === 'Enter') {
@@ -57,19 +44,22 @@ export default function Header() {
       <Header.Top>
         <ImageBox>
           <Link href="/Home">
-            <Image src="/logo.png" alt="" width="250" height="100" />
+            <Image src="/logo.png" alt="" width="120" height="150" />
           </Link>
         </ImageBox>
-        <YourSpaceContainer>
-          <YourSpace>
-            <BsFillPersonFill />
-          </YourSpace>
-        </YourSpaceContainer>
-        <LogOut onClick={logout}>
-          <Link href="/login">
-            <FiLogIn size="30" color="#AA4545" style={{ cursor: 'pointer' }} />
-          </Link>
-        </LogOut>
+        {user ? (
+          <YourSpaceContainer>
+            <YourSpace>
+              <BsFillPersonFill />
+            </YourSpace>
+          </YourSpaceContainer>
+        ) : (
+          <LogOut onClick={logout}>
+            <Link href="/login">
+              <FiLogIn size="35" color="#004e7b" style={{ cursor: 'pointer' }} />
+            </Link>
+          </LogOut>
+        )}
       </Header.Top>
     </Header.Wrapper>
   );
