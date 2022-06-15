@@ -38,6 +38,8 @@ export default function Signup() {
   const [ddd, setDdd] = useState('');
   const [telephone, setTelephone] = useState('');
   const [date, setDate] = useState(new Date());
+  const [userType, setUserType] = useState('');
+  console.log("🚀 ~ file: index.js ~ line 42 ~ Signup ~ userType", userType)
   const router = useRouter();
   function handleNameChange(event) {
     setName(event.target.value);
@@ -185,10 +187,9 @@ export default function Signup() {
               <MyFormGroup>
                 <FormLabel>Tipo</FormLabel>
                 <Select 
-                // name={name}
-                // id={id}
-                // onChange={(e) => onChange(e.target.value)}
-                // value={value}
+                id={userType}
+                onChange={(e) => setUserType(e.target.value)}
+                value={userType}
                 >
                   <option value="">Selecione o tipo do usuario</option>
                   <option value="Usuario">Usuario</option>
