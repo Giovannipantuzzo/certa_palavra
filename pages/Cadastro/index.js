@@ -5,6 +5,10 @@ import {
 } from 'react-bootstrap';
 import Image from 'next/image';
 // import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import DatePicker from '@material-ui/lab/DatePicker';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,6 +24,8 @@ import {
   Buttons, FormRegister, Submit, ButtonLogin,
 } from '../../styles/cadastroStyles';
 import { TextBox2 } from '../../src/components/FormComponents';
+
+import ptBR from 'date-fns/locale/pt-BR';
 
 toast.configure();
 
@@ -157,6 +163,25 @@ export default function Signup() {
                     format="dd/MM/yyyy"
                   />
                 </MuiPickersUtilsProvider> */}
+                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+                <DatePicker
+                    value={date}
+                    onChange={(newDate) => { setDate(newDate); }}
+                    inputFormat="dd/MM/yyyy"
+                    style={{
+                      color: 'red'
+                    }}
+                    renderInput={(props) => (
+                      <TextField {...props} helperText={props.error ? "Por favor, selecione uma data válida" : "Selecione uma data"} 
+                      style={{width: '90%',
+                      paddingTop: '4px',
+                      borderRadius: '5px',
+                      border: '1px solid ${({ theme }) => theme.colors.baseGray}',
+                      background: '#F2F2F2',
+                    }} />
+                    )}
+                  />
+                </LocalizationProvider>
 
               </MyFormGroup>
               <MyFormGroup>
