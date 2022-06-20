@@ -1,9 +1,6 @@
 import FirebaseModel from '../models/FirebaseModel';
 import UserModel from '../models/UserModel';
-import CartModel from '../models/CartModel';
 import AttemptsModel from '../models/AttemptsModel';
-
-const { v4: uuidv4 } = require('uuid');
 
 export async function getOne(request, response) {
   const { id } = request.query;
@@ -33,7 +30,6 @@ export async function getAll(request, response) {
 
 export async function create(request, response) {
   const user = request.body;
-  const cart_id = uuidv4();
   let firebase_id;
 
   try {
@@ -46,19 +42,14 @@ export async function create(request, response) {
 
     user.firebase_id = firebase_id;
     delete user.password;
-    const newCart = {
-      firebase_id,
-      cart_id,
-    };
     await UserModel.createNewUser(user);
     await AttemptsModel.createAttempt();
-    const createNewCart = await CartModel.createNewCart(newCart);
-  } catch (err) {
+  } catch (error) {
     if (firebase_id) {
       await FirebaseModel.deleteUser(firebase_id);
     }
-    if (err.message) {
-      return response.status(400).json({ notification: err.message });
+    if (error.message) {
+      return response.status(400).json({ notification: error.message });
     }
     return response.status(500).json({ notification: 'Internal Server Error' });
   }

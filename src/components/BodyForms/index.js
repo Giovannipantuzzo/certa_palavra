@@ -137,6 +137,37 @@ export const ItemFormulary = styled.div`
   margin-right: 5px;
 `;
 
+export const ForgotPasswordReturnContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+  align-self: start;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+export const ForgotPasswordReturnButton = styled.a`
+  color: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  text-decoration: none;
+`;
+
+export const ForgotPasswordReturnSpan = styled.span`
+  margin-right: 8px;
+  margin-left: 30px;
+  display: flex;
+  flex-direction: row;
+  align-self: start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-image: url('../../images/arrow-left.svg');
+  width: 22px;
+  height: 22px;
+  margin-bottom: 2px;
+`;
+
 // Div exclusiva para componente IE:
 export const IEItemFormulary = styled.div`
   margin-top: 10px;

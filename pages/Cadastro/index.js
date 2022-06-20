@@ -4,7 +4,6 @@ import {
   FormLabel, FormGroup,
 } from 'react-bootstrap';
 import Image from 'next/image';
-// import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
@@ -39,7 +38,6 @@ export default function Signup() {
   const [telephone, setTelephone] = useState('');
   const [date, setDate] = useState(new Date());
   const [userType, setUserType] = useState('');
-  console.log("🚀 ~ file: index.js ~ line 42 ~ Signup ~ userType", userType)
   const router = useRouter();
   function handleNameChange(event) {
     setName(event.target.value);
@@ -152,7 +150,7 @@ export default function Signup() {
               <MyFormGroup>
                 <FormLabel>Data de Nascimento</FormLabel>
                 <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
-                <DatePicker
+                  <DatePicker
                     value={date}
                     onChange={(newDate) => { setDate(newDate); }}
                     inputFormat="dd/MM/yyyy"
@@ -160,13 +158,14 @@ export default function Signup() {
                       color: 'red'
                     }}
                     renderInput={(props) => (
-                      <TextField {...props} helperText={props.error ? "Por favor, selecione uma data válida" : "Selecione uma data"} 
-                      style={{width: '100%',
-                      paddingTop: '4px',
-                      borderRadius: '5px',
-                      border: '1px solid ${({ theme }) => theme.colors.baseGray}',
-                      background: '#F2F2F2',
-                    }} />
+                      <TextField {...props} helperText={props.error ? "Por favor, selecione uma data válida" : "Selecione uma data"}
+                        style={{
+                          width: '100%',
+                          paddingTop: '4px',
+                          borderRadius: '5px',
+                          border: '1px solid ${({ theme }) => theme.colors.baseGray}',
+                          background: '#F2F2F2',
+                        }} />
                     )}
                   />
                 </LocalizationProvider>
@@ -186,10 +185,10 @@ export default function Signup() {
               </MyFormGroup>
               <MyFormGroup>
                 <FormLabel>Tipo</FormLabel>
-                <Select 
-                id={userType}
-                onChange={(e) => setUserType(e.target.value)}
-                value={userType}
+                <Select
+                  id={userType}
+                  onChange={(e) => setUserType(e.target.value)}
+                  value={userType}
                 >
                   <option value="">Selecione o tipo do usuario</option>
                   <option value="Usuario">Usuario</option>
@@ -233,31 +232,31 @@ export default function Signup() {
                     value={cpf}
                     onChange={handleCpfChange}
                   />
-                </MyFormGroup>                 
-                  <DDD>
-                    <MyFormGroupDDD>
-                      <FormLabel>DDD</FormLabel>
-                      <TextDDD
-                        type="numbers"
-                        placeholder="(00)"
-                        pattern="[0-9]$"
-                        required
-                        value={ddd}
-                        onChange={handleDddChange}
-                      />
-                    </MyFormGroupDDD>
-                  </DDD>
-                  <MyFormGroup>
-                    <FormLabel>Telefone</FormLabel>
-                    <TextBox2
+                </MyFormGroup>
+                <DDD>
+                  <MyFormGroupDDD>
+                    <FormLabel>DDD</FormLabel>
+                    <TextDDD
                       type="numbers"
-                      placeholder="00000-0000"
+                      placeholder="(00)"
                       pattern="[0-9]$"
                       required
-                      value={telephone}
-                      onChange={handleTelephoneChange}
+                      value={ddd}
+                      onChange={handleDddChange}
                     />
-                  </MyFormGroup>
+                  </MyFormGroupDDD>
+                </DDD>
+                <MyFormGroup>
+                  <FormLabel>Telefone</FormLabel>
+                  <TextBox2
+                    type="numbers"
+                    placeholder="00000-0000"
+                    pattern="[0-9]$"
+                    required
+                    value={telephone}
+                    onChange={handleTelephoneChange}
+                  />
+                </MyFormGroup>
               </NumbersForms>
               <Buttons>
                 <Submit onClick={handleSubmit}>Cadastrar</Submit>

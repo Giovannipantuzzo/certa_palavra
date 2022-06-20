@@ -10,6 +10,9 @@ import {
   TopFormulary,
   ItemFormulary,
   BottomFormulary,
+  ForgotPasswordReturnContainer,
+  ForgotPasswordReturnButton,
+  ForgotPasswordReturnSpan,
 } from '../../src/components/BodyForms';
 import {
   TitleLogin,
@@ -65,6 +68,12 @@ const ForgetPass = () => {
   }
   return (
     <>
+      <ForgotPasswordReturnContainer>
+        <ForgotPasswordReturnButton href="/login">
+          <ForgotPasswordReturnSpan />
+          Voltar
+        </ForgotPasswordReturnButton>
+      </ForgotPasswordReturnContainer>
       <Body>
         <Body.Left>
           <Image

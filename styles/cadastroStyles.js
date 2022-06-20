@@ -141,7 +141,9 @@ export const ButtonLogin = styled.button`
 width: 50%;
 outline: none;
 border:0;
-background-color: ${({ theme }) => theme.colors.blueButton};
+text-decoration: underline;
+color: ${({ theme }) => theme.colors.primary};
 border-radius: 5px;
+background-color: ${({ theme }) => theme.colors.background};
 cursor: pointer;
 `;
