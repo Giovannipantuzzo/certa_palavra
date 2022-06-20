@@ -13,7 +13,9 @@ function Intranet() {
   const [selectedButton, setSelectedButton] = useState('');
   const menuDashboard = () => {
     switch (selectedButton) {
-      case 'Enquetes': return <ResultadoQuizzes />;
+      case 'Informações': return <ResultadoQuizzes />;
+      case 'Alterar senha': return <ResultadoQuizzes />;
+      case 'Sair': return <MainDashboard />;
 
       default: return <div />;
     }

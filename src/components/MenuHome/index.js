@@ -6,16 +6,26 @@ import {
   MenuSidepage,
   MenuSideContainer,
 } from '../../../styles/menuHomeStyles';
+import { useAuth } from '../../contexts/AuthContext';
 import '../../../styles/menuHome.module.css';
 
 const buttons = [
-  { buttonName: 'Home' },
+  { buttonName: 'Dashboard' },
   { buttonName: 'Informações' },
   { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
 ];
 
+const buttonsAdmin = [
+  { buttonName: 'Dashboard' },
+  { buttonName: 'Lista de corretores' },
+  { buttonName: 'Alterar senha' },
+  { buttonName: 'Sair' },
+];
+
 export default function MenuHome({ setSelectedButton, selectedButton }) {
+  const { user } = useAuth();
+
   const defineBackgroundColor = (buttonType) => (selectedButton === buttonType
     ? 'menuSideClickButton'
     : 'menuSideGrupButton');
@@ -31,15 +41,23 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
             aria-label="vertical contained button group"
             variant="text"
           >
-
-            {buttons.map((button) => (
-              <Button
-                key={`${button.buttonName}`}
-                className={defineBackgroundColor(button.buttonName)}
-                onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}
-              </Button>
-            ))}
-
+            {user?.type === 'admin' ? (
+              buttonsAdmin.map((button) => (
+                <Button
+                  key={`${button.buttonName}`}
+                  className={defineBackgroundColor(button.buttonName)}
+                  onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}
+                </Button>
+              ))
+            ) : (
+              buttons.map((button) => (
+                <Button
+                  key={`${button.buttonName}`}
+                  className={defineBackgroundColor(button.buttonName)}
+                  onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}
+                </Button>
+              ))
+            )}
           </ButtonGroup>
         </MenuSideContainer>
       </MenuSidepage>

@@ -70,7 +70,7 @@ export const TextBox = styled.input`
   margin-bottom: 10px;
   height: 25px;
   border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   background: #F2F2F2;
 `;
 
@@ -111,7 +111,7 @@ export const TextDDD = styled.input`
   padding: 5px;
   height: 25px;
   border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   background: #F2F2F2;
   
   @media (max-width: 300px) {
@@ -126,7 +126,7 @@ export const Submit = styled.button`
     font-family: Roboto;
     font-size: 20px;
     font-weight: 500;
-    background-color: ${({ theme }) => theme.colors.mediumGreen};
+    background-color: ${({ theme }) => theme.colors.lightGreen};
     color: white;
     border: 0;
     border-radius: 5px;
@@ -141,7 +141,7 @@ export const ForgotPassword = styled.p`
   justify-content: right;
   text-align: end;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.mediumRed};
+  color: ${({ theme }) => theme.colors.pink};
   cursor: pointer;
 `;
 
@@ -158,7 +158,7 @@ CreateAccount.Right = styled.p`
   margin-top: 5px;
   margin-left: 5px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.mediumRed};
+  color: ${({ theme }) => theme.colors.pink};
   cursor: pointer;
 `;
 

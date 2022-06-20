@@ -29,6 +29,17 @@ const ForgetPass = () => {
   }
   async function sendResetEmail(event) {
     event.preventDefault();
+    if (!email) {
+      return notification.open({
+        message: 'Erro!',
+        description: 'Por favor digite um email válido!.',
+        className: 'ant-notification',
+        top: '100px',
+        style: {
+          width: 600,
+        },
+      });
+    }
     try {
       await forgottenPassword(email);
       notification.open({

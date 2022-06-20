@@ -924,85 +924,6 @@
     prop-types "^15.7.2"
     react-is "^17.0.2"
 
-<<<<<<< HEAD
-"@mui/core@5.0.0-alpha.46":
-  version "5.0.0-alpha.46"
-  resolved "https://registry.yarnpkg.com/@mui/core/-/core-5.0.0-alpha.46.tgz#f4c0e5b2ad346e31e74bb96b684f6734b55cc9e6"
-  integrity sha512-LZa0s450YSHv58xlMRIWszE0zsqqTyxgP+l70gUyPvYwCfQErkxsvRjEInKI5GCrYDcr3N+jlKJ5MSRZDvtvig==
-  dependencies:
-    "@babel/runtime" "^7.14.8"
-    "@emotion/is-prop-valid" "^1.1.0"
-    "@mui/utils" "5.0.0-rc.1"
-    clsx "^1.1.1"
-    prop-types "^15.7.2"
-    react-is "^17.0.2"
-
-"@mui/material@^5.0.0-rc.1":
-  version "5.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.0.0-rc.1.tgz#456218bfeb659dfb17c516ecc03f86013feaf253"
-  integrity sha512-23lEM2n0Y8VcFbk7mjNZzbAHDh7wu5P4foe1hDiSJaipBX4ESWnBAwo9exxQbFrDd+l2xtLzaoTmTOVOgkElrA==
-  dependencies:
-    "@babel/runtime" "^7.14.8"
-    "@mui/core" "5.0.0-alpha.46"
-    "@mui/system" "5.0.0-rc.1"
-    "@mui/types" "7.0.0-rc.1"
-    "@mui/utils" "5.0.0-rc.1"
-    "@popperjs/core" "^2.4.4"
-    "@types/react-transition-group" "^4.2.0"
-    clsx "^1.1.1"
-    csstype "^3.0.8"
-    hoist-non-react-statics "^3.3.2"
-    prop-types "^15.7.2"
-    react-is "^17.0.2"
-    react-transition-group "^4.4.0"
-
-"@mui/private-theming@5.0.0-rc.1":
-  version "5.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@mui/private-theming/-/private-theming-5.0.0-rc.1.tgz#eab6d20db119b6f2176d76ed725f53b9ebc12e97"
-  integrity sha512-dibj1bc+tX4+sKOhSAYoJVndk7MAVZkYLKRa3E3GDObDe5I/YOv0fS8cvfB3sTFiQWxbdKj//p2QJtos6o83NQ==
-  dependencies:
-    "@babel/runtime" "^7.14.8"
-    "@mui/utils" "5.0.0-rc.1"
-    prop-types "^15.7.2"
-
-"@mui/styled-engine@5.0.0-rc.1":
-  version "5.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@mui/styled-engine/-/styled-engine-5.0.0-rc.1.tgz#8a0c68e88868c42944042e01e28a0d11b6caf756"
-  integrity sha512-cYK3oGHzriPqULPSy5iitupk6JbvvwVqBC1n1gxISZzm7wEsBx0hDCDhh7tgCa1B7CXdl0Ntl27PXJjtukoo/A==
-  dependencies:
-    "@babel/runtime" "^7.14.8"
-    "@emotion/cache" "^11.4.0"
-    prop-types "^15.7.2"
-
-"@mui/system@5.0.0-rc.1":
-  version "5.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.0.0-rc.1.tgz#24c99469b48c350802929f6097f671742be9a7f1"
-  integrity sha512-c+esT+9wZR5aNcssMHg5Wm19VdX+uyhNLLTzqAg8oW36LBeIMTfiN18GShcxnFV3faje78Nr3BhmMFn9yBunMA==
-  dependencies:
-    "@babel/runtime" "^7.14.8"
-    "@mui/private-theming" "5.0.0-rc.1"
-    "@mui/styled-engine" "5.0.0-rc.1"
-    "@mui/types" "7.0.0-rc.1"
-    "@mui/utils" "5.0.0-rc.1"
-    clsx "^1.1.1"
-    csstype "^3.0.8"
-    prop-types "^15.7.2"
-
-"@mui/types@7.0.0-rc.1":
-  version "7.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.0.0-rc.1.tgz#276090e2cd062a5e9241cf8d4ad795a4ee10eb03"
-  integrity sha512-4vYFVi8ExcC7EEuk5melw/XPG2DVPeXI/HUYnQj+3t5NESpdvLJhbbvmHH366ZWAhXR2FechYWo/cQfGIsSG8Q==
-
-"@mui/utils@5.0.0-rc.1":
-  version "5.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.0.0-rc.1.tgz#8427d1117a380b8c861be9a6bbf51075e776cd63"
-  integrity sha512-FSh/zaZqfzz0Iz7/RHb2ajA/q6dfFKeNIXZCl7sZeYq9L1u8GR4IHi4n1MphLiJTco02XBw3KwME9Bqmk73LEQ==
-  dependencies:
-    "@babel/runtime" "^7.14.8"
-    "@types/prop-types" "^15.7.4"
-    "@types/react-is" "^16.7.1 || ^17.0.0"
-    prop-types "^15.7.2"
-=======
 "@mui/base@5.0.0-alpha.85":
   version "5.0.0-alpha.85"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.85.tgz#e9e19678bf72dae228d0f25d33dfe20462aac833"
@@ -1080,7 +1001,6 @@
     "@types/prop-types" "^15.7.5"
     "@types/react-is" "^16.7.1 || ^17.0.0"
     prop-types "^15.8.1"
->>>>>>> testeHome
     react-is "^17.0.2"
 
 "@next/env@12.1.6":
@@ -2031,11 +1951,7 @@ css-to-react-native@^3.0.0:
     css-color-keywords "^1.0.0"
     postcss-value-parser "^4.0.2"
 
-<<<<<<< HEAD
-csstype@^3.0.2, csstype@^3.0.8:
-=======
 csstype@^3.0.2, csstype@^3.1.0:
->>>>>>> testeHome
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.0.tgz#4ddcac3718d787cf9df0d1b7d15033925c8f29f2"
   integrity sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==
