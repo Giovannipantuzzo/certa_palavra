@@ -1,37 +1,39 @@
 const admin = require('firebase-admin');
-const firebase = require('firebase/app');
-
-require('firebase/auth');
+import { initializeApp, getApps } from "firebase/app";
+import getStorage from 'firebase/storage';
+import { getAuth, createUserWithEmailAndPassword  } from "firebase/auth";
 
 const serviceAccount = require('../../serviceAccountKey.json');
 
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
-  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSEND,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
-};
-
-if (!firebase.apps.length) {
-  try {
-    firebase.initializeApp(firebaseConfig);
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
-    });
-  } catch (err) {
-    console.error(err); //eslint-disable-line
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
+    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSEND,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
+  };
+  
+// Initialize Firebase
+if (!getApps().length) {
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  module.exports = {
+    storage: storage,
   }
 }
 
+const auth = getAuth();
+
 module.exports = {
+
   async createNewUser(email, password) {
     try {
-      const response = await firebase.auth()
-        .createUserWithEmailAndPassword(email, password);
+      const response = await createUserWithEmailAndPassword(auth, email, password);
       return response.user.uid;
     } catch (err) {
       throw new Error(err);
