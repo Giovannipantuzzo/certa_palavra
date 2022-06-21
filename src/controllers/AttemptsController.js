@@ -19,8 +19,8 @@ module.exports = {
       const attempt = await AttemptsModel.getAttemptByEmail(email);
       return response.status(200).json(attempt);
     } catch (error) {
-      if (err.message) {
-        return response.status(400).json({ notification: err.message });
+      if (error.message) {
+        return response.status(400).json({ notification: error.message });
       }
       return response.status(500).json({ notification: 'Internal Server Error' });
     }

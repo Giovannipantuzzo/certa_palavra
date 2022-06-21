@@ -9,8 +9,8 @@ export async function getOne(request, response) {
     const users = await UserModel.getUserById(id);
     return response.status(200).json(users);
   } catch (error) {
-    if (err.message) {
-      return response.status(400).json({ notification: err.message });
+    if (error.message) {
+      return response.status(400).json({ notification: error.message });
     }
     return response.status(500).json({ notification: 'Internal Server Error' });
   }
@@ -30,6 +30,7 @@ export async function getAll(request, response) {
 
 export async function create(request, response) {
   const user = request.body;
+  console.log("🚀 ~ file: UserController.js ~ line 33 ~ create ~ request.body", request.body)
   let firebase_id;
 
   try {
@@ -39,6 +40,7 @@ export async function create(request, response) {
     }
     firebase_id = await FirebaseModel
       .createNewUser(user.email, user.password);
+    console.log("🚀 ~ file: UserController.js ~ line 43 ~ create ~ firebase_id", firebase_id)
 
     user.firebase_id = firebase_id;
     delete user.password;
@@ -49,6 +51,7 @@ export async function create(request, response) {
       await FirebaseModel.deleteUser(firebase_id);
     }
     if (error.message) {
+      console.log("PORRA DESGRAÇA")
       return response.status(400).json({ notification: error.message });
     }
     return response.status(500).json({ notification: 'Internal Server Error' });

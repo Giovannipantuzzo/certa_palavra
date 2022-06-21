@@ -191,7 +191,7 @@ export default function Signup() {
                   value={userType}
                 >
                   <option value="">Selecione o tipo do usuario</option>
-                  <option value="Usuario">Usuario</option>
+                  <option value="User">Usuario</option>
                   <option value="Corretor">Corretor</option>
                 </Select>
               </MyFormGroup>
