@@ -80,6 +80,10 @@ export default function Signup() {
       toast('Email inválido!', { position: toast.POSITION.BOTTOM_RIGHT });
       return;
     }
+    if (password.length < 6) {
+      toast('A senha deve possuir pelo menos 6 digitos', { position: toast.POSITION.BOTTOM_RIGHT });
+      return;
+    }
     if (password !== confirmPassword) {
       toast('A senha inserida deve ser a mesma', { position: toast.POSITION.BOTTOM_RIGHT });
       return;
