@@ -20,11 +20,7 @@ const firebaseConfig = {
   
 // Initialize Firebase
 if (!getApps().length) {
-  const app = initializeApp(firebaseConfig);
-  const storage = getStorage(app);
-  module.exports = {
-    storage: storage,
-  }
+  initializeApp(firebaseConfig);
 }
 
 const auth = getAuth();
