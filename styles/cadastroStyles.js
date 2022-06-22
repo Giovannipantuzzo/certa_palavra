@@ -18,7 +18,7 @@ export const MyFormGroup = styled(FormGroup)`
 display : flex;
 flex-direction: column;
 align-items: flex-start;
-margin-bottom: 5%;
+margin-bottom: 1%;
 `;
 
 export const MyFormGroupDDD = styled(FormGroup)`
@@ -33,7 +33,7 @@ margin-bottom: 5%;
 `;
 
 export const MyFormGroupPass = styled(FormGroup)`
-margin-bottom: 5%;
+margin-bottom: 1%;
 width: 50%;
 
 @media (max-width: 300px) {
@@ -42,7 +42,7 @@ width: 50%;
 `;
 
 export const MyFormGroupConfirmPass = styled(FormGroup)`
-margin-bottom: 5%;
+margin-bottom: 1%;
 width: 50%;
 
 @media (max-width: 300px) {

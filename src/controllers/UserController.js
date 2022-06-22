@@ -45,7 +45,9 @@ export async function create(request, response) {
     user.firebase_id = firebase_id;
     delete user.password;
     await UserModel.createNewUser(user);
-    // await AttemptsModel.createAttempt();
+    await AttemptsModel.createAttempt({
+      email: user.email,
+    });
   } catch (error) {
     if (firebase_id) {
       await FirebaseModel.deleteUser(firebase_id);
