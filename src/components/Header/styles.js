@@ -40,14 +40,11 @@ export const YourSpace = styled.button`
     justify-content:space-around;
     width: 70px;
     min-width: 40px;
-    height: 60px;
     font-size: 20px;
     font-weight: 300;
     background-color:${({ theme }) => theme.colors.lightGreen};
     color: white;
-    border-color: ${({ theme }) => theme.colors.primary};
-    border-size: 1px;
-    border-radius: 50%;
+    border: none;
     cursor:pointer;
 `;
 

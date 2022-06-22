@@ -52,11 +52,11 @@ export default function Header() {
         {user ? (
           <YourSpaceContainer onClick={() => router.push('/Perfil')}>
             <YourSpace>
-              <BsFillPersonFill />
+              <BsFillPersonFill style={{ height: '50px', width: '25px' }} />
             </YourSpace>
           </YourSpaceContainer>
         ) : (
-          <LogOut onClick={logout}>
+          <LogOut onClick={() => router.push('/login')}>
             <Link href="/login">
               <FiLogIn size="35" color="#004e7b" style={{ cursor: 'pointer' }} />
             </Link>
