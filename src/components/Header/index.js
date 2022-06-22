@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FiLogIn } from 'react-icons/fi';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
@@ -32,6 +33,7 @@ Header.Top = styled.div`
 
 export default function Header() {
   const { logout, user } = useAuth();
+  const router = useRouter();
 
   // const handleKeypress = (e) => {
   //   if (e.key === 'Enter') {
@@ -48,7 +50,7 @@ export default function Header() {
           </Link>
         </ImageBox>
         {user ? (
-          <YourSpaceContainer>
+          <YourSpaceContainer onClick={() => router.push('/Perfil')}>
             <YourSpace>
               <BsFillPersonFill />
             </YourSpace>

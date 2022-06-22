@@ -28,8 +28,9 @@ export const YourSpaceContainer = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-around;
-    width:15%;
+    width:10%;
     height:100%;
+    margin-right: 5%;
 `;
 
 export const YourSpace = styled.button`
@@ -37,17 +38,16 @@ export const YourSpace = styled.button`
     flex-direction:row;
     align-items:center;
     justify-content:space-around;
-    width: 100%;
+    width: 70px;
     min-width: 40px;
-    height:48%;
-    font-family: Roboto;
+    height: 60px;
     font-size: 20px;
     font-weight: 300;
     background-color:${({ theme }) => theme.colors.lightGreen};
     color: white;
     border-color: ${({ theme }) => theme.colors.primary};
-    border-size: 10px;
-    border-radius: 5px;
+    border-size: 1px;
+    border-radius: 50%;
     cursor:pointer;
 `;
 
