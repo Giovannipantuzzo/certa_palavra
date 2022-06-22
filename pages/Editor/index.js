@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import CanvasDraw from "react-canvas-draw";
 import FileSaver from 'file-saver';
 
-export const combineDrawing = (canvasRef) => {
+function getDownloads(canvasRef) {
   const width = canvasRef.current.props.canvasWidth;
   const height = canvasRef.current.props.canvasHeight;
   const background = canvasRef.current.canvasContainer.children[0];
@@ -17,46 +17,11 @@ export const combineDrawing = (canvasRef) => {
   canvas.getContext('2d').drawImage(drawing, 0, 0);
 
   const dataUri = canvas.toDataURL('image/jpeg', 1.0);
-  const data = dataUri.split(',')[1];
-  const mimeType = dataUri.split(';')[0].slice(5);
-
-  const bytes = window.atob(data);
-  const buf = new ArrayBuffer(bytes.length);
-  const arr = new Uint8Array(buf);
-
-  for (let i = 0; i < bytes.length; i++) {
-      arr[i] = bytes.charCodeAt(i);
-  }
-
-  const blob = new Blob([arr], { type: mimeType });
-  return { blob: blob, dataUri: dataUri };
-}
-
-export const saveImage = (blob, filename) => {
-  const a = document.createElement('a');
-  document.body.appendChild(a);
-  a.style = 'display: none';
-
-  const url = window.URL.createObjectURL(blob);
-  a.href = url;
-  a.download = filename;
-  a.click();
-  window.URL.revokeObjectURL(url);
+  FileSaver.saveAs(dataUri, 'filesaver.jpeg');
 }
 
 export default function Editor() {
   const canvasRef = useRef();
-
-  function getDownloads(file) {
-    try {
-        FileSaver.saveAs(file, 'teste');
-    } catch (error) {
-      toast.error('Não foi possível baixar o arquivo', {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 5000,
-      });
-    }
-  }
 
   console.log("🚀 ~ file: index.js ~ line 7 ~ Editor ~ canvasRef", canvasRef)
   const defaultProps = {
@@ -98,8 +63,7 @@ export default function Editor() {
       <button
             onClick={() => {
               console.log(canvasRef.current.getDataURL());
-              const {blob, dataUri} = combineDrawing(canvasRef);
-              saveImage(blob, 'test.jpg') 
+              getDownloads(canvasRef);
               alert("DataURL written to console")
             }}
           >
