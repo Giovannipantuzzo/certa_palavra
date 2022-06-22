@@ -162,7 +162,7 @@ export default function MyDatasEdit() {
   );
   return (
     <Edit>
-      <Button onClick={handleOpen} style={{ backgroundColor: `${({ theme }) => theme.colors.baseGray}` }}>Editar</Button>
+      <Button onClick={handleOpen} style={{ color: 'black' }}>Editar</Button>
       <Modal
         open={open}
         onClose={handleClose}

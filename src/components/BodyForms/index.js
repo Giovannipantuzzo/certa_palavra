@@ -8,6 +8,7 @@ export const Body = styled.div`
     margin-top: 10%;
     padding-bottom: 10%;
     justify-content: center;
+    border-radius: 5px;
 `;
 
 Body.Left = styled.div`

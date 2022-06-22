@@ -21,6 +21,8 @@ font-family: Quicksand;
 export const Edit = styled.div`
   display: flex;
   justify-content: center;
+  background-color: white;
+  border-radius: 5px;
 `;
 
 export const MyFormGroup = styled(FormGroup)`
@@ -85,7 +87,7 @@ export const Submit = styled.button`
   font-family: Roboto;
   font-size: 20px;
   font-weight: 500;
-  background-color: ${({ theme }) => theme.colors.mediumGreen};
+  background-color: ${({ theme }) => theme.colors.lightGreen};
   color: white;
   border: 0;
   border-radius: 5px;
@@ -99,7 +101,7 @@ export const CancelSubmit = styled.button`
   font-family: Roboto;
   font-size: 20px;
   font-weight: 500;
-  background-color: ${({ theme }) => theme.colors.darkRed};
+  background-color: ${({ theme }) => theme.colors.lightGreen};
   color: white;
   border: 0;
   border-radius: 5px;

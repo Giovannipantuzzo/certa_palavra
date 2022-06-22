@@ -1,27 +1,16 @@
 import React, { useEffect } from 'react';
-import { Paper } from '@material-ui/core';
-// import { makeStyles } from '@material-ui/styles';
 import { useAuth } from '../../src/contexts/AuthContext';
 import {
-  BoxDatas, ContainerDatas, AddressData,
+  ContainerDatas, AddressData, InsidePaper, PerfilTitle
 } from '../../styles/perfilStyles';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import MyDatasEdit from '../../src/components/MyDatasEdit';
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     '& > *': {
-//       padding: theme.spacing(3),
-//       backgroundColor: '#609694',
-//     },
-//   },
-// }));
 toast.configure();
 
 export default function MyDatas() {
   const { user, setUser } = useAuth();
-  // const classes = useStyles();
   const router = useRouter();
 
   async function loadUser() {
@@ -49,37 +38,36 @@ export default function MyDatas() {
 
   if (user) {
     return (
-      <ContainerDatas>
-        <div>
-          <Paper>
-            <AddressData>
-              Nome:
-              {' '}
-              {user.name}
-            </AddressData>
-            <AddressData>
-              Email:
-              {' '}
-              {user.email}
-            </AddressData>
-            <AddressData>
-              CPF:
-              {' '}
-              {user.cpf}
-            </AddressData>
-            <AddressData>
-              Data de Nascimento:
-              {' '}
-              {dataNascimentoFormatada(user.birth_date)}
-            </AddressData>
-            <AddressData>
-              Telefone:
-              {' '}
-              {user.phone}
-            </AddressData>
-            <MyDatasEdit />
-          </Paper>
-        </div>
+      <ContainerDatas >
+        <InsidePaper>
+          <PerfilTitle>Dados do usuário:</PerfilTitle>
+          <AddressData>
+            <b>Nome:</b>
+            {' '}
+            {user.name}
+          </AddressData>
+          <AddressData>
+            <b>Email:</b>
+            {' '}
+            {user.email}
+          </AddressData>
+          <AddressData>
+            <b>CPF:</b>
+            {' '}
+            {user.cpf}
+          </AddressData>
+          <AddressData>
+            <b>Data de Nascimento:</b>
+            {' '}
+            {dataNascimentoFormatada(user.birth_date)}
+          </AddressData>
+          <AddressData>
+            <b>Telefone:</b>
+            {' '}
+            {user.phone}
+          </AddressData>
+          <MyDatasEdit />
+        </InsidePaper>
       </ContainerDatas>
     );
   }
