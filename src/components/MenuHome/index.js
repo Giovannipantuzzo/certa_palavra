@@ -45,7 +45,7 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
               buttonsAdmin.map((button) => (
                 <Button
                   key={`${button.buttonName}`}
-                  style={{ color: 'white' }}
+                  style={{ color: 'white', borderColor: '#91ca6c' }}
                   className={defineBackgroundColor(button.buttonName)}
                   onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}
                 </Button>
@@ -54,7 +54,7 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
               buttons.map((button) => (
                 <Button
                   key={`${button.buttonName}`}
-                  style={{ color: 'white' }}
+                  style={{ color: 'white', borderColor: '#91ca6c' }}
                   className={defineBackgroundColor(button.buttonName)}
                   onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}
                 </Button>

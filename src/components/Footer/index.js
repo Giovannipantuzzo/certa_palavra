@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <FooterWrap>
       <FooterLogo>
-        <Image src="/logo.png" alt="" width="100" height="100" o />
+        <Image src="/logo.png" alt="" width="90" height="90" o />
       </FooterLogo>
       <FooterText>
         <p>CNPJ - 12.123.123/1234-12</p>

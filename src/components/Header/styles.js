@@ -42,7 +42,7 @@ export const YourSpace = styled.button`
     min-width: 40px;
     font-size: 20px;
     font-weight: 300;
-    background-color:${({ theme }) => theme.colors.lightGreen};
+    background-color:${({ theme }) => theme.colors.primary};
     color: white;
     border: none;
     cursor:pointer;
@@ -73,7 +73,7 @@ export const LogOut = styled.button`
     width: 15%;
     border: 0;
     outline: none;
-    background-color:${({ theme }) => theme.colors.lightGreen};
+    background-color:${({ theme }) => theme.colors.primary};
     @media (max-width: 400px) {
       width: 25%;
     }

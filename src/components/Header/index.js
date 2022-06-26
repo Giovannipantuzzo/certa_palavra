@@ -28,11 +28,11 @@ Header.Top = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 75%;
-  background-color: ${({ theme }) => theme.colors.lightGreen};
+  background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export default function Header() {
-  const { logout, user } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
 
   // const handleKeypress = (e) => {
@@ -46,7 +46,7 @@ export default function Header() {
       <Header.Top>
         <ImageBox>
           <Link href="/Home">
-            <Image src="/logo.png" alt="" width="120" height="150" />
+            <Image src="/logo.png" alt="" width="100" height="100" />
           </Link>
         </ImageBox>
         {user ? (

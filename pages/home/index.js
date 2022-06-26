@@ -6,6 +6,7 @@ import {
   SideMenuDashboard,
   MeanDashboard,
 } from '../../styles/homeStyles';
+import InternalChangePassword from '../../src/components/InternalChangePassword';
 import { useAuth } from '../../src/contexts/AuthContext';
 
 
@@ -18,7 +19,7 @@ function Intranet() {
   const menuDashboard = () => {
     switch (selectedButton) {
       case 'Informações': return <ResultadoQuizzes />;
-      case 'Alterar senha': return <ResultadoQuizzes />;
+      case 'Alterar senha': return <InternalChangePassword />;
       case 'Sair': logout();
 
       default: return <div />;
