@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import ImageEditor from "@toast-ui/react-image-editor";
 import "tui-image-editor/dist/tui-image-editor.css";
 
@@ -80,8 +80,12 @@ const theme = {
 };
 
 const CustomImageEditor = ({ url }) => {
+  const canvasRef = useRef();
+  console.log(canvasRef)
   return (
+    <>
     <ImageEditor
+      ref={canvasRef}
       includeUI={{
         loadImage: {
           path: url,
@@ -114,6 +118,17 @@ const CustomImageEditor = ({ url }) => {
       }}
       usageStatistics={true}
     />
+    <button
+            onClick={() => {
+              let instance = canvasRef.current.getInstance()
+              console.log(instance)
+              console.log(instance.toDataURL());
+              alert("DataURL written to console")
+            }}
+          >
+            GetDataURL
+          </button></>
+    
   );
 };
 
