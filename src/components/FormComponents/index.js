@@ -54,8 +54,8 @@ export const SubText = styled.p`
   margin-bottom: 5px;
 `;
 
-export const TextBox = styled.input`
-  width: 90%;
+export const Select = styled.select`
+  width: 100%;
   margin-top: 10px;
   margin-bottom: 10px;
   height: 25px;
@@ -64,13 +64,59 @@ export const TextBox = styled.input`
   background: #F2F2F2;
 `;
 
-export const TextBox2 = styled.input`
+export const TextBox = styled.input`
   width: 90%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  background: #F2F2F2;
+`;
+
+export const TextBox2 = styled.input`
+  width: 100%;
   padding: 5px;
   height: 25px;
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.colors.baseGray};
   background: #F2F2F2;
+`;
+
+export const Senha = styled.input`
+  width: 96%;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  background: #F2F2F2;
+
+  @media (max-width: 300px) {
+  width: 100%;
+  }
+`;
+
+export const ConfirmarSenha = styled.input`
+  width: 100%;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.baseGray};
+  background: #F2F2F2;
+
+`;
+
+export const TextDDD = styled.input`
+  width: 90%;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  background: #F2F2F2;
+  
+  @media (max-width: 300px) {
+  width: 100%;
+  }
 `;
 
 
@@ -80,7 +126,7 @@ export const Submit = styled.button`
     font-family: Roboto;
     font-size: 20px;
     font-weight: 500;
-    background-color: ${({ theme }) => theme.colors.mediumGreen};
+    background-color: ${({ theme }) => theme.colors.lightGreen};
     color: white;
     border: 0;
     border-radius: 5px;
@@ -95,7 +141,7 @@ export const ForgotPassword = styled.p`
   justify-content: right;
   text-align: end;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.mediumRed};
+  color: ${({ theme }) => theme.colors.pink};
   cursor: pointer;
 `;
 
@@ -112,7 +158,7 @@ CreateAccount.Right = styled.p`
   margin-top: 5px;
   margin-left: 5px;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.mediumRed};
+  color: ${({ theme }) => theme.colors.pink};
   cursor: pointer;
 `;
 

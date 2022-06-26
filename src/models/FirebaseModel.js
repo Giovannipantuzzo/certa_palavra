@@ -15,7 +15,7 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
 };
 
-if (!firebase.apps.length) {
+if (!firebase.apps?.length) {
   try {
     firebase.initializeApp(firebaseConfig);
     admin.initializeApp({

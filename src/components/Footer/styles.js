@@ -7,7 +7,7 @@ export const FooterWrap = styled.div`
   justify-items: center;
   padding: 0 40px;
   height: auto;
-  background-color: ${({ theme }) => theme.colors.lightGreen};
+  background-color: ${({ theme }) => theme.colors.primary};
   @media (max-width: 600px){
     padding: 0 10px;
   }

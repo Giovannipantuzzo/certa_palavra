@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { FiLogIn } from 'react-icons/fi';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
@@ -27,11 +28,12 @@ Header.Top = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 75%;
-  background-color: ${({ theme }) => theme.colors.lightGreen};
+  background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export default function Header() {
-  const { logout, user } = useAuth();
+  const { user } = useAuth();
+  const router = useRouter();
 
   // const handleKeypress = (e) => {
   //   if (e.key === 'Enter') {
@@ -44,17 +46,17 @@ export default function Header() {
       <Header.Top>
         <ImageBox>
           <Link href="/Home">
-            <Image src="/logo.png" alt="" width="120" height="150" />
+            <Image src="/logo.png" alt="" width="100" height="100" />
           </Link>
         </ImageBox>
         {user ? (
-          <YourSpaceContainer>
+          <YourSpaceContainer onClick={() => router.push('/Perfil')}>
             <YourSpace>
-              <BsFillPersonFill />
+              <BsFillPersonFill style={{ height: '50px', width: '25px' }} />
             </YourSpace>
           </YourSpaceContainer>
         ) : (
-          <LogOut onClick={logout}>
+          <LogOut onClick={() => router.push('/login')}>
             <Link href="/login">
               <FiLogIn size="35" color="#004e7b" style={{ cursor: 'pointer' }} />
             </Link>

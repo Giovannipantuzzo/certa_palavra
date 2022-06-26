@@ -4,7 +4,7 @@ const { connection } = require('../database/connection');
 module.exports = {
   async createAttempt(attempt) {
     try {
-      await connection('Login_attempts')
+      await connection('login_attempts')
         .insert(attempt);
       return attempt;
     } catch (error) {
@@ -13,7 +13,7 @@ module.exports = {
   },
   async deleteAttempt(email) {
     try {
-      const response = await connection('Login_attempts')
+      const response = await connection('login_attempts')
         .where({ email: email })
         .delete();
       return response;
@@ -23,7 +23,7 @@ module.exports = {
   },
   async getAttemptByEmail(email) {
     try {
-      const attempt = await connection('Login_attempts')
+      const attempt = await connection('login_attempts')
         .where({ email: email })
         .first();
       return attempt;
@@ -33,7 +33,7 @@ module.exports = {
   },
   async getAllAttempt() {
     try {
-      const attempt = await connection('Login_attempts')
+      const attempt = await connection('login_attempts')
         .select('*');
       return attempt;
     } catch (error) {
@@ -42,7 +42,7 @@ module.exports = {
   },
   async updateAttempt(attempt, email) {
     try {
-      const response = await connection('Login_attempts')
+      const response = await connection('login_attempts')
         .where({ email: email })
         .update(attempt);
       return response;

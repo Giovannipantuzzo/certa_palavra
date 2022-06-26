@@ -4,7 +4,10 @@ import {
   FormLabel, FormGroup,
 } from 'react-bootstrap';
 import Image from 'next/image';
-// import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
+import DatePicker from '@material-ui/lab/DatePicker';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,14 +15,15 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import api from '../../src/utils/api';
 import { BodyUser, ItemFormulary } from '../../src/components/BodyForms';
-import WindowDivider from '../../src/components/WindowDivider';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   WordFormGroup, MyFormGroup, Phone, Pass, NumbersForms, DDD,
   Subtitle, Register,
-  Buttons, FormRegister, Submit, ButtonLogin,
+  Buttons, FormRegister, Submit, ButtonLogin, MyFormGroupPass, MyFormGroupConfirmPass, MyFormGroupDDD
 } from '../../styles/cadastroStyles';
-import { TextBox2 } from '../../src/components/FormComponents';
+import { TextBox2, Senha, ConfirmarSenha, TextDDD, Select } from '../../src/components/FormComponents';
+
+import ptBR from 'date-fns/locale/pt-BR';
 
 toast.configure();
 
@@ -33,6 +37,7 @@ export default function Signup() {
   const [ddd, setDdd] = useState('');
   const [telephone, setTelephone] = useState('');
   const [date, setDate] = useState(new Date());
+  const [userType, setUserType] = useState('');
   const router = useRouter();
   function handleNameChange(event) {
     setName(event.target.value);
@@ -75,6 +80,10 @@ export default function Signup() {
       toast('Email inválido!', { position: toast.POSITION.BOTTOM_RIGHT });
       return;
     }
+    if (password.length < 6) {
+      toast('A senha deve possuir pelo menos 6 digitos', { position: toast.POSITION.BOTTOM_RIGHT });
+      return;
+    }
     if (password !== confirmPassword) {
       toast('A senha inserida deve ser a mesma', { position: toast.POSITION.BOTTOM_RIGHT });
       return;
@@ -113,16 +122,11 @@ export default function Signup() {
   return (
     <>
       <BodyUser>
-        <BodyUser.LeftUser>
-
-          <Image src="/images/doguinho.jpg" alt="" width="450" height="483" />
-        </BodyUser.LeftUser>
-        <WindowDivider />
-        <BodyUser.Right>
+        <BodyUser.center>
           <Register>
             <FormRegister>
 
-              <Subtitle>Vamos Começar?</Subtitle>
+              <Subtitle>Cadastro</Subtitle>
               <MyFormGroup>
                 <FormLabel>Nome</FormLabel>
                 <ItemFormulary>
@@ -149,14 +153,26 @@ export default function Signup() {
 
               <MyFormGroup>
                 <FormLabel>Data de Nascimento</FormLabel>
-                {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDatePicker
+                <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+                  <DatePicker
                     value={date}
                     onChange={(newDate) => { setDate(newDate); }}
-                    variant="inline"
-                    format="dd/MM/yyyy"
+                    inputFormat="dd/MM/yyyy"
+                    style={{
+                      color: 'red'
+                    }}
+                    renderInput={(props) => (
+                      <TextField {...props} helperText={props.error ? "Por favor, selecione uma data válida" : "Selecione uma data"}
+                        style={{
+                          width: '100%',
+                          paddingTop: '4px',
+                          borderRadius: '5px',
+                          border: '1px solid ${({ theme }) => theme.colors.baseGray}',
+                          background: '#F2F2F2',
+                        }} />
+                    )}
                   />
-                </MuiPickersUtilsProvider> */}
+                </LocalizationProvider>
 
               </MyFormGroup>
               <MyFormGroup>
@@ -171,10 +187,22 @@ export default function Signup() {
                   onChange={handleEmailChange}
                 />
               </MyFormGroup>
+              <MyFormGroup>
+                <FormLabel>Tipo</FormLabel>
+                <Select
+                  id={userType}
+                  onChange={(e) => setUserType(e.target.value)}
+                  value={userType}
+                >
+                  <option value="">Selecione o tipo do usuario</option>
+                  <option value="User">Usuario</option>
+                  <option value="Corretor">Corretor</option>
+                </Select>
+              </MyFormGroup>
               <Pass>
-                <MyFormGroup>
+                <MyFormGroupPass>
                   <FormLabel>Senha</FormLabel>
-                  <TextBox2
+                  <Senha
                     type="password"
                     placeholder="Senha"
                     required
@@ -183,10 +211,10 @@ export default function Signup() {
                     value={password}
                     onChange={handlePasswordChange}
                   />
-                </MyFormGroup>
-                <WordFormGroup>
+                </MyFormGroupPass>
+                <MyFormGroupConfirmPass>
                   <FormLabel>Confirmar Senha</FormLabel>
-                  <TextBox2
+                  <ConfirmarSenha
                     type="password"
                     placeholder="Senha"
                     required
@@ -194,7 +222,7 @@ export default function Signup() {
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
                   />
-                </WordFormGroup>
+                </MyFormGroupConfirmPass>
               </Pass>
               <NumbersForms>
                 <MyFormGroup>
@@ -209,32 +237,30 @@ export default function Signup() {
                     onChange={handleCpfChange}
                   />
                 </MyFormGroup>
-                <Phone>
-                  <DDD>
-                    <MyFormGroup>
-                      <FormLabel>DDD</FormLabel>
-                      <TextBox2
-                        type="numbers"
-                        placeholder="(00)"
-                        pattern="[0-9]$"
-                        required
-                        value={ddd}
-                        onChange={handleDddChange}
-                      />
-                    </MyFormGroup>
-                  </DDD>
-                  <MyFormGroup>
-                    <FormLabel>Telefone</FormLabel>
-                    <TextBox2
+                <DDD>
+                  <MyFormGroupDDD>
+                    <FormLabel>DDD</FormLabel>
+                    <TextDDD
                       type="numbers"
-                      placeholder="00000-0000"
+                      placeholder="(00)"
                       pattern="[0-9]$"
                       required
-                      value={telephone}
-                      onChange={handleTelephoneChange}
+                      value={ddd}
+                      onChange={handleDddChange}
                     />
-                  </MyFormGroup>
-                </Phone>
+                  </MyFormGroupDDD>
+                </DDD>
+                <MyFormGroup>
+                  <FormLabel>Telefone</FormLabel>
+                  <TextBox2
+                    type="numbers"
+                    placeholder="00000-0000"
+                    pattern="[0-9]$"
+                    required
+                    value={telephone}
+                    onChange={handleTelephoneChange}
+                  />
+                </MyFormGroup>
               </NumbersForms>
               <Buttons>
                 <Submit onClick={handleSubmit}>Cadastrar</Submit>
@@ -252,7 +278,7 @@ export default function Signup() {
             </FormRegister>
 
           </Register>
-        </BodyUser.Right>
+        </BodyUser.center>
 
       </BodyUser>
     </>

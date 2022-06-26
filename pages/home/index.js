@@ -1,51 +1,41 @@
-import React from 'react';
-// import './MenuLateral.css';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import Button from '@mui/material/Button';
-// import ButtonGroup from '@mui/material/ButtonGroup';
-// import Box from '@mui/material/Box';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import MenuHome from '../../src/components/MenuHome';
+import {
+  MeanHomeContainer,
+  SideMenuDashboard,
+  MeanDashboard,
+} from '../../styles/homeStyles';
+import InternalChangePassword from '../../src/components/InternalChangePassword';
+import { useAuth } from '../../src/contexts/AuthContext';
 
-// const buttons = [
-//   { buttonName: 'Dashboard' },
-//   { buttonName: 'Informações' },
-// ];
 
-// const theme = createTheme({
-//   palette: {
-//     secondary: {
-//       main: '#264A6F',
-//     },
-//   },
-// });
+toast.configure();
 
-export default function Home({ setSelectedButton, selectedButton }) {
-  // const defineBackgroundColor = (buttonType) => (selectedButton === buttonType
-  //   ? 'menuSideClickButton'
-  //   : 'menuSideGrupButton');
+function Intranet() {
+  const [selectedButton, setSelectedButton] = useState('');
+  const { logout } = useAuth();
+
+  const menuDashboard = () => {
+    switch (selectedButton) {
+      case 'Informações': return <ResultadoQuizzes />;
+      case 'Alterar senha': return <InternalChangePassword />;
+      case 'Sair': logout();
+
+      default: return <div />;
+    }
+  };
 
   return (
-    // <Box>
-    //   <div className="menuSidepage">
-    //     <div className="menuSideContainer">
-    //       <ThemeProvider theme={theme}>
-    //         <ButtonGroup
-    //           className="menuSideAll"
-    //           size="large"
-    //           orientation="vertical"
-    //           aria-label="vertical contained button group"
-    //           variant="text"
-    //           color="secondary"
-    //         >
-
-    //           {buttons.map((button) => (
-    //             <Button key={`${button.buttonName}`} className={defineBackgroundColor(button.buttonName)} onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}</Button>
-    //           ))}
-
-    //         </ButtonGroup>
-    //       </ThemeProvider>
-    //     </div>
-    //   </div>
-    // </Box>
-    <>biro do biro biro</>
+    <MeanHomeContainer>
+      <SideMenuDashboard>
+        <MenuHome setSelectedButton={setSelectedButton} selectedButton={selectedButton} />
+      </SideMenuDashboard>
+      <MeanDashboard>
+        {menuDashboard()}
+      </MeanDashboard>
+    </MeanHomeContainer>
   );
 }
+
+export default Intranet;

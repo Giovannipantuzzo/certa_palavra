@@ -10,6 +10,9 @@ import {
   TopFormulary,
   ItemFormulary,
   BottomFormulary,
+  ForgotPasswordReturnContainer,
+  ForgotPasswordReturnButton,
+  ForgotPasswordReturnSpan,
 } from '../../src/components/BodyForms';
 import {
   TitleLogin,
@@ -29,6 +32,17 @@ const ForgetPass = () => {
   }
   async function sendResetEmail(event) {
     event.preventDefault();
+    if (!email) {
+      return notification.open({
+        message: 'Erro!',
+        description: 'Por favor digite um email válido!.',
+        className: 'ant-notification',
+        top: '100px',
+        style: {
+          width: 600,
+        },
+      });
+    }
     try {
       await forgottenPassword(email);
       notification.open({
@@ -54,6 +68,12 @@ const ForgetPass = () => {
   }
   return (
     <>
+      <ForgotPasswordReturnContainer>
+        <ForgotPasswordReturnButton href="/login">
+          <ForgotPasswordReturnSpan />
+          Voltar
+        </ForgotPasswordReturnButton>
+      </ForgotPasswordReturnContainer>
       <Body>
         <Body.Left>
           <Image

@@ -8,6 +8,7 @@ export const Body = styled.div`
     margin-top: 10%;
     padding-bottom: 10%;
     justify-content: center;
+    border-radius: 5px;
 `;
 
 Body.Left = styled.div`
@@ -55,26 +56,12 @@ export const BodyUser = styled.div`
     }
 `;
 
-BodyUser.LeftUser = styled.div`
-display: flex;
-justify-content: center;
-padding: 10px;
-align-items: center;
-height: 100%;
-width: 50%;
-margin: 10px;
-
-@media screen and (max-width: 800px) {
-    display: none !important;
-}
-`;
-
-BodyUser.Right = styled.div`
+BodyUser.center = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    width: 50%;
+    width: 100%;
 
     @media screen and (max-width: 900px) {
       width: 75%;
@@ -149,6 +136,37 @@ export const ItemFormulary = styled.div`
   flex-direction: column;
   align-items: left;
   margin-right: 5px;
+`;
+
+export const ForgotPasswordReturnContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+  align-self: start;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+export const ForgotPasswordReturnButton = styled.a`
+  color: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  text-decoration: none;
+`;
+
+export const ForgotPasswordReturnSpan = styled.span`
+  margin-right: 8px;
+  margin-left: 30px;
+  display: flex;
+  flex-direction: row;
+  align-self: start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-image: url('../../images/arrow-left.svg');
+  width: 22px;
+  height: 22px;
+  margin-bottom: 2px;
 `;
 
 // Div exclusiva para componente IE:
