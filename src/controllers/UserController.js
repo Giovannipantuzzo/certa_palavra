@@ -16,9 +16,10 @@ export async function getOne(request, response) {
   }
 }
 
-export async function getAll(request, response) {
+export async function getAllCorretores(request, response) {
   try {
-    const users = await UserModel.getAllUsers();
+    console.log('TESTE')
+    const users = await UserModel.getAllCorretores();
     return response.status(200).json(users);
   } catch (error) {
     if (err.message) {

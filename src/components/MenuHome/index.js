@@ -10,14 +10,14 @@ import { useAuth } from '../../contexts/AuthContext';
 import '../../../styles/menuHome.module.css';
 
 const buttons = [
-  { buttonName: 'Dashboard' },
+  { buttonName: 'Dashboard', value: 'DashboardCorretor' },
   { buttonName: 'Informações' },
   { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
 ];
 
 const buttonsAdmin = [
-  { buttonName: 'Dashboard' },
+  { buttonName: 'Dashboard', value: 'DashboardAdmin' },
   { buttonName: 'Lista de corretores' },
   { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
@@ -47,7 +47,7 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
                   key={`${button.buttonName}`}
                   style={{ color: 'white', borderColor: '#91ca6c' }}
                   className={defineBackgroundColor(button.buttonName)}
-                  onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}
+                  onClick={() => button.value ? setSelectedButton(button.value) : setSelectedButton(button.buttonName)}>{button.buttonName}
                 </Button>
               ))
             ) : (
@@ -56,7 +56,7 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
                   key={`${button.buttonName}`}
                   style={{ color: 'white', borderColor: '#91ca6c' }}
                   className={defineBackgroundColor(button.buttonName)}
-                  onClick={() => setSelectedButton(button.buttonName)}>{button.buttonName}
+                  onClick={() => button.value ? setSelectedButton(button.value) : setSelectedButton(button.buttonName)}>{button.buttonName}
                 </Button>
               ))
             )}

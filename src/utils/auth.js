@@ -4,18 +4,14 @@ const sessionObject = {
   cookieName: 'userSession',
   password: 'complex_password_at_least_32_characters_long',
   cookieOptions: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'development',
   },
 };
 
 function withAuth(handler) {
   return async (req, res) => {
     try {
-      const session = await req.session.get('user');
-
-      if (!session) {
-        await req.session.get('store');
-      }
+      await req.session.get('user');
       return handler(req, res);
     } catch (error) {
       console.error(error); // eslint-disable-line
@@ -39,26 +35,17 @@ export function withAuthValidation(handler) {
 // Quando precisa validar que o usuário é um administrador logado antes de operar a requisição
 export function isAdmin(handler) {
   return withAuthValidation((req, res) => {
+    console.log('DESGRAÇA')
     const { user: { type } } = req.session.get('user');
 
-    if (type === 'admin') {
+    console.log('DESGRAÇA2')
+    if (type === 'Admin') {
       return handler(req, res);
     }
     return res.status(403).json({ message: 'Unauthorized' });
   });
 }
 
-// Quando precisa validar que o usuário é um lojista logado antes de operar a requisição
-export function isSeller(handler) {
-  return withAuthValidation((req, res) => {
-    const store = req.session.get('store');
-
-    if (store) {
-      return handler(req, res);
-    }
-    return res.status(403).json({ message: 'Unauthorized' });
-  });
-}
 
 // Quando as rotas só devem estar acessíveis para administradores ou para o próprio usuário (exemplo: deletar um usuário)
 export function isAdminOrSelf(handler) {
@@ -66,23 +53,7 @@ export function isAdminOrSelf(handler) {
     const { user: { type, firebase_id: requester_id } } = req.session.get('user');
     const { id } = req.query;
 
-    if (type === 'admin' || id === requester_id) {
-      return handler(req, res);
-    }
-    return res.status(403).json({ message: 'Unauthorized' });
-  });
-}
-
-export function isAdminOrSeller(handler) {
-  return withAuthValidation((req, res) => {
-    const store = req.session.get('store');
-
-    if (store) {
-      return handler(req, res);
-    }
-
-    const { user: { type } } = req.session.get('user');
-    if (type === 'admin') {
+    if (type === 'Admin' || id === requester_id) {
       return handler(req, res);
     }
     return res.status(403).json({ message: 'Unauthorized' });
