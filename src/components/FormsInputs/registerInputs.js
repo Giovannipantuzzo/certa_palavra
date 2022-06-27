@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React from "react";
-import { MenuItem, Checkbox, TextField } from '@mui/material';
+import { MenuItem, Checkbox, TextField, FormGroup, FormControlLabel  } from '@mui/material';
 import SingleFileUpload from "../../components/SingleFileUpload/SingleFileUpload";
 import "./registerInputs.module.css";
 
@@ -17,29 +17,56 @@ function RegisterInputs({
   mask,
   dados,
   news,
+  checkboxes,
 }) {
-  console.log("🚀 ~ file: registerInputs.js ~ line 21 ~ dados", dados)
+  const teste = {selected: false, value: 160}
+
   const handleChange = (value, entrada) => {
     setDados(value, entrada);
   };
 
-  const handleChecked = (value, entrada) => {
-    const auxCheckbox = [false, false, false, false, false];
-    auxCheckbox[value] = true;
-    setDados(auxCheckbox, entrada);
+  function handleChecked(value, entrada, index) {
+    setDados(value, entrada);
+    if (index !== undefined) {
+      checkboxes.forEach((box, auxIndex) => {
+        if ((index === auxIndex)){
+          if (!box.selected) {
+            box.selected = true;
+          }
+          else {
+            box.selected = false;
+          }
+          
+        } else {
+          box.selected = false;
+        }
+      })
+    }
   }
 
   return (
     <div>
       {type === "checkbox" && (
         <>
-          {dados?.checkbox?.map((box, index) => (
-            <Checkbox
+          <div>{label}</div>
+          <FormGroup style={{flexDirection: 'row', justifyContent: 'center'}}>
+          {checkboxes?.map((box, index) => (
+          <div >
+
+              <FormControlLabel control={<Checkbox
               color="primary"
-              checked={dados?.checkbox[index]}
-              onClick={() => handleChecked(index, 'checkbox')}
-          />
+              checked={box.selected}
+              onClick={() => handleChecked(box.value, id, index)}
+
+            >
+              {box.value}
+              </Checkbox>} 
+                label={box.value} 
+              />
+            
+          </div>
           ))}
+          </FormGroup>
         </>
       )}
       {type === "date" && (
@@ -126,7 +153,7 @@ function RegisterInputs({
               type={type}
               variant="standard"
               multiline
-              sx={{ m: 1, width: "70%" }}
+              sx={{ m: 1, width: "100%" }}
               helperText={
                 initialErrorState[`${id}`]
                   ? `Valor de ${label} inválido`

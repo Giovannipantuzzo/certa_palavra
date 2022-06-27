@@ -1,5 +1,4 @@
 export const initialEditNoteState = {
-  checkbox: [false,false,false,false,false],
   competencia1: 0,
   competencia2: 0,
   competencia3: 0,

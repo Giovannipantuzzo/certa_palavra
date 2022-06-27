@@ -122,7 +122,6 @@ function CustomImageEditor({ url }) {
         "SampleImage"
       )
       .then((result) => {
-        console.log("🚀 ~ file: imageEditor.js ~ line 125 ~ .then ~ result", result)
         imageEditor.ui.resizeEditor({
           imageSize: {
             oldWidth: result.oldWidth,
