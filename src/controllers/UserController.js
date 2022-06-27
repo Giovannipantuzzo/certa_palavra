@@ -9,8 +9,8 @@ export async function getOne(request, response) {
     const users = await UserModel.getUserById(id);
     return response.status(200).json(users);
   } catch (error) {
-    if (err.message) {
-      return response.status(400).json({ notification: err.message });
+    if (error.message) {
+      return response.status(400).json({ notification: error.message });
     }
     return response.status(500).json({ notification: 'Internal Server Error' });
   }
@@ -43,7 +43,9 @@ export async function create(request, response) {
     user.firebase_id = firebase_id;
     delete user.password;
     await UserModel.createNewUser(user);
-    await AttemptsModel.createAttempt();
+    await AttemptsModel.createAttempt({
+      email: user.email,
+    });
   } catch (error) {
     if (firebase_id) {
       await FirebaseModel.deleteUser(firebase_id);

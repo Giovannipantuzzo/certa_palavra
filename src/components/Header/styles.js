@@ -28,8 +28,9 @@ export const YourSpaceContainer = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-around;
-    width:15%;
+    width:10%;
     height:100%;
+    margin-right: 5%;
 `;
 
 export const YourSpace = styled.button`
@@ -37,17 +38,13 @@ export const YourSpace = styled.button`
     flex-direction:row;
     align-items:center;
     justify-content:space-around;
-    width: 100%;
+    width: 70px;
     min-width: 40px;
-    height:48%;
-    font-family: Roboto;
     font-size: 20px;
     font-weight: 300;
-    background-color:${({ theme }) => theme.colors.lightGreen};
+    background-color:${({ theme }) => theme.colors.primary};
     color: white;
-    border-color: ${({ theme }) => theme.colors.primary};
-    border-size: 10px;
-    border-radius: 5px;
+    border: none;
     cursor:pointer;
 `;
 
@@ -76,7 +73,7 @@ export const LogOut = styled.button`
     width: 15%;
     border: 0;
     outline: none;
-    background-color:${({ theme }) => theme.colors.lightGreen};
+    background-color:${({ theme }) => theme.colors.primary};
     @media (max-width: 400px) {
       width: 25%;
     }

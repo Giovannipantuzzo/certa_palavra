@@ -5,7 +5,7 @@ export default function handler(req, res) {
   try {
     const { method } = req;
     if (method === 'POST') {
-      return isAdmin(create)(req, res);
+      return create(req, res);
     }
     if (method === 'GET') {
       return isAdmin(getAll)(req, res);
