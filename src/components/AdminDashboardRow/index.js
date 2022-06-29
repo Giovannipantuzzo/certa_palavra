@@ -6,17 +6,6 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { toast } from 'react-toastify';
 import { makeStyles } from '@material-ui/styles';
 
-const titles = [
-  { label: 'Status:', field: 'select' },
-  { label: 'Número:', field: 'input' },
-  { label: 'Descrição:', field: 'input' },
-];
-
-const select = [
-  'COMUNICADO',
-  'INFORMATIVO',
-];
-
 toast.configure();
 
 function getModalStyle() {
@@ -59,11 +48,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AdminDashboardRow({
-  id, comunic, archive1Id, archive2Id, setUse, page,
+  id, setUse, page,
 }) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
-  const [dados, setDados] = useState(comunic);
+  const [dados, setDados] = useState();
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -75,7 +64,7 @@ export default function AdminDashboardRow({
   };
 
   useEffect(() => {
-    setDados(comunic);
+    setDados();
   }, [page]);
 
   const body = (

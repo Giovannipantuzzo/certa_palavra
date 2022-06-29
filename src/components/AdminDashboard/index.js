@@ -35,7 +35,7 @@ import api from '../../utils/api';
 const titleTable = 'Lista de corretores';
 
 const titles = [
-  'Nome', 'Nº correções no mês atual',
+  '', 'Nome', 'Nº correções no mês atual',
 ]
 
 const rows = [

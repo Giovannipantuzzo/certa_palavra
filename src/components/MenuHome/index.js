@@ -9,8 +9,16 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import '../../../styles/menuHome.module.css';
 
+
 const buttons = [
   { buttonName: 'Dashboard', value: 'DashboardCorretor' },
+  { buttonName: 'Informações' },
+  { buttonName: 'Alterar senha' },
+  { buttonName: 'Sair' },
+];
+
+const buttonsUser = [
+  { buttonName: 'Home' },
   { buttonName: 'Informações' },
   { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
@@ -41,8 +49,17 @@ export default function MenuHome({ setSelectedButton, selectedButton }) {
             aria-label="vertical contained button group"
             variant="text"
           >
-            {user?.type === 'admin' ? (
+            {user?.type === 'Admin' ? (
               buttonsAdmin.map((button) => (
+                <Button
+                  key={`${button.buttonName}`}
+                  style={{ color: 'white', borderColor: '#91ca6c' }}
+                  className={defineBackgroundColor(button.buttonName)}
+                  onClick={() => button.value ? setSelectedButton(button.value) : setSelectedButton(button.buttonName)}>{button.buttonName}
+                </Button>
+              ))
+            ) : user?.type === 'User' ? (
+              buttonsUser.map((button) => (
                 <Button
                   key={`${button.buttonName}`}
                   style={{ color: 'white', borderColor: '#91ca6c' }}

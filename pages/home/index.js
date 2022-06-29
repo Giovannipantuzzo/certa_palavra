@@ -8,6 +8,7 @@ import {
 } from '../../styles/homeStyles';
 import InternalChangePassword from '../../src/components/InternalChangePassword';
 import AdminDashboard from '../../src/components/AdminDashboard';
+import MainDashboard from '../../src/components/MainDashboard';
 import { useAuth } from '../../src/contexts/AuthContext';
 
 toast.configure();
@@ -22,8 +23,9 @@ function Intranet() {
 
   const menuDashboard = () => {
     switch (selectedButton) {
-      case 'DashboardAdmin': return <AdminDashboard />;
+      case 'DashboardAdmin': return <MainDashboard />;
       case 'DashboardCorretor': return <AdminDashboard />;
+      case 'Home': return <MainDashboard />;
       case 'Informações': return <InternalChangePassword />;
       case 'Alterar senha': return <InternalChangePassword />;
       case 'Sair': logout();
