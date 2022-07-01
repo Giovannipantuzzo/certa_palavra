@@ -13,6 +13,7 @@ import styles from '../../styles/registroNota.module.css';
 import styles2 from './Editor.module.css';
 import { dataURLtoFile } from '../../src/components/ImageEditor/dataUrlToFile';
 import { storage } from '../../src/components/ImageEditor/firebaseStorage';
+import api from '../../src/utils/api';
 
 const DynamicComponentWithNoSSR = dynamic(
   () => import('../../src/components/ImageEditor/imageEditor'),
@@ -63,11 +64,19 @@ export default function Editor() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log(downloadURL);
-          console.log(dados);
-          toast.success('Editado com sucesso', {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          });
+          const body = dados;
+          body.file_url = downloadURL;
+          try {
+            api.put(`/user/${body?.redaction_id}`, body).then(() => {
+              toast.success('Editado com sucesso', {
+                position: toast.POSITION.BOTTOM_RIGHT,
+              });
+            });
+            toast('Sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
+          } catch (error) {
+            console.error(error);
+            toast('Erro', { position: toast.POSITION.BOTTOM_RIGHT });
+          }
           setLoading(false);
         });
       },
