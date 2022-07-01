@@ -64,10 +64,11 @@ export default function Editor() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log(downloadURL);
-          setLoading(false);
+          console.log(dados);
           toast.success('Editado com sucesso', {
             position: toast.POSITION.BOTTOM_RIGHT,
           });
+          setLoading(false);
         });
       },
     );
@@ -133,7 +134,6 @@ export default function Editor() {
         </LoadingButton>
         <div className={styles2['form-vote-quizz-container']}>
           <FormControl className={styles2['form-content-vote-quizzes']}>
-            <h2>Alternativas</h2>
             <ConfirmModal
               setLoading={setLoading}
               handleFinish={handleFinish}

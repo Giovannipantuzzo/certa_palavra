@@ -1,8 +1,10 @@
 /* eslint-disable no-nested-ternary */
-import React from "react";
-import { MenuItem, Checkbox, TextField, FormGroup, FormControlLabel  } from '@mui/material';
-import SingleFileUpload from "../../components/SingleFileUpload/SingleFileUpload";
-import "./registerInputs.module.css";
+import React from 'react';
+import {
+  MenuItem, Checkbox, TextField, FormGroup, FormControlLabel,
+} from '@mui/material';
+import SingleFileUpload from '../SingleFileUpload/SingleFileUpload';
+import './registerInputs.module.css';
 
 function RegisterInputs({
   setDados,
@@ -19,7 +21,7 @@ function RegisterInputs({
   news,
   checkboxes,
 }) {
-  const teste = {selected: false, value: 160}
+  const teste = { selected: false, value: 160 };
 
   const handleChange = (value, entrada) => {
     setDados(value, entrada);
@@ -29,47 +31,48 @@ function RegisterInputs({
     setDados(value, entrada);
     if (index !== undefined) {
       checkboxes.forEach((box, auxIndex) => {
-        if ((index === auxIndex)){
+        if ((index === auxIndex)) {
           if (!box.selected) {
             box.selected = true;
-          }
-          else {
+          } else {
             box.selected = false;
           }
-          
         } else {
           box.selected = false;
         }
-      })
+      });
     }
   }
 
   return (
     <div>
-      {type === "checkbox" && (
+      {type === 'checkbox' && (
         <>
           <div>{label}</div>
-          <FormGroup style={{flexDirection: 'row', justifyContent: 'center'}}>
-          {checkboxes?.map((box, index) => (
-          <div >
+          <FormGroup style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            {checkboxes?.map((box, index) => (
+              <div>
 
-              <FormControlLabel control={<Checkbox
-              color="primary"
-              checked={box.selected}
-              onClick={() => handleChecked(box.value, id, index)}
+                <FormControlLabel
+                  control={(
+                    <Checkbox
+                      color="primary"
+                      value={0}
+                      checked={box.selected}
+                      onClick={() => handleChecked(box.value, id, index)}
+                    >
+                      {box.value}
+                    </Checkbox>
+)}
+                  label={box.value}
+                />
 
-            >
-              {box.value}
-              </Checkbox>} 
-                label={box.value} 
-              />
-            
-          </div>
-          ))}
+              </div>
+            ))}
           </FormGroup>
         </>
       )}
-      {type === "date" && (
+      {type === 'date' && (
         <TextField
           required={required}
           id={id}
@@ -80,13 +83,13 @@ function RegisterInputs({
           InputLabelProps={{ shrink: true }}
           type={type}
           variant="standard"
-          sx={{ m: 1, width: "70%" }}
+          sx={{ m: 1, width: '70%' }}
           helperText={
             initialErrorState[`${id}`]
               ? `Valor de ${label} inválido`
               : required
-              ? "Campo obrigatório"
-              : ""
+                ? 'Campo obrigatório'
+                : ''
           }
         />
       )}
@@ -101,13 +104,13 @@ function RegisterInputs({
           type={type}
           select={select}
           variant="standard"
-          sx={{ m: 1, width: "70%" }}
+          sx={{ m: 1, width: '70%' }}
           helperText={
             initialErrorState[`${id}`]
               ? `Valor de ${label} inválido`
               : required
-              ? "Campo obrigatório"
-              : ""
+                ? 'Campo obrigatório'
+                : ''
           }
         />
       )}
@@ -123,25 +126,25 @@ function RegisterInputs({
           select={select}
           variant="standard"
           helperText={`Selecione uma opção de ${label}`}
-          sx={{ m: 1, width: "70%" }}
+          sx={{ m: 1, width: '70%' }}
         >
           {field.map((option) => (
             <MenuItem
               key={option.value}
               value={option.value}
-              style={{ height: "36px" }}
+              style={{ height: '36px' }}
             >
               {option.label}
             </MenuItem>
           ))}
         </TextField>
       )}
-      {!mask &&
-        !(type === "date") &&
-        !(type === "file") &&
-        !(type === "empty") &&
-        !(type === "checkbox") &&
-        !select && (
+      {!mask
+        && !(type === 'date')
+        && !(type === 'file')
+        && !(type === 'empty')
+        && !(type === 'checkbox')
+        && !select && (
           <>
             <TextField
               required={required}
@@ -153,20 +156,20 @@ function RegisterInputs({
               type={type}
               variant="standard"
               multiline
-              sx={{ m: 1, width: "100%" }}
+              sx={{ m: 1, width: '100%' }}
               helperText={
                 initialErrorState[`${id}`]
                   ? `Valor de ${label} inválido`
                   : required
-                  ? "Campo obrigatório"
-                  : ""
+                    ? 'Campo obrigatório'
+                    : ''
               }
             />
             <div />
           </>
-        )}
-      {type === "empty" && <div />}
-      {type === "file" && (
+      )}
+      {type === 'empty' && <div />}
+      {type === 'file' && (
         <SingleFileUpload
           field={id}
           fileType={fileType}
