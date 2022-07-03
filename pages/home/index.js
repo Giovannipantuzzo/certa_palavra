@@ -10,12 +10,14 @@ import InternalChangePassword from '../../src/components/InternalChangePassword'
 import AdminDashboard from '../../src/components/AdminDashboard';
 import MainDashboard from '../../src/components/MainDashboard';
 import { useAuth } from '../../src/contexts/AuthContext';
+import { useRouter } from 'next/router';
 
 toast.configure();
 
 function Intranet() {
   const [selectedButton, setSelectedButton] = useState('');
   const { logout } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     // console.log("🚀 ~ file: index.js ~ line 21 ~ Intranet ~ selectedButton", selectedButton)
@@ -26,6 +28,7 @@ function Intranet() {
       case 'DashboardAdmin': return <MainDashboard />;
       case 'DashboardCorretor': return <AdminDashboard />;
       case 'Home': return <MainDashboard />;
+      case 'Cadastro': router.push('/Cadastro');
       case 'Informações': return <InternalChangePassword />;
       case 'Alterar senha': return <InternalChangePassword />;
       case 'Sair': logout();
