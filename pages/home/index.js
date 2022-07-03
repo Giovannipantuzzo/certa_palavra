@@ -16,12 +16,14 @@ toast.configure();
 
 function Intranet() {
   const [selectedButton, setSelectedButton] = useState('');
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    // console.log("🚀 ~ file: index.js ~ line 21 ~ Intranet ~ selectedButton", selectedButton)
-  }, [selectedButton]);
+    if (user?.type === 'Admin') setSelectedButton('DashboardAdmin');
+    else if (user?.type === 'Corretor') setSelectedButton('DashboardCorretor');
+    else setSelectedButton('Home');
+  }, []);
 
   const menuDashboard = () => {
     switch (selectedButton) {
