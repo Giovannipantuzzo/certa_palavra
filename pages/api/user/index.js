@@ -1,4 +1,4 @@
-import { create, getAll } from '../../../src/controllers/UserController';
+import { create, getAllCorretores } from '../../../src/controllers/UserController';
 import { isAdmin } from '../../../src/utils/Auth';
 
 export default function handler(req, res) {
@@ -8,7 +8,7 @@ export default function handler(req, res) {
       return create(req, res);
     }
     if (method === 'GET') {
-      return isAdmin(getAll)(req, res);
+      return isAdmin(getAllCorretores)(req, res);
     }
     return res.status(500).json({ message: 'Internal Server Error' });
   } catch (err) {

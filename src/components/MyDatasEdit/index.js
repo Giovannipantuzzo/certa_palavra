@@ -162,7 +162,11 @@ export default function MyDatasEdit() {
   );
   return (
     <Edit>
-      <Button onClick={handleOpen} style={{ color: 'black' }}>Editar</Button>
+      <Button onClick={handleOpen} style={{
+        backgroundColor: '#91ca6c',
+        color: 'black',
+        width: '100%',
+      }}>Editar</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -171,6 +175,6 @@ export default function MyDatasEdit() {
       >
         {corpo}
       </Modal>
-    </Edit>
+    </Edit >
   );
 }
