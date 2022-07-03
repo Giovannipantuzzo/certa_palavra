@@ -21,18 +21,19 @@ function Intranet() {
 
   useEffect(() => {
     // console.log("🚀 ~ file: index.js ~ line 21 ~ Intranet ~ selectedButton", selectedButton)
-  }, [selectedButton])
+  }, [selectedButton]);
 
   const menuDashboard = () => {
     switch (selectedButton) {
       case 'DashboardAdmin': return <MainDashboard />;
-      case 'DashboardCorretor': return <AdminDashboard />;
+      case 'DashboardCorretor': return <AdminDashboard renderButton />;
       case 'Home': return <MainDashboard />;
       case 'Cadastro': router.push('/Cadastro');
       case 'Informações': return <InternalChangePassword />;
       case 'Alterar senha': return <InternalChangePassword />;
       case 'Sair': logout();
 
+        break;
       default: return <div />;
     }
   };

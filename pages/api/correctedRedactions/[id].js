@@ -1,17 +1,15 @@
-import { getOne, update, deleteBoth } from '../../../src/controllers/UserController';
-import { isAdmin, isAdminOrSelf } from '../../../src/utils/auth';
+import { getById, deleteByID } from '../../../src/controllers/Cart_ProductsController';
+import { withAuthValidation } from '../../../src/utils/Auth';
 
 export default function handler(req, res) {
   try {
     const { method } = req;
+    console.log(method);
     if (method === 'GET') {
-      return isAdminOrSelf(getOne)(req, res);
-    }
-    if (method === 'PUT') {
-      return isAdminOrSelf(update)(req, res);
+      return withAuthValidation(getById)(req, res);
     }
     if (method === 'DELETE') {
-      return deleteBoth(req, res);
+      return withAuthValidation(deleteByID)(req, res);
     }
     return res.status(500).json({ message: 'Internal Server Error' });
   } catch (err) {

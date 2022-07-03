@@ -1,12 +1,10 @@
-import RedactionModel from '../models/RedactionModel';
-
-const { v4: uuidv4 } = require('uuid');
+import CorrectedRedactionModel from '../models/CorrectedRedactionModel';
 
 export async function getOne(request, response) {
   const { id } = request.query;
 
   try {
-    const redaction = await RedactionModel.getRedactionsById(id);
+    const redaction = await CorrectedRedactionModel.getRedactionsById(id);
     return response.status(200).json(redaction);
   } catch (error) {
     if (error.message) {
@@ -18,10 +16,10 @@ export async function getOne(request, response) {
 
 export async function getAll(request, response) {
   try {
-    const redactions = await RedactionModel.getAllRedactions();
+    const redactions = await CorrectedRedactionModel.getAllCorrectedRedactions();
     return response.status(200).json(redactions);
   } catch (error) {
-    if (err.message) {
+    if (err?.message) {
       return response.status(400).json({ notification: err.message });
     }
     return response.status(500).json({ notification: 'Internal Server Error' });
@@ -30,9 +28,8 @@ export async function getAll(request, response) {
 
 export async function create(request, response) {
   const info = request.body;
-  info.redaction_id = uuidv4();
   try {
-    const newRedaction = await RedactionModel.createNewRedaction(info);
+    const newRedaction = await CorrectedRedactionModel.createNewCorrectedRedaction(info);
     return response.status(200).json(newRedaction);
   } catch (error) {
     if (error.message) {
@@ -46,7 +43,7 @@ export async function deleteRedact(request, response) {
   try {
     const { id } = request.query;
 
-    await RedactionModel.deleteRedaction(id);
+    await CorrectedRedactionModel.deleteRedaction(id);
 
     return response.status(200).json({ message: 'Sucesso!' });
   } catch (error) {
@@ -59,7 +56,7 @@ export async function update(request, response) {
   const redaction = request.body;
 
   try {
-    await RedactionModel.updateRedaction(redaction);
+    await CorrectedRedactionModel.updateRedaction(redaction);
   } catch (error) {
     if (error.message) {
       return response.status(400).json({ notification: error.message });

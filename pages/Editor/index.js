@@ -89,9 +89,9 @@ export default function Editor() {
 
   return (
     <div>
-      <div className={styles['register-associate-container']}>
-        <h2 className={styles['register-associate-title']}>
-          <div className={styles['register-associate-text-margin']}> Correção </div>
+      <div className={styles['register-note-container']}>
+        <h2 className={styles['register-note-title']}>
+          <div className={styles['register-note-text-margin']}> Correção </div>
         </h2>
       </div>
       <div
@@ -107,13 +107,13 @@ export default function Editor() {
       >
         {url && <DynamicComponentWithNoSSR url={url} canvasRef={canvasRef} progresspercent={progresspercent} setProgresspercent={setProgresspercent} />}
       </div>
-      <div className={styles['register-associate-container']}>
+      <div className={styles['register-note-container']}>
         {formsCadastroNota?.map((line) => (
           <Box>
-            <h2 className={styles['register-associate-title']}>
-              <div className={styles['register-associate-text-margin']}>{line.title}</div>
+            <h2 className={styles['register-note-title']}>
+              <div className={styles['register-note-text-margin']}>{line.title}</div>
             </h2>
-            <div className={styles['register-associate-text-field']}>
+            <div className={styles['register-note-text-field']}>
               {line?.items?.map((item) => (
                 <RegisterInputs
                   type={item.type}
@@ -140,8 +140,8 @@ export default function Editor() {
         >
           Cadastrar
         </LoadingButton>
-        <div className={styles2['form-vote-quizz-container']}>
-          <FormControl className={styles2['form-content-vote-quizzes']}>
+        <div className={styles2['form-note-container']}>
+          <FormControl className={styles2['form-content-note']}>
             <ConfirmModal
               setLoading={setLoading}
               handleFinish={handleFinish}

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-async-promise-executor */
 const { connection } = require('../database/connection');
 
@@ -16,11 +17,23 @@ module.exports = {
     }
   },
 
-  async getAllCorretores() {
+  async getAllCorretores(firstDate, secondDate) {
     try {
       const users = await connection('user')
         .where('type', 'Corretor')
         .select('*');
+
+      for (const corrector of users) {
+        const correctedRedactions = (firstDate && secondDate) ? await connection('corrected_redactions')
+          .where('firebase_id', corrector.firebase_id)
+          .where('corrected_redactions.created_at', '>=', `${firstDate}`)
+          .where('corrected_redactions.created_at', '<', `${secondDate}`)
+          .select('*') : await connection('corrected_redactions')
+          .where('firebase_id', corrector.firebase_id)
+          .select('*');
+        corrector.correctedRedactions = correctedRedactions.length;
+      }
+
       return users;
     } catch (error) {
       console.error(error);
