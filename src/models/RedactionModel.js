@@ -3,46 +3,45 @@ const { connection } = require('../database/connection');
 
 module.exports = {
 
-  async getUserById(id) {
+  async getRedactionsById(id) {
     try {
-      const user = await connection('user')
-        .where('firebase_id', id)
+      const redaction = await connection('redaction')
+        .where('redaction_id', id)
         .select('*')
         .first();
-      return user;
+      return redaction;
     } catch (error) {
       console.error(error);
       throw new Error(error);
     }
   },
 
-  async getAllCorretores() {
+  async getAllRedactions() {
     try {
-      const users = await connection('user')
-        .where('type', 'Corretor')
+      const redactions = await connection('redaction')
         .select('*');
-      return users;
+      return redactions;
     } catch (error) {
       console.error(error);
       throw new Error(error);
     }
   },
 
-  async createNewUser(user) {
+  async createNewRedaction(redaction) {
     try {
-      const user_aux = await connection('user')
-        .insert(user);
-      return user_aux;
+      const redaction_aux = await connection('redaction')
+        .insert(redaction);
+      return redaction_aux;
     } catch (error) {
       console.error(error);
       throw new Error(error);
     }
   },
 
-  async deleteUser(id) {
+  async deleteRedaction(id) {
     try {
-      const response = await connection('user')
-        .where({ firebase_id: id })
+      const response = await connection('redaction')
+        .where({ redaction_id: id })
         .delete();
       return response;
     } catch (error) {
@@ -51,11 +50,11 @@ module.exports = {
     }
   },
 
-  async updateUser(user, id) {
+  async updateRedaction(redaction, id) {
     try {
-      const response = await connection('user')
-        .where({ firebase_id: id })
-        .update(user);
+      const response = await connection('redaction')
+        .where({ redaction_id: id })
+        .update(redaction);
       return response;
     } catch (error) {
       console.error(error);
