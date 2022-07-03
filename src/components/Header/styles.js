@@ -28,7 +28,8 @@ export const YourSpaceContainer = styled.div`
     display:flex;
     align-items:center;
     justify-content:space-around;
-    width:10%;
+    min-width: 20%;
+    max-width: 35%;
     height:100%;
     margin-right: 5%;
 `;
@@ -38,7 +39,6 @@ export const YourSpace = styled.button`
     flex-direction:row;
     align-items:center;
     justify-content:space-around;
-    width: 70px;
     min-width: 40px;
     font-size: 20px;
     font-weight: 300;
@@ -46,6 +46,15 @@ export const YourSpace = styled.button`
     color: white;
     border: none;
     cursor:pointer;
+`;
+
+export const YourSpaceName = styled.p`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 70%;
+    margin-left: 8px!important;
+    margin: 0;
 `;
 
 YourSpace.Word = styled.p`

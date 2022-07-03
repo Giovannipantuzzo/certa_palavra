@@ -8,11 +8,26 @@ export const PerfilTitle = styled.h1`
   font-size: 2rem;
   margin-top: 3%;
   margin-bottom: 6%;
+  color: ${({ theme }) => theme.colors.primary};
   text-decoration: underline;
   font-weight: 400;
   @media (max-width: 380px) {
     font-size: 1.4rem;
   }
+`;
+
+export const PerfilImage = styled.div`
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width: 50%;
+    height: 50%;
+    @media (max-width: 700px) {
+      width:30%;
+    }
+    @media (max-width: 400px) {
+      width:40%;
+    }
 `;
 
 export const RowEdit = styled.div`

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../../src/contexts/AuthContext';
 import {
-  ContainerDatas, AddressData, InsidePaper, PerfilTitle
+  ContainerDatas, PerfilImage, AddressData, InsidePaper, PerfilTitle
 } from '../../styles/perfilStyles';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import MyDatasEdit from '../../src/components/MyDatasEdit';
+import Image from 'next/image';
 
 toast.configure();
 
@@ -41,6 +42,11 @@ export default function MyDatas() {
       <ContainerDatas >
         <InsidePaper>
           <PerfilTitle>Dados do usuário:</PerfilTitle>
+          <PerfilImage>
+            <Image src="/fotoPerfil.jpg" alt="" width="110" height="90" style={{
+              borderRadius: '45%',
+            }} />
+          </PerfilImage>
           <AddressData>
             <b>Nome:</b>
             {' '}

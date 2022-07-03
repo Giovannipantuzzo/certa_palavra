@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import {
   ImageBox,
   YourSpace,
+  YourSpaceName,
   YourSpaceContainer,
   LogOut,
 } from './styles';
@@ -52,7 +53,12 @@ export default function Header() {
         {user ? (
           <YourSpaceContainer onClick={() => router.push('/Perfil')}>
             <YourSpace>
-              <BsFillPersonFill style={{ height: '50px', width: '25px' }} />
+              {user?.image ? (
+                <BsFillPersonFill style={{ height: '50px', width: '25px' }} />
+              ) : (
+                <BsFillPersonFill style={{ height: '50px', width: '25px' }} />
+              )}
+              <YourSpaceName>{user.name}</YourSpaceName>
             </YourSpace>
           </YourSpaceContainer>
         ) : (
