@@ -24,7 +24,6 @@ function DashboardFilter({
   handleClose, getAllAccounts,
 }) {
   const [firstDate, setFirstDate] = useState(moment().toDate());
-  console.log("🚀 ~ file: index.js ~ line 26 ~ firstDate", firstDate)
   const [secondDate, setSecondDate] = useState(moment().toDate());
 
   const handleDataFilter = () => {
