@@ -104,12 +104,12 @@ export const DescriptionCardRedactions = styled.div`
 
 export const DescriptionCardRedactionsP = styled.p`
   margin-top: 10px;
-  font-size: 17px;
+  font-size: 16px;
   align-items: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 10px;
   word-break: break-all;
   flex-wrap: wrap;
