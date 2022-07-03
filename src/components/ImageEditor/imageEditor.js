@@ -1,84 +1,86 @@
-import React, { useState, useRef, useEffect } from "react";
-import reactCSS from "reactcss";
-import ImageEditor from "@toast-ui/react-image-editor";
-import { storage } from "./firebaseStorage";
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { dataURLtoFile } from "./dataUrlToFile";
-import { toast } from "react-toastify";
-import { theme } from "./theme";
-import LinearProgress from "@mui/material/LinearProgress";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+/* eslint-disable import/no-extraneous-dependencies */
+import React, { useState, useEffect } from 'react';
+import reactCSS from 'reactcss';
+import ImageEditor from '@toast-ui/react-image-editor';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { toast } from 'react-toastify';
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import 'tui-image-editor/dist/tui-image-editor.css';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import { SketchPicker } from 'react-color';
+import $ from 'jquery';
 import {
   Submit,
   LinearProgressContainer,
   ButtonsMenuContainer,
   ColorSelectedText,
   ColorPickerContainer,
-} from "../../../styles/imageEditorStyles";
-import "tui-image-editor/dist/tui-image-editor.css";
-import "tui-color-picker/dist/tui-color-picker.css";
-import { SketchPicker } from "react-color";
-import $ from "jquery";
+} from '../../../styles/imageEditorStyles';
+import { theme } from './theme';
+import { dataURLtoFile } from './dataUrlToFile';
+import { storage } from './firebaseStorage';
 
 function LinearProgressWithLabel(props) {
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Box sx={{ width: "100%", mr: 1 }}>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: '100%', mr: 1 }}>
         <LinearProgress variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {`${Math.round(
+            props.value,
+          )}%`}
+
+        </Typography>
       </Box>
     </Box>
   );
 }
 
+const presetColors = [
+  '#ffff00',
+  '#993399',
+  '#008000',
+  '#ffa500',
+  '#ffcbdb',
+];
+
+const colorWidth = 10;
+
 toast.configure();
 
-function CustomImageEditor({ url }) {
-  const canvasRef = useRef();
-
-  const [imgUrl, setImgUrl] = useState(url);
-  const [colorWidth, setColorWidth] = useState(10);
-  const [progresspercent, setProgresspercent] = useState(0);
-  const [presetColors, setPresetColors] = useState([
-    "#ffff00",
-    "#993399",
-    "#008000",
-    "#ffa500",
-    "#ffcbdb",
-  ]);
+function CustomImageEditor({ url, canvasRef, progresspercent, setProgresspercent }) {
   const [selectedColor, setSelectedColor] = useState({
     displayColorPicker: false,
     start: false,
     color: {
-      r: "255",
-      g: "255",
-      b: "0",
-      a: "1",
+      r: '255',
+      g: '255',
+      b: '0',
+      a: '1',
     },
   });
 
   function handleSubmit(e) {
     e.preventDefault();
-    let imageEditor = canvasRef.current.getInstance();
+    const imageEditor = canvasRef.current.getInstance();
 
-    var file = dataURLtoFile(
+    const file = dataURLtoFile(
       imageEditor.toDataURL(),
-      `teste.${imageEditor.toDataURL().match(/[^:/]\w+(?=;|,)/)[0]}`
+      `teste.${imageEditor.toDataURL().match(/[^:/]\w+(?=;|,)/)[0]}`,
     );
     if (!file) return;
     const storageRef = ref(storage, `files/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
         const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
         );
         setProgresspercent(progress);
       },
@@ -87,24 +89,24 @@ function CustomImageEditor({ url }) {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImgUrl(downloadURL);
-          toast.success("Editado com sucesso", {
+          console.log(downloadURL);
+          toast.success('Editado com sucesso', {
             position: toast.POSITION.BOTTOM_RIGHT,
           });
         });
-      }
+      },
     );
   }
 
   function LoadImage() {
-    if (!imgUrl) return;
-    let imageEditor = canvasRef.current.getInstance();
+    if (!url) return;
+    const imageEditor = canvasRef.current.getInstance();
     imageEditor.loadImageFromURL = (function () {
-      var cached_function = imageEditor.loadImageFromURL;
-      function waitUntilImageEditorIsUnlocked(imageEditor) {
+      const cached_function = imageEditor.loadImageFromURL;
+      function waitUntilImageEditorIsUnlocked(imageEditor2) {
         return new Promise((resolve, reject) => {
           const interval = setInterval(() => {
-            if (!imageEditor._invoker._isLocked) {
+            if (!imageEditor2._invoker._isLocked) {
               clearInterval(interval);
               resolve();
             }
@@ -115,11 +117,11 @@ function CustomImageEditor({ url }) {
         await waitUntilImageEditorIsUnlocked(imageEditor);
         return cached_function.apply(this, arguments);
       };
-    })();
+    }());
     imageEditor
       .loadImageFromURL(
-        imgUrl,
-        "SampleImage"
+        url,
+        'SampleImage',
       )
       .then((result) => {
         imageEditor.ui.resizeEditor({
@@ -132,7 +134,7 @@ function CustomImageEditor({ url }) {
         });
       })
       .catch((err) => {
-        console.error("Something went wrong:", err);
+        console.error('Something went wrong:', err);
       });
   }
 
@@ -148,10 +150,10 @@ function CustomImageEditor({ url }) {
   };
 
   const handleChange = (color) => {
-    let imageEditor = canvasRef.current.getInstance();
+    const imageEditor = canvasRef.current.getInstance();
 
     imageEditor.stopDrawingMode();
-    imageEditor.startDrawingMode("FREE_DRAWING", {
+    imageEditor.startDrawingMode('FREE_DRAWING', {
       width: colorWidth,
       color: color.hex,
     });
@@ -161,22 +163,20 @@ function CustomImageEditor({ url }) {
 
   useEffect(() => {
     $(
-      ".tui-image-editor-container .tui-image-editor-header-buttons div"
+      '.tui-image-editor-container .tui-image-editor-header-buttons div',
     ).replaceWith(
-      '<button class="tui-image-editor-loader-btn" style="background-color: #fff;border: 1px solid #ddd;color: #222;font-family: NotoSans, sans-serif;font-size: 12px" >Recarregar</button>'
+      '<button class="tui-image-editor-loader-btn" style="background-color: #fff;border: 1px solid #ddd;color: #222;font-family: NotoSans, sans-serif;font-size: 12px" >Recarregar</button>',
     );
 
     $(
-      ".tui-image-editor-header-buttons .tui-image-editor-download-btn"
+      '.tui-image-editor-header-buttons .tui-image-editor-download-btn',
     ).remove();
 
     document
       .querySelector(
-        ".tui-image-editor-header-buttons .tui-image-editor-loader-btn"
+        '.tui-image-editor-header-buttons .tui-image-editor-loader-btn',
       )
-      ?.addEventListener("click", LoadImage);
-
-    LoadImage;
+      ?.addEventListener('click', LoadImage);
   }, [canvasRef]);
 
   useEffect(() => {
@@ -188,29 +188,29 @@ function CustomImageEditor({ url }) {
   const styles = reactCSS({
     default: {
       color: {
-        width: "36px",
-        height: "14px",
-        borderRadius: "2px",
+        width: '36px',
+        height: '14px',
+        borderRadius: '2px',
         background: `rgba(${selectedColor.color.r}, ${selectedColor.color.g}, ${selectedColor.color.b}, ${selectedColor.color.a})`,
       },
       swatch: {
-        padding: "5px",
-        background: "#fff",
-        borderRadius: "1px",
-        boxShadow: "0 0 0 1px rgba(0,0,0,.1)",
-        display: "inline-block",
-        cursor: "pointer",
+        padding: '5px',
+        background: '#fff',
+        borderRadius: '1px',
+        boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+        display: 'inline-block',
+        cursor: 'pointer',
       },
       popover: {
-        position: "absolute",
-        zIndex: "2",
+        position: 'absolute',
+        zIndex: '2',
       },
       cover: {
-        position: "fixed",
-        top: "0px",
-        right: "0px",
-        bottom: "0px",
-        left: "0px",
+        position: 'fixed',
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '0px',
       },
     },
   });
@@ -255,25 +255,25 @@ function CustomImageEditor({ url }) {
         ref={canvasRef}
         includeUI={{
           loadImage: {
-            path: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
-            name: "Blank",
+            path: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            name: 'Blank',
           },
           theme,
           menu: [
-            "shape",
-            "filter",
-            "text",
-            "mask",
-            "icon",
-            "crop",
-            "flip",
-            "rotate",
+            'shape',
+            'filter',
+            'text',
+            'mask',
+            'icon',
+            'crop',
+            'flip',
+            'rotate',
           ],
           uiSize: {
-            width: "80%",
-            height: "100%",
+            width: '80%',
+            height: '100%',
           },
-          menuBarPosition: "bottom",
+          menuBarPosition: 'bottom',
         }}
         cssMaxHeight={700}
         cssMaxWidth={1300}
@@ -281,7 +281,7 @@ function CustomImageEditor({ url }) {
           cornerSize: 20,
           rotatingPointOffset: 70,
         }}
-        usageStatistics={true}
+        usageStatistics
       />
     </>
   );
