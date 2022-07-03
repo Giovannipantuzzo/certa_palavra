@@ -1,7 +1,8 @@
-const admin = require('firebase-admin');
-import { initializeApp, getApps } from "firebase/app";
+import { initializeApp, getApps } from 'firebase/app';
 import getStorage from 'firebase/storage';
-import { getAuth, createUserWithEmailAndPassword  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+
+const admin = require('firebase-admin');
 
 const serviceAccount = require('../../serviceAccountKey.json');
 
@@ -9,15 +10,15 @@ const serviceAccount = require('../../serviceAccountKey.json');
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
-    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSEND,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
-  };
-  
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSEND,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
+};
+
 // Initialize Firebase
 if (!getApps().length) {
   initializeApp(firebaseConfig);

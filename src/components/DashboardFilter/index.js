@@ -1,10 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
-import {
-  SearchContainerModal, SearchText,
-  SearchAdvancedTitle, SearchAdvancedContent,
-  SearchAdvancedButtonsAlign, SearchAdvancedButtonSubmit, SearchAdvancedButtonAlignP,
-} from '../../../styles/dashboardFilterStyles';
+
 import DatePicker from '@material-ui/lab/DatePicker';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import TextField from '@mui/material/TextField';
@@ -15,20 +11,25 @@ import {
 } from 'react-bootstrap';
 import ptBR from 'date-fns/locale/pt-BR';
 import { toast } from 'react-toastify';
+import moment from 'moment';
+import {
+  SearchContainerModal, SearchText,
+  SearchAdvancedTitle, SearchAdvancedContent,
+  SearchAdvancedButtonsAlign, SearchAdvancedButtonSubmit, SearchAdvancedButtonAlignP,
+} from '../../../styles/dashboardFilterStyles';
 
 toast.configure();
 
 function DashboardFilter({
-  handleClose, setData, setPendingData,
+  handleClose, getAllAccounts,
 }) {
-  const [firstDate, setFirstDate] = useState();
-  const [secondDate, setSecondDate] = useState();
+  const [firstDate, setFirstDate] = useState(moment().toDate());
+  const [secondDate, setSecondDate] = useState(moment().toDate());
 
-  const handleDataFilter = (firstDate, secondDate) => {
-    //requisição com as redações
+  const handleDataFilter = () => {
+    // requisição com as redações
 
-    setPendingData();
-    setData();
+    getAllAccounts(true, firstDate, secondDate);
     handleClose();
     toast('Filtro aplicado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
   };
@@ -47,17 +48,20 @@ function DashboardFilter({
               onChange={(newDate) => { setFirstDate(newDate); }}
               inputFormat="dd/MM/yyyy"
               style={{
-                color: 'red'
+                color: 'red',
               }}
               renderInput={(props) => (
-                <TextField {...props} helperText={props.error ? "Por favor, selecione uma data válida" : "Selecione uma data"}
+                <TextField
+                  {...props}
+                  helperText={props.error ? 'Por favor, selecione uma data válida' : 'Selecione uma data'}
                   style={{
                     width: '100%',
                     paddingTop: '4px',
                     borderRadius: '5px',
                     border: '1px solid ${({ theme }) => theme.colors.baseGray}',
                     marginBottom: '15px',
-                  }} />
+                  }}
+                />
               )}
             />
           </LocalizationProvider>
@@ -73,13 +77,16 @@ function DashboardFilter({
                 color: 'red',
               }}
               renderInput={(props) => (
-                <TextField {...props} helperText={props.error ? "Por favor, selecione uma data válida" : "Selecione uma data"}
+                <TextField
+                  {...props}
+                  helperText={props.error ? 'Por favor, selecione uma data válida' : 'Selecione uma data'}
                   style={{
                     width: '100%',
                     paddingTop: '4px',
                     borderRadius: '5px',
                     border: '1px solid ${({ theme }) => theme.colors.baseGray}',
-                  }} />
+                  }}
+                />
               )}
             />
           </LocalizationProvider>

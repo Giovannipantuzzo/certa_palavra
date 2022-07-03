@@ -113,7 +113,7 @@ export default function ConfirmModal({
     </div>
   );
   return (
-    <div className={styles['alternatives-vote-quizzes']}>
+    <div className={styles['alternatives-note']}>
       <Modal
         open={open}
         onClose={handleClose}

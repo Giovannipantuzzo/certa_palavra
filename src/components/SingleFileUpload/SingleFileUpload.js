@@ -44,7 +44,6 @@ function SingleFileUpload({
 
   function getDownloads() {
     try {
-      console.log('biro')
       // managerService.download(archiveId).then((response) => {
       //   FileSaver.saveAs(response, field);
       // });
