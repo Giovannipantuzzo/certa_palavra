@@ -21,7 +21,6 @@ module.exports = {
       const users = await connection('user')
         .where('type', 'Corretor')
         .select('*');
-      console.log("🚀 ~ file: UserModel.js ~ line 22 ~ getAllCorretores ~ users", users)
       return users;
     } catch (error) {
       console.error(error);

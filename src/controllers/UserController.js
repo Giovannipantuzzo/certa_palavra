@@ -18,7 +18,6 @@ export async function getOne(request, response) {
 
 export async function getAllCorretores(request, response) {
   try {
-    console.log('TESTE')
     const users = await UserModel.getAllCorretores();
     return response.status(200).json(users);
   } catch (error) {

@@ -30,7 +30,6 @@ export default function Editor() {
   const [loading, setLoading] = useState(false);
   const [progresspercent, setProgresspercent] = useState(0);
   const [open, setOpen] = useState(false);
-  console.log(dados);
 
   function handleChange(value, field) {
     setError({ ...initialErrorState, [field]: false });
