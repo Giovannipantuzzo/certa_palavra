@@ -130,7 +130,7 @@ export const Submit = styled.button`
     font-family: Roboto;
     font-size: 20px;
     font-weight: 500;
-    background-color: ${({ theme }) => theme.colors.lightGreen};
+    background-color: ${({ theme }) => theme.colors.green};
     color: white;
     border: 0;
     border-radius: 5px;

@@ -2,24 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import MenuHome from '../../src/components/MenuHome';
 import {
-  MeanHomeContainer,
-  SideMenuDashboard,
-  MeanDashboard,
+  MeanHomeContainer, SideMenuDashboard, MeanDashboard,
+  UsersCounter, UsersCounterLine,
 } from '../../styles/homeStyles';
 import InternalChangePassword from '../../src/components/InternalChangePassword';
 import AdminDashboard from '../../src/components/AdminDashboard';
 import MainDashboard from '../../src/components/MainDashboard';
 import { useAuth } from '../../src/contexts/AuthContext';
 import { useRouter } from 'next/router';
+import api from '../../src/utils/api';
 
 toast.configure();
 
 function Intranet() {
   const [selectedButton, setSelectedButton] = useState('');
+  const [usersCounter, setUsersCounter] = useState(0);
   const { logout, user } = useAuth();
   const router = useRouter();
 
+  const usersNumber = async () => {
+    try {
+      const response = await api.get('/users');
+      setUsersCounter(response.data?.length);
+    } catch (error) {
+      router.push('/404');
+      toast('Erro ao obter dados', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
+  };
+
   useEffect(() => {
+    usersNumber();
     if (user?.type === 'Admin') setSelectedButton('DashboardAdmin');
     else if (user?.type === 'Corretor') setSelectedButton('DashboardCorretor');
     else setSelectedButton('Home');
@@ -41,14 +53,22 @@ function Intranet() {
   };
 
   return (
-    <MeanHomeContainer>
-      <SideMenuDashboard>
-        <MenuHome setSelectedButton={setSelectedButton} selectedButton={selectedButton} />
-      </SideMenuDashboard>
-      <MeanDashboard>
-        {menuDashboard()}
-      </MeanDashboard>
-    </MeanHomeContainer>
+    <>
+      {user?.type === 'Admin' && (
+        <UsersCounter>
+          Número de usuários: {usersCounter}
+          <UsersCounterLine />
+        </UsersCounter>
+      )}
+      <MeanHomeContainer>
+        <SideMenuDashboard>
+          <MenuHome setSelectedButton={setSelectedButton} selectedButton={selectedButton} />
+        </SideMenuDashboard>
+        <MeanDashboard>
+          {menuDashboard()}
+        </MeanDashboard>
+      </MeanHomeContainer>
+    </>
   );
 }
 

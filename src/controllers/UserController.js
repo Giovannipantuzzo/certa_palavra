@@ -17,9 +17,21 @@ export async function getOne(request, response) {
 }
 
 export async function getAllCorretores(request, response) {
-  const { firstDate, secondDate } = request.query;
   try {
+    const { firstDate, secondDate } = request.query;
     const users = await UserModel.getAllCorretores(firstDate, secondDate);
+    return response.status(200).json(users);
+  } catch (error) {
+    if (error?.message) {
+      return response.status(400).json({ notification: error.message });
+    }
+    return response.status(500).json({ notification: 'Internal Server Error' });
+  }
+}
+
+export async function getAllUsers(request, response) {
+  try {
+    const users = await UserModel.getAllUsers();
     return response.status(200).json(users);
   } catch (error) {
     if (error?.message) {

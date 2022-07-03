@@ -58,21 +58,26 @@ export default function MainDashboard() {
   };
 
   const getRedactions = async () => {
-    const response = await api.get('/redaction', {
-      params: {
-        status: true,
-      }
-    });
+    try {
+      const response = await api.get('/redaction', {
+        params: {
+          status: true,
+        }
+      });
 
-    const responsePending = await api.get('/redaction', {
-      params: {
-        status: false,
-      }
-    });
+      const responsePending = await api.get('/redaction', {
+        params: {
+          status: false,
+        }
+      });
 
-    setData(response?.data);
-    setPendingData(responsePending?.data);
-    setLoading(false);
+      setData(response?.data);
+      setPendingData(responsePending?.data);
+      setLoading(false);
+    } catch (error) {
+      router.push('/404');
+      toast('Erro ao obter redações', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
   };
 
   useEffect(() => {
@@ -125,7 +130,7 @@ export default function MainDashboard() {
         ) : (
           <>
             {data && data.map((redaction) => {
-              { console.log("🚀 ~ file: index.js ~ line 122 ~ {data&&data.map ~ redaction", redaction) }
+              // { console.log("🚀 ~ file: index.js ~ line 122 ~ {data&&data.map ~ redaction", redaction) }
               <BodyRedactionCard>
                 <CardRedaction>
                   <TitleCardRedaction type="button" onClick={handleOpen2}>

@@ -29,10 +29,23 @@ module.exports = {
           .where('corrected_redactions.created_at', '>=', `${firstDate}`)
           .where('corrected_redactions.created_at', '<', `${secondDate}`)
           .select('*') : await connection('corrected_redactions')
-          .where('firebase_id', corrector.firebase_id)
-          .select('*');
+            .where('firebase_id', corrector.firebase_id)
+            .select('*');
         corrector.correctedRedactions = correctedRedactions.length;
       }
+
+      return users;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  },
+
+  async getAllUsers(firstDate, secondDate) {
+    try {
+      const users = await connection('user')
+        .where('type', 'User')
+        .select('name');
 
       return users;
     } catch (error) {

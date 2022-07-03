@@ -168,7 +168,7 @@ export default function Signup() {
                           paddingTop: '4px',
                           borderRadius: '5px',
                           border: '1px solid ${({ theme }) => theme.colors.baseGray}',
-                          background: '#F2F2F2',
+                          background: '#F8F8F8',
                         }} />
                     )}
                   />
@@ -266,14 +266,6 @@ export default function Signup() {
                 <Submit onClick={handleSubmit}>Cadastrar</Submit>
 
                 <br />
-                <FormGroup>
-                  <FormLabel align="center">
-                    Você já tem Cadastro?
-                    <Link href="/login">
-                      <ButtonLogin>Login</ButtonLogin>
-                    </Link>
-                  </FormLabel>
-                </FormGroup>
               </Buttons>
             </FormRegister>
 
