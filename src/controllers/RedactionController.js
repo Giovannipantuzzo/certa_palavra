@@ -18,7 +18,8 @@ export async function getOne(request, response) {
 
 export async function getAll(request, response) {
   try {
-    const redactions = await RedactionModel.getAllRedactions();
+    const { status } = request.query;
+    const redactions = await RedactionModel.getAllRedactions(status);
     return response.status(200).json(redactions);
   } catch (error) {
     if (err.message) {

@@ -16,10 +16,11 @@ module.exports = {
     }
   },
 
-  async getAllRedactions() {
+  async getAllRedactions(status) {
     try {
       const redactions = await connection('redaction')
-        .select('*');
+        .select('*')
+        .where('status', status);
       return redactions;
     } catch (error) {
       console.error(error);

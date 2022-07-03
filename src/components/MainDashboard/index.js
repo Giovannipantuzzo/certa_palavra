@@ -8,7 +8,7 @@ import {
   TitleCardsRedactionPage, TitleCardsRedactionPageH1, LineTableCardsRedaction,
   LoaderCardsRedaction, BodyRedactionCard, CardRedaction,
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
-  DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus,
+  DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
 } from '../../../styles/mainDashboardStyle'
 import ModalRedacao from '../ModalRedacao';
 import { FaFilter } from 'react-icons/fa';
@@ -49,19 +49,29 @@ export default function MainDashboard() {
   const rateRedaction = async (rate) => {
     if (rate === 'like') {
       console.log("🚀 ~ file: index.js ~ line 51 ~ rateRedaction ~ rate", rate)
-      // await api.put('');
+      // await api.put('', 'like');
     } else {
       console.log("🚀 ~ file: index.js ~ line 54 ~ rateRedaction ~ rate", rate)
-      // await api.put('',);
+      // await api.put('', ''dislike'');
     }
     getRedactions();
   };
 
   const getRedactions = async () => {
-    const response = await api.get('/redaction');
+    const response = await api.get('/redaction', {
+      params: {
+        status: true,
+      }
+    });
 
-    setPendingData();
-    setData(response.data);
+    const responsePending = await api.get('/redaction', {
+      params: {
+        status: false,
+      }
+    });
+
+    setData(response?.data);
+    setPendingData(responsePending?.data);
     setLoading(false);
   };
 
@@ -95,16 +105,12 @@ export default function MainDashboard() {
                     {' '}
                     redação 1
                   </TitleCardRedactionP>
-                  <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
+                  <ContainerRedactionDate>
+                    <h5>Data de envio: 27/06/2022</h5>
+                  </ContainerRedactionDate>
                 </TitleCardRedaction>
               </CardRedaction>
             </BodyRedactionCard>
-
-            {open === true && (
-              <DescriptionCardRedactions>
-                <DescriptionCardRedactionsP>Redação aqui</DescriptionCardRedactionsP>
-              </DescriptionCardRedactions>
-            )}
           </>
         )}
         <TitleCardsRedactionPage>
