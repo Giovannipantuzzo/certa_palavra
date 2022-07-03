@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import Modal from '@material-ui/core/Modal';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { toast } from 'react-toastify';
 import { makeStyles } from '@material-ui/styles';
+import api from '../../utils/api';
 
 toast.configure();
 
@@ -59,6 +60,18 @@ export default function AdminDashboardRow({
     setOpen(true);
   };
 
+  async function deleteImage() {
+    try {
+      await api.delete(`/user/${id}`);
+      setUse(true);
+      toast('Corretor deletado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(error);
+      toast('Erro ao deletar a corretor.', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
+  }
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -80,7 +93,7 @@ export default function AdminDashboardRow({
           className="edit-comunic-modal-ButtonConfirm"
           onClick={(e) => {
             e.preventDefault();
-            handleSubmit();
+            deleteImage();
             handleClose();
           }}
           type="button"
@@ -93,7 +106,7 @@ export default function AdminDashboardRow({
   return (
     <div>
       <button type="button" className="edit-comunic-modal-edit-group" onClick={handleOpen}>
-        <EditIcon style={{ color: '#2F5C88', cursor: 'pointer' }} />
+        <DeleteIcon style={{ color: '#2F5C88', cursor: 'pointer' }} />
       </button>
       <Modal
         open={open}

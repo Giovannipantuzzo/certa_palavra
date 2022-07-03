@@ -43,7 +43,6 @@ export function isAdmin(handler) {
   });
 }
 
-
 // Quando as rotas só devem estar acessíveis para administradores ou para o próprio usuário (exemplo: deletar um usuário)
 export function isAdminOrSelf(handler) {
   return withAuthValidation((req, res) => {

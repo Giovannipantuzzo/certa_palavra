@@ -1,5 +1,5 @@
 
-.register-associate-container{
+.register-note-container{
     align-items: center;
     width: 100%;
     height: 100%;
@@ -10,7 +10,7 @@
 
 }
 
-.register-associate-container h1{
+.register-note-container h1{
     font-family: "Roboto", sans-serif;
     font: normal 18pt Roboto;
     align-items: center;
@@ -21,13 +21,13 @@
     text-align: center;
     margin-top: 25px;
 }
-.register-associate-container h2 {
+.register-note-container h2 {
     font-family: "Roboto", sans-serif;
     font: normal 15pt Roboto;
     margin: 5vh;
   }
 
-.register-associate-text-field{
+.register-note-text-field{
     padding: 15px;
     margin: 15px;
     display: grid;
@@ -39,12 +39,12 @@
 
 }
 
-.register-associate-title{
+.register-note-title{
     background-color:#1C3854;
     color: #FFFFFF;
 }
 
-.register-associate-text-margin{
+.register-note-text-margin{
     margin-top: 5px;
     margin-bottom: 5px;
     padding-top: 5px;
@@ -52,13 +52,13 @@
 }
 
 @media screen and (max-width: 420px){
-    .register-associate-text-field{
+    .register-note-text-field{
         padding: 0px;
         grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); 
 
     }
 
-    .register-associate-text-margin{
+    .register-note-text-margin{
         margin-top: 5px;
         margin-bottom: 5px;
         padding-top: 5px;

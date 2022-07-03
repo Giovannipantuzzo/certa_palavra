@@ -17,12 +17,13 @@ export async function getOne(request, response) {
 }
 
 export async function getAllCorretores(request, response) {
+  const { firstDate, secondDate } = request.query;
   try {
-    const users = await UserModel.getAllCorretores();
+    const users = await UserModel.getAllCorretores(firstDate, secondDate);
     return response.status(200).json(users);
   } catch (error) {
-    if (err.message) {
-      return response.status(400).json({ notification: err.message });
+    if (error?.message) {
+      return response.status(400).json({ notification: error.message });
     }
     return response.status(500).json({ notification: 'Internal Server Error' });
   }
@@ -33,7 +34,8 @@ export async function create(request, response) {
   let firebase_id;
 
   try {
-    const regex = new RegExp('.+@.+\..+');
+    const newLocal = '.+@.+\\..+';
+    const regex = new RegExp(newLocal);
     if (!regex.test(request.body.email)) {
       throw new Error('Formato de email inválido');
     }

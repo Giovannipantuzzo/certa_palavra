@@ -24,23 +24,25 @@ import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import TableFooter from '@mui/material/TableFooter';
 import { useMediaQuery, CircularProgress } from '@mui/material/';
-import AdminDashboardRow from '../AdminDashboardRow';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
 import api from '../../utils/api';
+import AdminDashboardRow from '../AdminDashboardRow';
+import DashboardFilter from '../DashboardFilter/index';
 
 const titleTable = 'Lista de corretores';
 
 const titles = [
-  '', 'Nome', 'Nº correções no mês atual',
-]
-
-const rows = [
-  'TESTE', '0',
-]
+  'Excluir',
+  'Nome',
+  'Nº correções',
+  'Email',
+  'Celular',
+];
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -120,7 +122,9 @@ function TableComponent({
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(false);
   const [data, setData] = useState(rows);
-  const [corretores, setCorretores] = useState([]);
+  const [rows, setRows] = useState([]);
+  const [id, setId] = useState([]);
+  const [use, setUse] = useState(true);
   const [loading, setLoading] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -128,6 +132,53 @@ function TableComponent({
   const matchesFont90 = useMediaQuery('(max-width:930px)');
   const matchesFont85 = useMediaQuery('(max-width:680px)');
   const matchesFont400px = useMediaQuery('(max-width:400px)');
+
+  function createData(name, correctedRedactions, email, phone) {
+    return {
+      name, correctedRedactions, email, phone,
+    };
+  }
+
+  const getAllAccounts = async (filter, firstDate, secondDate) => {
+    setLoading(true);
+    const auxCorretor = [];
+    const corretorId = [];
+
+    try {
+      const allAccounts = filter ? await api.get('/user', {
+        params: {
+          firstDate,
+          secondDate,
+        },
+      }) : await api.get('/user');
+      allAccounts.data.forEach((object) => {
+        auxCorretor.push(createData(
+          object.name,
+          object.correctedRedactions,
+          object.email,
+          object.phone,
+        ));
+      });
+      allAccounts.data.forEach((object) => {
+        corretorId.push(object.firebase_id);
+      });
+      auxCorretor.sort((a, b) => ((a.name > b.name) ? 1 : (a.email === b.email) ? ((a.cpf > b.cpf) ? 1 : -1) : -1));
+      setRows(auxCorretor);
+      setId(corretorId);
+      setUse(false);
+      setLoading(false);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(error);
+      toast.error('Não foi possível obter os corretores!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    }
+  };
+  useEffect(() => {
+    getAllAccounts();
+  }, [use]);
 
   const footerProps = {
     sx: matchesFont400px
@@ -291,17 +342,6 @@ function TableComponent({
     setOpen(false);
   };
 
-  const getData = async () => {
-    console.log("🚀 ~ file: index.js ~ line 295 ~ getData ~ TESTE")
-    const response = await api.get(`/user/corretores`);
-    console.log("🚀 ~ file: index.js ~ line 296 ~ getData ~ response", response)
-    setCorretores(response.data);
-  };
-
-  useEffect(() => {
-    getData(rows);
-  }, []);
-
   return (
     <TableContainer
       component={Paper}
@@ -336,21 +376,20 @@ function TableComponent({
           </TableRow>
         </TableHead>
         <TableBody>
-          {!loading && data
+          {!loading && rows
             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             ?.map((row, index) => (
               <TableRow>
                 <TableCell {...cellFontProps} align="center">
                   <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <AdminDashboardRow
-                      // id={modelsSequentialId[index + (page * 10)]}
+                      id={id[index + (page * 10)]}
                       model={row}
-                      // setUse={setUse}
+                      setUse={setUse}
                       page={page}
                     />
                   </div>
                 </TableCell>
-                  )}
                 {Object.values(row)?.map((obj) => (
                   <TableCell {...cellFontProps}>
                     {obj}
@@ -430,7 +469,7 @@ function TableComponent({
                   aria-labelledby="simple-modal-title"
                   aria-describedby="simple-modal-description"
                 >
-                  <SearchAdvancedAccount handleClose={handleClose} setData={setData} rows={rows} dados={dados} />
+                  <DashboardFilter handleClose={handleClose} setData={setData} rows={rows} dados={dados} getAllAccounts={getAllAccounts} />
                 </Modal>
               </div>
             )}
