@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import Modal from '@material-ui/core/Modal';
 import { toast } from 'react-toastify';
 import CloseIcon from '@mui/icons-material/Close';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { createTheme, ThemeProvider } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import FormInputs from '../formsInputs/registerQuizz';
+// import FormInputs from '../formsInputs/registerQuizz';
+import {
+  SendRedactionButton, SendRedactionButtonP,
+
+} from '../../../styles/modalRedacaoStyle';
 
 function getModalStyle() {
   const top = 50;
@@ -30,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     maxHeight: '95%',
     borderRadius: '8px',
-    boxShadow: theme.palette.color4,
+    boxShadow: 'black',
     padding: '1% 1%',
     // eslint-disable-next-line no-useless-computed-key
     ['@media (max-width:900px)']: {
@@ -130,7 +134,7 @@ export default function ModalEnquete({ setNewQuizz }) {
         onClick={handleOpen}
       >
         <SendRedactionButtonP>
-          Criar
+          Enviar
         </SendRedactionButtonP>
         <AddCircleOutlineIcon />
       </SendRedactionButton>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import { useMediaQuery } from '@mui/material';
@@ -11,6 +11,8 @@ import {
   DescriptionCardRedactionsP,
 } from '../../../styles/mainDashboardStyle'
 import ModalRedacao from '../ModalRedacao';
+import { FaFilter } from 'react-icons/fa';
+import DashboardFilter from '../DashboardFilter';
 
 // const matches = useMediaQuery('(max-width:411px)');
 
@@ -23,8 +25,11 @@ import ModalRedacao from '../ModalRedacao';
 
 export default function MainDashboard() {
   const [loading, setLoading] = useState(false);
+  const [pendingData, setPendingData] = useState([]);
+  const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
   const { user } = useAuth();
 
   const handleOpen = () => {
@@ -35,12 +40,26 @@ export default function MainDashboard() {
     setOpen2(!open2);
   };
 
+  const handleFilter = () => {
+    setOpenFilter(!openFilter);
+  };
+
+  useEffect(() => {
+    setPendingData();
+    setData();
+  }, []);
+
   return (
     <ContainerCardsRedaction>
       <DivisionCardsRedaction>
         <TitleCardsRedactionPage>
-          <TitleCardsRedactionPageH1>Redações Corrigidas</TitleCardsRedactionPageH1>
-          <ModalRedacao />
+          <TitleCardsRedactionPageH1>Redações Enviadas: 18</TitleCardsRedactionPageH1>
+          {user?.type === 'Corretor' ? <FaFilter onClick={handleFilter} style={{
+            color: '#91ca6c',
+            marginTop: '10px',
+            marginRight: '5px',
+            cursor: 'pointer',
+          }} /> : <ModalRedacao />}
         </TitleCardsRedactionPage>
         <LineTableCardsRedaction />
         {loading ? (
@@ -56,7 +75,7 @@ export default function MainDashboard() {
                     {' '}
                     redação 1
                   </TitleCardRedactionP>
-                  <KeyboardArrowDownIcon style={{ color: `${({ theme }) => theme.colors.primary}` }} />
+                  <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
                 </TitleCardRedaction>
               </CardRedaction>
             </BodyRedactionCard>
@@ -69,7 +88,7 @@ export default function MainDashboard() {
           </>
         )}
         <TitleCardsRedactionPage>
-          <TitleCardsRedactionPageH1>Redações Enviadas</TitleCardsRedactionPageH1>
+          <TitleCardsRedactionPageH1>Redações Corrigidas: 12</TitleCardsRedactionPageH1>
           {/* <ModalEnquete /> */}
         </TitleCardsRedactionPage>
         <LineTableCardsRedaction />
@@ -86,7 +105,7 @@ export default function MainDashboard() {
                     {' '}
                     redação 2
                   </TitleCardRedactionP>
-                  <KeyboardArrowDownIcon style={{ color: `${({ theme }) => theme.colors.primary}` }} />
+                  <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
                 </TitleCardRedaction>
               </CardRedaction>
             </BodyRedactionCard>
@@ -99,6 +118,11 @@ export default function MainDashboard() {
           </>
         )}
       </DivisionCardsRedaction>
+      {openFilter && (<DashboardFilter
+        handleClose={handleFilter}
+        setData={setData}
+        setPendingData={setPendingData}
+      />)}
     </ContainerCardsRedaction>
   );
 }

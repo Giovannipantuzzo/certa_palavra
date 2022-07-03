@@ -6,16 +6,20 @@ export const SendRedactionButton = styled.div`
   justify-content: center;
   font-size: 20px;
   background: transparent;
+  color: ${({ theme }) => theme.colors.green};
   border-radius: 6px;
   border: 2px solid transparent;
-  margin-bottom: 10px;
   height: auto;
   padding: 5px;
   cursor: pointer;
+  margin: 0;
+  margin-top: 19px;
 `;
 
 export const SendRedactionButtonP = styled.p`
-  font-size: 1em;
+  font-size: 0.8em;
+  color: ${({ theme }) => theme.colors.green};
+  margin-right: 3px;
 `;
 
 export const MeanDashboard = styled.div`

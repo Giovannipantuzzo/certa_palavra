@@ -35,10 +35,7 @@ export function withAuthValidation(handler) {
 // Quando precisa validar que o usuário é um administrador logado antes de operar a requisição
 export function isAdmin(handler) {
   return withAuthValidation((req, res) => {
-    console.log('DESGRAÇA')
     const { user: { type } } = req.session.get('user');
-
-    console.log('DESGRAÇA2')
     if (type === 'Admin') {
       return handler(req, res);
     }
