@@ -20,6 +20,7 @@ font-family: Quicksand;
 
 export const Edit = styled.div`
   display: flex;
+  width: 30%;
   justify-content: center;
   background-color: white;
   border-radius: 5px;
