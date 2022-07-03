@@ -86,6 +86,12 @@ export const TitleCardRedactionP = styled.p`
   word-break: break-all;
 `;
 
+export const RedactionsIcons = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const DescriptionCardRedactions = styled.div`
   display: flex;
   flex-direction: column;
@@ -108,5 +114,16 @@ export const DescriptionCardRedactionsP = styled.p`
   word-break: break-all;
   flex-wrap: wrap;
 `;
+
+export const ContainerRedactionStatus = styled.div`
+  display: flex;
+  width: 40px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  background: #91ca6c;
+  border-radius: 6px;
+`;
+
 
 

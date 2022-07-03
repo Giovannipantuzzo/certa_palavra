@@ -8,11 +8,13 @@ import {
   TitleCardsRedactionPage, TitleCardsRedactionPageH1, LineTableCardsRedaction,
   LoaderCardsRedaction, BodyRedactionCard, CardRedaction,
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
-  DescriptionCardRedactionsP,
+  DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus,
 } from '../../../styles/mainDashboardStyle'
 import ModalRedacao from '../ModalRedacao';
 import { FaFilter } from 'react-icons/fa';
+import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import DashboardFilter from '../DashboardFilter';
+import api from '../../utils/api';
 
 // const matches = useMediaQuery('(max-width:411px)');
 
@@ -24,7 +26,7 @@ import DashboardFilter from '../DashboardFilter';
 // };
 
 export default function MainDashboard() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [pendingData, setPendingData] = useState([]);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
@@ -44,9 +46,27 @@ export default function MainDashboard() {
     setOpenFilter(!openFilter);
   };
 
-  useEffect(() => {
+  const rateRedaction = async (rate) => {
+    if (rate === 'like') {
+      console.log("🚀 ~ file: index.js ~ line 51 ~ rateRedaction ~ rate", rate)
+      // await api.put('');
+    } else {
+      console.log("🚀 ~ file: index.js ~ line 54 ~ rateRedaction ~ rate", rate)
+      // await api.put('',);
+    }
+    getRedactions();
+  };
+
+  const getRedactions = async () => {
+    const response = await api.get('/redaction');
+
     setPendingData();
-    setData();
+    setData(response.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getRedactions();
   }, []);
 
   return (
@@ -88,7 +108,7 @@ export default function MainDashboard() {
           </>
         )}
         <TitleCardsRedactionPage>
-          <TitleCardsRedactionPageH1>Redações Corrigidas: 12</TitleCardsRedactionPageH1>
+          <TitleCardsRedactionPageH1>Redações Corrigidas: {data?.lenght} </TitleCardsRedactionPageH1>
           {/* <ModalEnquete /> */}
         </TitleCardsRedactionPage>
         <LineTableCardsRedaction />
@@ -98,31 +118,60 @@ export default function MainDashboard() {
           </LoaderCardsRedaction>
         ) : (
           <>
-            <BodyRedactionCard>
-              <CardRedaction>
-                <TitleCardRedaction type="button" onClick={handleOpen2}>
-                  <TitleCardRedactionP>
-                    {' '}
-                    redação 2
-                  </TitleCardRedactionP>
-                  <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
-                </TitleCardRedaction>
-              </CardRedaction>
-            </BodyRedactionCard>
-
-            {open2 === true && (
-              <DescriptionCardRedactions>
-                <DescriptionCardRedactionsP>Redação aqui</DescriptionCardRedactionsP>
-              </DescriptionCardRedactions>
-            )}
+            {data && data.map((redaction) => {
+              { console.log("🚀 ~ file: index.js ~ line 122 ~ {data&&data.map ~ redaction", redaction) }
+              <BodyRedactionCard>
+                <CardRedaction>
+                  <TitleCardRedaction type="button" onClick={handleOpen2}>
+                    <TitleCardRedactionP>
+                      {' '}
+                      {/* {redaction.title} */}
+                      redação aqui
+                    </TitleCardRedactionP>
+                    <ContainerRedactionStatus>
+                      <h5>960</h5>
+                    </ContainerRedactionStatus>
+                    <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
+                  </TitleCardRedaction>
+                </CardRedaction>
+              </BodyRedactionCard>
+              {
+                open2 === true && (
+                  <DescriptionCardRedactions>
+                    <DescriptionCardRedactionsP>Redação aqui</DescriptionCardRedactionsP>
+                    <RedactionsIcons>
+                      <AiOutlineLike style={{
+                        height: '25px',
+                        width: '25px',
+                        marginRight: '2%',
+                        color: `${data === true ? '#91ca6c' : 'black'}`,
+                        cursor: 'pointer',
+                      }}
+                        onClick={() => rateRedaction('like')}
+                      />
+                      <AiOutlineDislike style={{
+                        height: '25px',
+                        width: '25px',
+                        color: `${data === true ? '#91ca6c' : 'black'}`,
+                        cursor: 'pointer',
+                      }}
+                        onClick={() => rateRedaction('dislike')}
+                      />
+                    </RedactionsIcons>
+                  </DescriptionCardRedactions>
+                )
+              }
+            })}
           </>
         )}
       </DivisionCardsRedaction>
-      {openFilter && (<DashboardFilter
-        handleClose={handleFilter}
-        setData={setData}
-        setPendingData={setPendingData}
-      />)}
-    </ContainerCardsRedaction>
+      {
+        openFilter && (<DashboardFilter
+          handleClose={handleFilter}
+          setData={setData}
+          setPendingData={setPendingData}
+        />)
+      }
+    </ContainerCardsRedaction >
   );
 }
