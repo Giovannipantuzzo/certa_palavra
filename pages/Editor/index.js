@@ -10,7 +10,7 @@ import RegisterInputs from '../../src/components/FormsInputs/registerInputs';
 import ConfirmModal from '../../src/components/ConfirmModal/ConfirmModal';
 import { initialEditNoteState, initialEditNoteErrorState } from '../../src/components/InitialStates/initialStates';
 import styles from '../../styles/registroNota.module.css';
-import styles2 from './Editor.module.css';
+import styles2 from '../../styles/Editor.module.css';
 import { dataURLtoFile } from '../../src/components/ImageEditor/dataUrlToFile';
 import { storage } from '../../src/components/ImageEditor/firebaseStorage';
 import api from '../../src/utils/api';
