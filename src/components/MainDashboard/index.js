@@ -54,9 +54,11 @@ export default function MainDashboard() {
 
   const rateRedaction = async (rate, redaction_id) => {
     if (rate === 'like') {
-      await api.put('/correctedRedactions', { rate: true, firebase_id: user.firebase_id, redaction_id: redaction_id });
+      await api.put('/correctedRedactions',
+        { rate: true, firebase_id: user.firebase_id, redaction_id: redaction_id });
     } else {
-      await api.put('/correctedRedactions', { rate: false, firebase_id: user.firebase_id, redaction_id: redaction_id });
+      await api.put('/correctedRedactions',
+        { rate: false, firebase_id: user.firebase_id, redaction_id: redaction_id });
     }
     getRedactions();
   };
