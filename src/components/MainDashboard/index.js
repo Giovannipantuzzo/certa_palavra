@@ -4,8 +4,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FaFilter } from 'react-icons/fa';
 import { AiOutlineLike, AiOutlineDislike, AiOutlineSend } from 'react-icons/ai';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
-import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import { useAuth } from '../../contexts/AuthContext';
 import {
   ContainerCardsRedaction, DivisionCardsRedaction,
   TitleCardsRedactionPage, TitleCardsRedactionPageH1, LineTableCardsRedaction,
@@ -17,7 +18,6 @@ import {
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
 import api from '../../utils/api';
-import { useRouter } from 'next/router';
 
 toast.configure();
 
@@ -57,11 +57,15 @@ export default function MainDashboard() {
   const rateRedaction = async (rate, redaction_id) => {
     try {
       if (rate === 'like') {
-        await api.put('/correctedRedactions',
-          { rate: true, firebase_id: user.firebase_id, redaction_id: redaction_id });
+        await api.put(
+          '/correctedRedactions',
+          { rate: true, firebase_id: user.firebase_id, redaction_id },
+        );
       } else {
-        await api.put('/correctedRedactions',
-          { rate: false, firebase_id: user.firebase_id, redaction_id: redaction_id });
+        await api.put(
+          '/correctedRedactions',
+          { rate: false, firebase_id: user.firebase_id, redaction_id },
+        );
       }
       getRedactions();
     } catch (error) {
@@ -71,8 +75,6 @@ export default function MainDashboard() {
 
   const commentOnRedaction = async (redaction_id) => {
     try {
-
-
       getRedactions();
     } catch (error) {
       toast('Erro ao comentar sobre correção/redação', { position: toast.POSITION.BOTTOM_RIGHT });
@@ -87,25 +89,25 @@ export default function MainDashboard() {
         response = await api.get('/redaction', {
           params: {
             status: true,
-          }
+          },
         });
         responsePending = await api.get('/redaction', {
           params: {
             status: false,
-          }
+          },
         });
       } else {
         response = await api.get('/redaction', {
           params: {
             status: true,
             firebase_id: user.firebase_id,
-          }
+          },
         });
         responsePending = await api.get('/redaction', {
           params: {
             status: false,
             firebase_id: user.firebase_id,
-          }
+          },
         });
       }
       setData(response?.data);
@@ -125,8 +127,14 @@ export default function MainDashboard() {
     <ContainerCardsRedaction>
       <DivisionCardsRedaction>
         <TitleCardsRedactionPage>
-          <TitleCardsRedactionPageH1>Redações {user?.type === 'Corretor' ?
-            'Pendentes' : 'Enviadas'}: {pendingData.length}
+          <TitleCardsRedactionPageH1>
+            Redações
+            {' '}
+            {user?.type === 'Corretor'
+              ? 'Pendentes' : 'Enviadas'}
+            :
+            {' '}
+            {pendingData.length}
           </TitleCardsRedactionPageH1>
           {user?.type === 'Admin' ? (
             <FaFilter
@@ -156,10 +164,18 @@ export default function MainDashboard() {
                       {redaction.title}
                     </TitleCardRedactionP>
                     <ContainerRedactionDate>
-                      <h5>Data de envio: {dataNascimentoFormatada(redaction?.created_at)}</h5>
-                      {user?.type === 'Corretor' && <MdOutlineModeEditOutline
-                        style={{ height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px' }}
-                      />}
+                      <h5>
+                        Data de envio:
+                        {' '}
+                        {dataNascimentoFormatada(redaction?.created_at)}
+                      </h5>
+                      {user?.type === 'Corretor' && (
+                      <MdOutlineModeEditOutline
+                        style={{
+                          height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px',
+                        }}
+                      />
+                      )}
                     </ContainerRedactionDate>
                   </TitleCardRedaction>
                 </CardRedaction>
@@ -240,12 +256,13 @@ export default function MainDashboard() {
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         />
-                        <AiOutlineSend style={{
-                          cursor: 'pointer',
-                          marginTop: '10px',
-                          marginLeft: '10px',
-                          color: '#91ca6c',
-                        }}
+                        <AiOutlineSend
+                          style={{
+                            cursor: 'pointer',
+                            marginTop: '10px',
+                            marginLeft: '10px',
+                            color: '#91ca6c',
+                          }}
                           onClick={() => commentOnRedaction(redaction.redaction_id)}
                         />
                       </MyFormGroup>

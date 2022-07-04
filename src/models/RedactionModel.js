@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-async-promise-executor */
 const { connection } = require('../database/connection');
 
@@ -25,6 +26,12 @@ module.exports = {
           .where('status', status)
           .where('firebase_id', firebase_id)
           .select('*');
+        for (const redaction of response) {
+          const correctedRedaction = await connection('corrected_redactions')
+            .where('redaction_id', redaction.redaction_id)
+            .first();
+          redaction.rate = correctedRedaction.rate;
+        }
       } else {
         response = await connection('redaction')
           .where('status', status)
