@@ -19,20 +19,26 @@ export async function getOne(request, response) {
 export async function getAll(request, response) {
   try {
     const { status, firebase_id, firstDate, secondDate } = request.query;
-    const redactions = firebase_id ? await RedactionModel.getAllRedactions(
-      status,
-      firebase_id,
-    ) : (
-      await RedactionModel.getAllRedactionsFiltered(
+    let redactions;
+    console.log("🚀 ~ file: RedactionController.js ~ line 24 ~ getAll ~ firebase_id", firebase_id)
+    if (firebase_id) {
+      redactions = await RedactionModel.getAllRedactions(
+        status,
+        firebase_id,
+      );
+    } else if (firstDate && secondDate) {
+      redactions = await RedactionModel.getAllRedactionsFiltered(
         status,
         firstDate,
         secondDate,
-      )
-    );
+      );
+    } else {
+      redactions = await RedactionModel.getAllRedactions(status);
+    }
     return response.status(200).json(redactions);
   } catch (error) {
-    if (err.message) {
-      return response.status(400).json({ notification: err.message });
+    if (error.message) {
+      return response.status(400).json({ notification: error.message });
     }
     return response.status(500).json({ notification: 'Internal Server Error' });
   }
