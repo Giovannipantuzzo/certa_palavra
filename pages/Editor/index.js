@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
+/* eslint-disable guard-for-in */
+import React, { useState, useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import LoadingButton from '@mui/lab/LoadingButton';
 import dynamic from 'next/dynamic';
 import { toast } from 'react-toastify';
 import { FormControl } from '@mui/material';
+import { useRouter } from 'next/router';
 import formsCadastroNota from '../../src/components/FormsData/formsCadastroNota';
 import RegisterInputs from '../../src/components/FormsInputs/registerInputs';
 import ConfirmModal from '../../src/components/ConfirmModal/ConfirmModal';
@@ -21,16 +23,32 @@ const DynamicComponentWithNoSSR = dynamic(
   { ssr: false },
 );
 
-const Editor = () => {
-  const [url, setUrl] = useState(
-    'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/526px-Wikipedia-logo-v2.svg.png',
-  );
+function Editor() {
+  const router = useRouter();
+  const { redaction_id } = router.query;
+  const [url, setUrl] = useState();
   const canvasRef = useRef();
   const [dados, setDados] = useState(initialEditNoteState);
+  const [redaction, setRedaction] = useState();
   const [initialErrorState, setError] = useState(initialEditNoteErrorState);
   const [loading, setLoading] = useState(false);
   const [progresspercent, setProgresspercent] = useState(0);
   const [open, setOpen] = useState(false);
+
+  async function getRedaction() {
+    try {
+      const response = await api.get(`/redaction/${redaction_id}`);
+      setRedaction(response?.data);
+      setUrl(response?.data?.file_url);
+    } catch (error) {
+      console.error(error);
+      toast('Erro ao acessar redação', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
+  }
+
+  useEffect(() => {
+    if (redaction_id) getRedaction();
+  }, [redaction_id]);
 
   function handleChange(value, field) {
     setError({ ...initialErrorState, [field]: false });
@@ -60,22 +78,26 @@ const Editor = () => {
       },
       (error) => {
         setLoading(false);
-        alert(error);
+        console.error(error)
+        toast.error('Erro ao salvar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const body = dados;
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          const body = { ...redaction };
+          const final_grade = dados.grade_1 + dados.grade_2 + dados.grade_3 + dados.grade_4 + dados.grade_5;
+          for (const key in dados) body[key] = dados[key];
           body.file_url = downloadURL;
+          body.status = true;
+          body.final_grade = final_grade;
+
           try {
-            api.put(`/user/${body?.redaction_id}`, body).then(() => {
-              toast.success('Editado com sucesso', {
-                position: toast.POSITION.BOTTOM_RIGHT,
-              });
+            await api.put(`/redaction/${redaction_id}`, body);
+            toast.success('Editado com sucesso', {
+              position: toast.POSITION.BOTTOM_RIGHT,
             });
-            toast('Sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
           } catch (error) {
             console.error(error);
-            toast('Erro', { position: toast.POSITION.BOTTOM_RIGHT });
+            toast.error('Erro ao salvar', { position: toast.POSITION.BOTTOM_RIGHT });
           }
           setLoading(false);
         });
@@ -106,7 +128,7 @@ const Editor = () => {
           marginBottom: '5%',
         }}
       >
-        {url && <DynamicComponentWithNoSSR url={url} canvasRef={canvasRef} progresspercent={progresspercent} setProgresspercent={setProgresspercent} />}
+        {url && <DynamicComponentWithNoSSR url={url} canvasRef={canvasRef} progresspercent={progresspercent} setProgresspercent={setProgresspercent} redaction_id={redaction_id} />}
       </div>
       <div className={styles['register-note-container']}>
         {formsCadastroNota?.map((line) => (
@@ -155,5 +177,5 @@ const Editor = () => {
       </div>
     </div>
   );
-};
+}
 export default withAuthCorretor(Editor);

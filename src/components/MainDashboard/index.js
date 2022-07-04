@@ -128,6 +128,10 @@ export default function MainDashboard() {
     }
   };
 
+  const handlePushEditor = (pendingRedaction) => {
+    router.push({ pathname: '/Editor', query: { redaction_id: pendingRedaction.redaction_id, file_url: pendingRedaction.file_url } });
+  };
+
   useEffect(() => {
     getRedactions();
   }, []);
@@ -166,6 +170,7 @@ export default function MainDashboard() {
           <div>
             {pendingData && pendingData.map((redaction) => (
               <BodyRedactionCard>
+                {console.log('🚀 ~ file: index.js ~ line 159 ~ MainDashboard ~ redaction', redaction)}
                 <CardRedaction>
                   <TitleCardRedaction type="button" onClick={handleOpen}>
                     <TitleCardRedactionP>
@@ -179,11 +184,12 @@ export default function MainDashboard() {
                         {dataNascimentoFormatada(redaction?.created_at)}
                       </h5>
                       {user?.type === 'Corretor' && (
-                        <MdOutlineModeEditOutline
-                          style={{
-                            height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px',
-                          }}
-                        />
+                      <MdOutlineModeEditOutline
+                        onClick={() => handlePushEditor(redaction)}
+                        style={{
+                          height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px',
+                        }}
+                      />
                       )}
                     </ContainerRedactionDate>
                   </TitleCardRedaction>

@@ -4,7 +4,7 @@ const formsCadastroNota = [
     items: [
       {
         type: 'checkbox',
-        id: 'competencia1',
+        id: 'grade_1',
         label: 'Competencia 1',
         checkboxes: [{selected: true, value: 0},{selected: false, value: 40},{selected: false, value: 80},{selected: false, value: 120},{selected: false, value: 160},{selected: false, value: 200},],
         field: null,
@@ -13,7 +13,7 @@ const formsCadastroNota = [
       },
       {
         type: 'checkbox',
-        id: 'competencia2',
+        id: 'grade_2',
         label: 'Competencia 2',
         checkboxes: [{selected: true, value: 0},{selected: false, value: 40},{selected: false, value: 80},{selected: false, value: 120},{selected: false, value: 160},{selected: false, value: 200},],
         field: null,
@@ -22,7 +22,7 @@ const formsCadastroNota = [
       },
       {
         type: 'checkbox',
-        id: 'competencia3',
+        id: 'grade_3',
         label: 'Competencia 3',
         checkboxes: [{selected: true, value: 0},{selected: false, value: 40},{selected: false, value: 80},{selected: false, value: 120},{selected: false, value: 160},{selected: false, value: 200},],
         field: null,
@@ -31,7 +31,7 @@ const formsCadastroNota = [
       },
       {
         type: 'checkbox',
-        id: 'competencia4',
+        id: 'grade_4',
         label: 'Competencia 4',
         checkboxes: [{selected: true, value: 0},{selected: false, value: 40},{selected: false, value: 80},{selected: false, value: 120},{selected: false, value: 160},{selected: false, value: 200},],
         field: null,
@@ -40,7 +40,7 @@ const formsCadastroNota = [
       },
       {
         type: 'checkbox',
-        id: 'competencia5',
+        id: 'grade_5',
         label: 'Competencia 5',
         checkboxes: [{selected: true, value: 0},{selected: false, value: 40},{selected: false, value: 80},{selected: false, value: 120},{selected: false, value: 160},{selected: false, value: 200},],
         field: null,
@@ -49,7 +49,7 @@ const formsCadastroNota = [
       },
       {
         type: 'text',
-        id: 'descricao',
+        id: 'description',
         label: 'Descrição',
         field: null,
         select: false,

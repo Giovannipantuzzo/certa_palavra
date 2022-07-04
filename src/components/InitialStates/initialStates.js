@@ -1,17 +1,17 @@
 export const initialEditNoteState = {
-  competencia1: 0,
-  competencia2: 0,
-  competencia3: 0,
-  competencia4: 0,
-  competencia5: 0,
-  descricao: '',
+  grade_1: 0,
+  grade_2: 0,
+  grade_3: 0,
+  grade_4: 0,
+  grade_5: 0,
+  description: '',
 };
 
 export const initialEditNoteErrorState = {
-  competencia1: false,
-  competencia2: false,
-  competencia3: false,
-  competencia4: false,
-  competencia5: false,
-  descricao: false,
+  grade_1: false,
+  grade_2: false,
+  grade_3: false,
+  grade_4: false,
+  grade_5: false,
+  description: false,
 };

@@ -1,11 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { toast } from 'react-toastify';
 import moment from 'moment';
 import UserModel from '../models/UserModel';
 import FirebaseModel from '../models/FirebaseModel';
 import AttemptsModel from '../models/AttemptsModel';
-
-toast.configure();
 
 export async function signIn(req, res) {
   try {

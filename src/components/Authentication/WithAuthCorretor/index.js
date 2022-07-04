@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import FullPageLoader from '../../FullPageLoader';
 import api from '../../../utils/api';
 
-const withAuthCorretor = (Component) => {
-  const AuthenticatedComponent = () => {
+const withAuthCorretor = (Component, redaction_id) => {
+  function AuthenticatedComponent() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
 
@@ -25,8 +25,8 @@ const withAuthCorretor = (Component) => {
       verify();
     }, []);
 
-    return loading ? <FullPageLoader /> : <Component />; // Render whatever you want while the authentication occurs
-  };
+    return loading ? <FullPageLoader /> : <Component redaction_id={redaction_id} />; // Render whatever you want while the authentication occurs
+  }
 
   return AuthenticatedComponent;
 };

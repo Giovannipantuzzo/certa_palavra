@@ -1,4 +1,7 @@
+/* eslint-disable max-len */
+import moment from 'moment';
 import RedactionModel from '../models/RedactionModel';
+import CorrectedRedactionModel from '../models/CorrectedRedactionModel';
 import FirebaseModel from '../models/FirebaseModel';
 
 const { v4: uuidv4 } = require('uuid');
@@ -49,7 +52,6 @@ export async function getAll(request, response) {
 export async function create(request, response) {
   const info = request.body;
   const firebase_id = await FirebaseModel.getSession();
-  console.log("🚀 ~ file: RedactionController.js ~ line 51 ~ create ~ firebase_id", firebase_id)
   info.redaction_id = uuidv4();
   info.firebase_id = firebase_id;
   try {
@@ -78,9 +80,17 @@ export async function deleteRedact(request, response) {
 
 export async function update(request, response) {
   const redaction = request.body;
-
+  const { id } = request.query;
+  const firebase_id = await FirebaseModel.getSession();
+  const correctedRedaction = {
+    firebase_id,
+    redaction_id: id,
+    created_at: moment(),
+  };
   try {
-    await RedactionModel.updateRedaction(redaction);
+    const corrected = redaction.corrected_at ? await CorrectedRedactionModel.updateCorrection(correctedRedaction) : await CorrectedRedactionModel.createNewCorrectedRedaction(correctedRedaction);
+    redaction.corrected_at = moment();
+    await RedactionModel.updateRedaction(redaction, id);
   } catch (error) {
     if (error.message) {
       return response.status(400).json({ notification: error.message });
