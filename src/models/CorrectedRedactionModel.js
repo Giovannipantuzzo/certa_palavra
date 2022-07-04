@@ -49,11 +49,13 @@ module.exports = {
     }
   },
 
-  async updateCorrectedRedaction(redaction, id) {
+  async updateRate(firebase_id, redaction_id, rate) {
+    console.log("🚀 ~ file: CorrectedRedactionModel.js ~ line 53 ~ updateRate ~ rate", rate)
     try {
       const response = await connection('corrected_redactions')
-        .where({ redaction_id: id })
-        .update(redaction);
+        .where({ redaction_id: redaction_id })
+        .where({ firebase_id: firebase_id })
+        .update({ rate: rate });
       return response;
     } catch (error) {
       console.error(error);

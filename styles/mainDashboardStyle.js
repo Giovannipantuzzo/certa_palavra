@@ -75,15 +75,21 @@ export const TitleCardRedaction = styled.button`
 export const TitleCardRedactionP = styled.p`
   font-size: large;
   font-weight: 200;
-  margin-right: 40%;
+  min-width: 60%;
   align-items: center;
   display: flex;
   color: black;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: initial;
   word-break: break-all;
+`;
+
+export const RedactionsIcons = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;
 
 export const DescriptionCardRedactions = styled.div`
@@ -98,15 +104,35 @@ export const DescriptionCardRedactions = styled.div`
 
 export const DescriptionCardRedactionsP = styled.p`
   margin-top: 10px;
-  font-size: 17px;
+  font-size: 16px;
   align-items: center;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   margin-bottom: 10px;
   word-break: break-all;
   flex-wrap: wrap;
 `;
+
+export const ContainerRedactionStatus = styled.div`
+  display: flex;
+  width: 40px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  background: #91ca6c;
+  border-radius: 6px;
+`;
+
+export const ContainerRedactionDate = styled.div`
+  display: flex;
+  max-width: 30%;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+`;
+
 
 

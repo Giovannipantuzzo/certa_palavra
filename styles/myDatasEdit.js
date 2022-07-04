@@ -9,7 +9,7 @@ align-items: center;
 justify-content: center;
 margin-top: 5%;
 margin-bottom: 3%;
-font-family: Quicksand;
+color: ${({ theme }) => theme.colors.primary};
 @media (max-width: 560px) {
   display: flex;
   align-items: center;
@@ -67,7 +67,8 @@ export const DDDFormControl = styled(FormControl)`
 `;
 
 export const Register = styled.div`
-  border: 1px solid;
+  border: 1px solid ${({ theme }) => theme.colors.green};
+  border-radius: 3px;
   padding-bottom: 5%;
   background: #FFF;
 `;
@@ -88,8 +89,8 @@ export const Submit = styled.button`
   font-family: Roboto;
   font-size: 20px;
   font-weight: 500;
-  background-color: ${({ theme }) => theme.colors.lightGreen};
-  color: white;
+  background-color: ${({ theme }) => theme.colors.green};
+  color: black;
   border: 0;
   border-radius: 5px;
   cursor: pointer;
@@ -102,8 +103,8 @@ export const CancelSubmit = styled.button`
   font-family: Roboto;
   font-size: 20px;
   font-weight: 500;
-  background-color: ${({ theme }) => theme.colors.lightGreen};
-  color: white;
+  background-color: ${({ theme }) => theme.colors.green};
+  color: black;
   border: 0;
   border-radius: 5px;
   cursor: pointer;

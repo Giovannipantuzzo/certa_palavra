@@ -27,3 +27,20 @@ export const MeanDashboard = styled.div`
       padding: 35px 0;
     }
 `;
+
+export const UsersCounter = styled.div`
+    color: ${({ theme }) => theme.colors.green};
+    margin-left: 30px;
+    font-size: 14pt;
+    @media (max-width: 700px) {
+      margin-bottom: 25px;
+    }
+`;
+
+export const UsersCounterLine = styled.div`
+    width: 35%;
+    height: 2px;
+    margin-top: 5px;
+    color: ${({ theme }) => theme.colors.green};
+    background-color: ${({ theme }) => theme.colors.green};
+`;

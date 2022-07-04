@@ -16,11 +16,37 @@ module.exports = {
     }
   },
 
-  async getAllRedactions() {
+  async getAllRedactions(status, firebase_id) {
+    // console.log("🚀 ~ file: RedactionModel.js ~ line 20 ~ getAllRedactions ~ firebase_id", firebase_id)
     try {
-      const redactions = await connection('redaction')
+      let response;
+      if (firebase_id) {
+        response = await connection('redaction')
+          .where('status', status)
+          .where('firebase_id', firebase_id)
+          .select('*');
+      } else {
+        response = await connection('redaction')
+          .where('status', status)
+          .select('*');
+      }
+      // .innerJoin('corrected_redactions', 'corrected_redactions.redaction_id', 'redaction.redaction_id');
+      // console.log("🚀 ~ file: RedactionModel.js ~ line 22 ~ getAllRedactions ~ redactions", response)
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  },
+
+  async getAllRedactionsFiltered(status, firstDate, secondDate) {
+    try {
+      const response = await connection('redaction')
+        .where('status', status)
+        .where('redaction.created_at', '>=', `${firstDate}`)
+        .where('redaction.corrected_at', '<=', `${secondDate}`)
         .select('*');
-      return redactions;
+      return response;
     } catch (error) {
       console.error(error);
       throw new Error(error);

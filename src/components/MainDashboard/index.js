@@ -1,36 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import { useMediaQuery } from '@mui/material';
+import { FaFilter } from 'react-icons/fa';
+import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { useAuth } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
 import {
   ContainerCardsRedaction, DivisionCardsRedaction,
   TitleCardsRedactionPage, TitleCardsRedactionPageH1, LineTableCardsRedaction,
   LoaderCardsRedaction, BodyRedactionCard, CardRedaction,
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
-  DescriptionCardRedactionsP,
-} from '../../../styles/mainDashboardStyle'
+  DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
+} from '../../../styles/mainDashboardStyle';
 import ModalRedacao from '../ModalRedacao';
-import { FaFilter } from 'react-icons/fa';
 import DashboardFilter from '../DashboardFilter';
+import api from '../../utils/api';
+import { useRouter } from 'next/router';
 
-// const matches = useMediaQuery('(max-width:411px)');
+toast.configure();
 
-// const cellFontProps = {
-//   sx: matches
-//     && {
-//     display: 'none',
-//   },
-// };
+function dataNascimentoFormatada(bdate) {
+  const data = new Date(bdate);
+  const dia = data.getDate().toString();
+  const diaF = dia.length === 1 ? `0${dia}` : dia;
+  const mes = (data.getMonth() + 1).toString(); // +1 pois no getMonth Janeiro começa com zero.
+  const mesF = mes.length === 1 ? `0${mes}` : mes;
+  const anoF = data.getFullYear();
+  return `${diaF}/${mesF}/${anoF}`;
+}
 
 export default function MainDashboard() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [pendingData, setPendingData] = useState([]);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const { user } = useAuth();
+  const router = useRouter();
 
   const handleOpen = () => {
     setOpen(!open);
@@ -44,22 +52,75 @@ export default function MainDashboard() {
     setOpenFilter(!openFilter);
   };
 
+  const rateRedaction = async (rate, redaction_id) => {
+    if (rate === 'like') {
+      await api.put('/correctedRedactions', { rate: true, firebase_id: user.firebase_id, redaction_id: redaction_id });
+    } else {
+      await api.put('/correctedRedactions', { rate: false, firebase_id: user.firebase_id, redaction_id: redaction_id });
+    }
+    getRedactions();
+  };
+
+  const getRedactions = async () => {
+    let response;
+    let responsePending;
+    try {
+      if (user?.type !== 'User') {
+        response = await api.get('/redaction', {
+          params: {
+            status: true,
+          }
+        });
+        responsePending = await api.get('/redaction', {
+          params: {
+            status: false,
+          }
+        });
+      } else {
+        response = await api.get('/redaction', {
+          params: {
+            status: true,
+            firebase_id: user.firebase_id,
+          }
+        });
+        responsePending = await api.get('/redaction', {
+          params: {
+            status: false,
+            firebase_id: user.firebase_id,
+          }
+        });
+      }
+      setData(response?.data);
+      setPendingData(responsePending?.data);
+      setLoading(false);
+    } catch (error) {
+      router.push('/404');
+      toast('Erro ao obter redações', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
+  };
+
   useEffect(() => {
-    setPendingData();
-    setData();
+    getRedactions();
   }, []);
 
   return (
     <ContainerCardsRedaction>
       <DivisionCardsRedaction>
         <TitleCardsRedactionPage>
-          <TitleCardsRedactionPageH1>Redações Enviadas: 18</TitleCardsRedactionPageH1>
-          {user?.type === 'Corretor' ? <FaFilter onClick={handleFilter} style={{
-            color: '#91ca6c',
-            marginTop: '10px',
-            marginRight: '5px',
-            cursor: 'pointer',
-          }} /> : <ModalRedacao />}
+          <TitleCardsRedactionPageH1>Redações {user?.type === 'Corretor' ?
+            'Pendentes' : 'Enviadas'}: {pendingData.length}
+          </TitleCardsRedactionPageH1>
+          {user?.type === 'Admin' ? (
+            <FaFilter
+              onClick={handleFilter}
+              style={{
+                color: '#91ca6c',
+                marginTop: '10px',
+                marginRight: '5px',
+                cursor: 'pointer',
+              }}
+            />
+          ) : <ModalRedacao />}
         </TitleCardsRedactionPage>
         <LineTableCardsRedaction />
         {loading ? (
@@ -67,29 +128,34 @@ export default function MainDashboard() {
             <CircularProgress size={35} color="inherit" />
           </LoaderCardsRedaction>
         ) : (
-          <>
-            <BodyRedactionCard>
-              <CardRedaction>
-                <TitleCardRedaction type="button" onClick={handleOpen}>
-                  <TitleCardRedactionP>
-                    {' '}
-                    redação 1
-                  </TitleCardRedactionP>
-                  <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
-                </TitleCardRedaction>
-              </CardRedaction>
-            </BodyRedactionCard>
-
-            {open === true && (
-              <DescriptionCardRedactions>
-                <DescriptionCardRedactionsP>Redação aqui</DescriptionCardRedactionsP>
-              </DescriptionCardRedactions>
-            )}
-          </>
+          <div>
+            {pendingData && pendingData.map((redaction) => (
+              <BodyRedactionCard>
+                <CardRedaction>
+                  <TitleCardRedaction type="button" onClick={handleOpen}>
+                    <TitleCardRedactionP>
+                      {' '}
+                      {redaction.title}
+                    </TitleCardRedactionP>
+                    <ContainerRedactionDate>
+                      <h5>Data de envio: {dataNascimentoFormatada(redaction?.created_at)}</h5>
+                      {user?.type === 'Corretor' && <MdOutlineModeEditOutline
+                        style={{ height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px' }}
+                      />}
+                    </ContainerRedactionDate>
+                  </TitleCardRedaction>
+                </CardRedaction>
+              </BodyRedactionCard>
+            ))}
+          </div>
         )}
         <TitleCardsRedactionPage>
-          <TitleCardsRedactionPageH1>Redações Corrigidas: 12</TitleCardsRedactionPageH1>
-          {/* <ModalEnquete /> */}
+          <TitleCardsRedactionPageH1>
+            Redações Corrigidas:
+            {' '}
+            {data?.length}
+            {' '}
+          </TitleCardsRedactionPageH1>
         </TitleCardsRedactionPage>
         <LineTableCardsRedaction />
         {loading ? (
@@ -97,32 +163,74 @@ export default function MainDashboard() {
             <CircularProgress size={35} color="inherit" />
           </LoaderCardsRedaction>
         ) : (
-          <>
-            <BodyRedactionCard>
-              <CardRedaction>
-                <TitleCardRedaction type="button" onClick={handleOpen2}>
-                  <TitleCardRedactionP>
-                    {' '}
-                    redação 2
-                  </TitleCardRedactionP>
-                  <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
-                </TitleCardRedaction>
-              </CardRedaction>
-            </BodyRedactionCard>
-
-            {open2 === true && (
-              <DescriptionCardRedactions>
-                <DescriptionCardRedactionsP>Redação aqui</DescriptionCardRedactionsP>
-              </DescriptionCardRedactions>
-            )}
-          </>
+          <div>
+            {data && data.map((redaction) => (
+              <>
+                <BodyRedactionCard>
+                  <CardRedaction>
+                    <TitleCardRedaction type="button" onClick={handleOpen2}>
+                      <TitleCardRedactionP>
+                        {' '}
+                        {redaction.title}
+                      </TitleCardRedactionP>
+                      <ContainerRedactionStatus>
+                        <h5>{redaction?.final_grade}</h5>
+                      </ContainerRedactionStatus>
+                      <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
+                    </TitleCardRedaction>
+                  </CardRedaction>
+                </BodyRedactionCard>
+                {
+                  open2 === true && (
+                    <DescriptionCardRedactions>
+                      <DescriptionCardRedactionsP>
+                        <b>Corrigida em:</b>
+                        {' '}
+                        {dataNascimentoFormatada(redaction?.corrected_at)}
+                      </DescriptionCardRedactionsP>
+                      <DescriptionCardRedactionsP>
+                        <b>Comentário do corretor:</b>
+                        {' '}
+                        {redaction?.description}
+                      </DescriptionCardRedactionsP>
+                      <RedactionsIcons>
+                        <AiOutlineLike
+                          style={{
+                            height: '25px',
+                            width: '25px',
+                            marginRight: '2%',
+                            color: `${data === true ? '#91ca6c' : 'black'}`,
+                            cursor: 'pointer',
+                          }}
+                          onClick={() => rateRedaction('like', redaction.redaction_id)}
+                        />
+                        <AiOutlineDislike
+                          style={{
+                            height: '25px',
+                            width: '25px',
+                            color: `${data === true ? '#91ca6c' : 'black'}`,
+                            cursor: 'pointer',
+                          }}
+                          onClick={() => rateRedaction('dislike', redaction.redaction_id)}
+                        />
+                      </RedactionsIcons>
+                    </DescriptionCardRedactions>
+                  )
+                }
+              </>
+            ))}
+          </div>
         )}
       </DivisionCardsRedaction>
-      {openFilter && (<DashboardFilter
-        handleClose={handleFilter}
-        setData={setData}
-        setPendingData={setPendingData}
-      />)}
+      {
+        openFilter && (
+          <DashboardFilter
+            handleClose={handleFilter}
+            setData={setData}
+            setPendingData={setPendingData}
+          />
+        )
+      }
     </ContainerCardsRedaction>
   );
 }
