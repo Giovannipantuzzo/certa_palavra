@@ -12,14 +12,12 @@ import '../../../styles/menuHome.module.css';
 
 const buttons = [
   { buttonName: 'Dashboard', value: 'DashboardCorretor' },
-  { buttonName: 'Informações' },
   { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
 ];
 
 const buttonsUser = [
   { buttonName: 'Home' },
-  { buttonName: 'Informações' },
   { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
 ];

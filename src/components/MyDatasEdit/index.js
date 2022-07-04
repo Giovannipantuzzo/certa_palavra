@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FormControl, FormLabel } from 'react-bootstrap';
 import 'date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,8 +6,12 @@ import { notification } from 'antd';
 import 'antd/dist/antd.css';
 import { useRouter } from 'next/router';
 import Button from '@material-ui/core/Button';
+import { toast } from 'react-toastify';
 import Modal from '@material-ui/core/Modal';
 import { useAuth } from '../../contexts/AuthContext';
+import CircularProgress from '@mui/material/CircularProgress';
+import { makeStyles } from '@material-ui/styles';
+import { storage } from '../../utils/firebaseStorage';
 import { Body } from '../BodyForms';
 import WindowDivider from '../WindowDivider';
 import api from '../../utils/api';
@@ -16,10 +20,64 @@ import {
   DDDFormControl, Register, Buttons, FormRegister, Submit, CancelSubmit,
   ContainerDatas,
 } from '../../../styles/myDatasEdit';
+import { useDropzone } from 'react-dropzone';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+
+function CircularProgressWithLabel(
+  props,
+) {
+  return (
+    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+      <CircularProgress variant="determinate" {...props} />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography
+          variant="caption"
+          component="div"
+          color="text.secondary"
+        >
+          {`${Math.round(props?.value)}%`}
+
+        </Typography>
+      </Box>
+    </Box>
+  );
+}
+
+toast.configure();
+
+const useStyles = makeStyles(() => ({
+  dropzone: {
+    border: '1px dashed #004e7b',
+    borderRadius: '3px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'white',
+    height: '50px',
+    width: '100%',
+    outline: 'none',
+    marginBottom: '1%',
+  },
+}));
 
 export default function MyDatasEdit() {
   const { user, setUser } = useAuth();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [photo, setPhoto] = useState(null);
+  const [updateImage, setUpdateImage] = useState(false);
+  const classes = useStyles();
 
   const handleOpen = () => {
     setOpen(true);
@@ -28,6 +86,36 @@ export default function MyDatasEdit() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  async function handleRedactionChange(event) {
+    setPhoto(event.target.value);
+    setUpdateImage(true);
+  };
+
+  const onDrop = useCallback((accFiles, rejFiles) => {
+    if (rejFiles.length > 0) {
+      toast.warn('Arquivo Inválido', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+      });
+      return;
+    }
+    if (accFiles.length > 1) {
+      toast.warn('Apenas um arquivo por vez', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 5000,
+      });
+      return;
+    }
+    setRedaction({ file: accFiles[0], url: URL.createObjectURL(accFiles[0]) });
+    setUpdateImage(true);
+  }, [photo]);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: ['image/*'],
+    maxSize: 2 * 1024 * 1024, // 2MB
+  });
 
   if (!user) {
     return (
@@ -46,6 +134,7 @@ export default function MyDatasEdit() {
   const router = useRouter();
 
   async function handleSubmit(event) {
+    setLoading(true);
     setOpen(false);
     event.preventDefault();
     if (cpf?.length !== 11) {
@@ -60,36 +149,42 @@ export default function MyDatasEdit() {
       alert('Número inválido');
       return;
     }
-    const body = {
-      name,
-      cpf,
-      phone: ddd + phone,
-    };
     try {
-      api.put(`/user/${user.firebase_id}`, body).then((response) => {
-        setUser(response.data);
-      });
-      notification.open({
-        message: 'Sucesso!',
-        description: 'Alteraçao realizada com sucesso.',
-        className: 'ant-notification',
-        top: '100px',
-        style: {
-          width: 600,
+      const { file } = photo;
+      if (!file) return;
+      const storageRef = ref(storage, `photo/${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgresspercent(progress);
         },
-      });
-      router.push('/User/Perfil/MyDatas');
+        (error) => {
+          toast('Erro no upload do arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
+          console.error(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            const body = {
+              name,
+              cpf,
+              phone: ddd + phone,
+              photo_url: downloadURL,
+            };
+            const response = await api.put(`/user/${user.firebase_id}`, body)
+            setUser(response.data);
+          });
+        });
+      toast('Perfil alterado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
+      handleClose();
+      setLoading(false);
     } catch (error) {
       console.error(error);
-      notification.open({
-        message: 'Erro!',
-        description: 'Erro ao atualizar dados.',
-        className: 'ant-notification',
-        top: '100px',
-        style: {
-          width: 600,
-        },
-      });
+      setLoading(false);
+      toast('Erro ao alterar perfil!', { position: toast.POSITION.BOTTOM_RIGHT });
+
     }
   }
   const corpo = (
@@ -99,6 +194,44 @@ export default function MyDatasEdit() {
         <Register>
           <FormRegister>
             <Title>Formulário de edição</Title>
+            <MyFormGroup>
+              <FormLabel style={{ marginBottom: '8px' }}>Arquivo</FormLabel>
+              <>
+                <div {...getRootProps({ className: classes.dropzone })}>
+                  <input {...getInputProps()} />
+                  <p style={{ marginTop: '10px' }}>
+                    Arraste e solte a imagem aqui
+                  </p>
+                </div>
+                {updateImage && (
+                  <ImageContainer>
+                    <div key={photo.url}>
+                      {photo?.file?.type?.substring(0, 5) === 'image'
+                        && (
+                          <div>
+                            <img src={photo.url} style={{ width: '100%' }} alt="preview" />
+                          </div>
+                        )}
+                    </div>
+                    <Button
+                      variant="contained"
+                      style={{
+                        backgroundColor: '#004e7b', marginBottom: '1%', marginTop: '2%',
+                      }}
+                      onClick={() => {
+                        setUpdateImage(false);
+                      }}
+                      onChange={() => {
+                        handlePhotoChange();
+                      }}
+                    >
+                      remover
+                    </Button>
+
+                  </ImageContainer>
+                )}
+              </>
+            </MyFormGroup>
             <Name>
               <MyFormGroup>
                 <FormLabel>Nome</FormLabel>
@@ -152,8 +285,13 @@ export default function MyDatasEdit() {
               </Phone>
             </NumbersForms>
             <Buttons>
-              <CancelSubmit onClick={handleClose}>Cancelar</CancelSubmit>
-              <Submit onClick={handleSubmit}>Atualizar</Submit>
+              {!loading && (
+                <>
+                  <CancelSubmit onClick={handleClose}>Cancelar</CancelSubmit>
+                  <Submit onClick={handleSubmit}>Atualizar</Submit>
+                </>
+              )}
+              {loading && <CircularProgressWithLabel value={progresspercent} />}
             </Buttons>
           </FormRegister>
         </Register>

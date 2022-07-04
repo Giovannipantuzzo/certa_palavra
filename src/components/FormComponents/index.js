@@ -138,17 +138,6 @@ export const Submit = styled.button`
     cursor: pointer;
 `;
 
-export const ForgotPassword = styled.p`
-  margin-top: 0px;
-  width: 90%;
-  font-size: 15px;
-  justify-content: right;
-  text-align: end;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.green};
-  cursor: pointer;
-`;
-
 export const CreateAccount = styled.p`
   margin-top: 5px;
   font-weight: 700;
