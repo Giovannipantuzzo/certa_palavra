@@ -18,8 +18,17 @@ export async function getOne(request, response) {
 
 export async function getAll(request, response) {
   try {
-    const { status } = request.query;
-    const redactions = await RedactionModel.getAllRedactions(status);
+    const { status, firebase_id, firstDate, secondDate } = request.query;
+    const redactions = firebase_id ? await RedactionModel.getAllRedactions(
+      status,
+      firebase_id,
+    ) : (
+      await RedactionModel.getAllRedactionsFiltered(
+        status,
+        firstDate,
+        secondDate,
+      )
+    );
     return response.status(200).json(redactions);
   } catch (error) {
     if (err.message) {

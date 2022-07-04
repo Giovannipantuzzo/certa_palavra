@@ -1,5 +1,5 @@
 import {
-  create, getAll,
+  create, getAll, updateRate,
 } from '../../../src/controllers/CorrectedRedactionController';
 import { withAuthValidation } from '../../../src/utils/auth';
 
@@ -8,16 +8,13 @@ export default function handler(req, res) {
     const { method } = req;
     console.log(method);
     if (method === 'GET') {
-      return getAll(req, res);
+      return withAuthValidation(getAll)(req, res);
     }
     if (method === 'POST') {
-      return create(req, res);
-    }
-    if (method === 'DELETE') {
-      return withAuthValidation(deleteAllProductsCart)(req, res);
+      return withAuthValidation(create)(req, res);
     }
     if (method === 'PUT') {
-      return withAuthValidation(updateProductAmount)(req, res);
+      return withAuthValidation(updateRate)(req, res);
     }
     return res.status(500).json({ message: 'Internal Server Error' });
   } catch (error) {

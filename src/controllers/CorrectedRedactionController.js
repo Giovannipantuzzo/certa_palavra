@@ -52,11 +52,11 @@ export async function deleteRedact(request, response) {
   }
 }
 
-export async function update(request, response) {
-  const redaction = request.body;
+export async function updateRate(request, response) {
+  const { rate, firebase_id, redaction_id } = request.body;
 
   try {
-    await CorrectedRedactionModel.updateRedaction(redaction);
+    await CorrectedRedactionModel.updateRate(firebase_id, redaction_id, rate);
   } catch (error) {
     if (error.message) {
       return response.status(400).json({ notification: error.message });

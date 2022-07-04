@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
-
+import api from '../../utils/api';
 import DatePicker from '@material-ui/lab/DatePicker';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import TextField from '@mui/material/TextField';
@@ -21,17 +21,36 @@ import {
 toast.configure();
 
 function DashboardFilter({
-  handleClose, getAllAccounts,
+  handleClose, setData, setPendingData,
 }) {
   const [firstDate, setFirstDate] = useState(moment().toDate());
   const [secondDate, setSecondDate] = useState(moment().toDate());
 
-  const handleDataFilter = () => {
-    // requisição com as redações
+  const handleDataFilter = async () => {
+    try {
+      const response = await api.get('/redaction', {
+        params: {
+          status: true,
+          firstDate: firstDate,
+          secondDate: secondDate,
+        }
+      });
+      setData(response.data)
 
-    getAllAccounts(true, firstDate, secondDate);
-    handleClose();
-    toast('Filtro aplicado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
+      const responsePending = await api.get('/redaction', {
+        params: {
+          status: false,
+          firstDate: firstDate,
+          secondDate: secondDate,
+        }
+      });
+      setPendingData(responsePending.data);
+
+      handleClose();
+      toast('Filtro aplicado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
+    } catch (error) {
+      toast('Erro ao aplicar filtro!', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
   };
 
   return (
