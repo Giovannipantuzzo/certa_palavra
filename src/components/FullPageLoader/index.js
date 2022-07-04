@@ -5,7 +5,7 @@ height: 100vh;
 display: flex;
 justify-content: center;
 align-items: center;
-color: gray;
+color: ${({ theme }) => theme.colors.green};
 font-size: 1.8em;
 `;
 
@@ -22,7 +22,7 @@ const scaling = (scaleIn40, scaleIn50) => keyframes`
 `;
 
 const LoadingAnimation = styled.div`
-background-color: gray;
+background-color: ${({ theme }) => theme.colors.green};
 height: 10px;
 width: 10px;
 border-radius: 50%;
