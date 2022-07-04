@@ -158,3 +158,28 @@ export const TextBox2 = styled.input`
   background: #F8F8F8;
 `;
 
+export const ContainerDownload = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+`;
+
+export const Download = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    height: 25px;
+    width: 30%;
+    font-size: 12px;
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    @media (max-width: 400px) {
+      width: 40%;
+  }
+`;
+
