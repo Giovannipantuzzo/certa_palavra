@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+import moment from 'moment';
 import RedactionModel from '../models/RedactionModel';
 import CorrectedRedactionModel from '../models/CorrectedRedactionModel';
 import FirebaseModel from '../models/FirebaseModel';
@@ -78,15 +80,17 @@ export async function deleteRedact(request, response) {
 
 export async function update(request, response) {
   const redaction = request.body;
+  const { id } = request.query;
   const firebase_id = await FirebaseModel.getSession();
   const correctedRedaction = {
     firebase_id,
-    redaction_id: redaction.redaction_id,
-  }
-
+    redaction_id: id,
+    created_at: moment(),
+  };
   try {
-    const corrected = await CorrectedRedactionModel.createNewCorrectedRedaction(correctedRedaction);
-    await RedactionModel.updateRedaction(redaction, redaction.redaction_id);
+    const corrected = redaction.corrected_at ? await CorrectedRedactionModel.updateCorrection(correctedRedaction) : await CorrectedRedactionModel.createNewCorrectedRedaction(correctedRedaction);
+    redaction.corrected_at = moment();
+    await RedactionModel.updateRedaction(redaction, id);
   } catch (error) {
     if (error.message) {
       return response.status(400).json({ notification: error.message });

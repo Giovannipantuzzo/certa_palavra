@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 import React, { useState, useRef, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
@@ -25,9 +26,7 @@ const DynamicComponentWithNoSSR = dynamic(
 function Editor() {
   const router = useRouter();
   const { redaction_id } = router.query;
-  const [url, setUrl] = useState(
-    'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/526px-Wikipedia-logo-v2.svg.png',
-  );
+  const [url, setUrl] = useState();
   const canvasRef = useRef();
   const [dados, setDados] = useState(initialEditNoteState);
   const [redaction, setRedaction] = useState();
@@ -79,10 +78,11 @@ function Editor() {
       },
       (error) => {
         setLoading(false);
-        alert(error);
+        console.error(error)
+        toast.error('Erro ao salvar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           const body = { ...redaction };
           const final_grade = dados.grade_1 + dados.grade_2 + dados.grade_3 + dados.grade_4 + dados.grade_5;
           for (const key in dados) body[key] = dados[key];
@@ -91,15 +91,13 @@ function Editor() {
           body.final_grade = final_grade;
 
           try {
-            api.put(`/redaction/${redaction_id}`, body).then(() => {
-              toast.success('Editado com sucesso', {
-                position: toast.POSITION.BOTTOM_RIGHT,
-              });
+            await api.put(`/redaction/${redaction_id}`, body);
+            toast.success('Editado com sucesso', {
+              position: toast.POSITION.BOTTOM_RIGHT,
             });
-            toast('Sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
           } catch (error) {
             console.error(error);
-            toast('Erro', { position: toast.POSITION.BOTTOM_RIGHT });
+            toast.error('Erro ao salvar', { position: toast.POSITION.BOTTOM_RIGHT });
           }
           setLoading(false);
         });
@@ -130,7 +128,7 @@ function Editor() {
           marginBottom: '5%',
         }}
       >
-        {url && <DynamicComponentWithNoSSR url={url} canvasRef={canvasRef} progresspercent={progresspercent} setProgresspercent={setProgresspercent} />}
+        {url && <DynamicComponentWithNoSSR url={url} canvasRef={canvasRef} progresspercent={progresspercent} setProgresspercent={setProgresspercent} redaction_id={redaction_id} />}
       </div>
       <div className={styles['register-note-container']}>
         {formsCadastroNota?.map((line) => (

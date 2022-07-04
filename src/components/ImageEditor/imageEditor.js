@@ -21,6 +21,7 @@ import {
 import { theme } from './theme';
 import { dataURLtoFile } from './dataUrlToFile';
 import { storage } from './firebaseStorage';
+import api from '../../utils/api';
 
 function LinearProgressWithLabel(props) {
   return (
@@ -52,7 +53,9 @@ const colorWidth = 10;
 
 toast.configure();
 
-function CustomImageEditor({ url, canvasRef, progresspercent, setProgresspercent }) {
+function CustomImageEditor({
+  url, canvasRef, progresspercent, setProgresspercent, redaction_id,
+}) {
   const [selectedColor, setSelectedColor] = useState({
     displayColorPicker: false,
     start: false,
@@ -88,11 +91,19 @@ function CustomImageEditor({ url, canvasRef, progresspercent, setProgresspercent
         alert(error);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log(downloadURL);
-          toast.success('Editado com sucesso', {
-            position: toast.POSITION.BOTTOM_RIGHT,
-          });
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          const body = {
+            file_url: downloadURL,
+          };
+          try {
+            await api.put(`/redaction/${redaction_id}`, body);
+            toast.success('Imagem salva com sucesso', {
+              position: toast.POSITION.BOTTOM_RIGHT,
+            });
+          } catch (error) {
+            console.error(error);
+            toast.error('Erro ao salvar imagem', { position: toast.POSITION.BOTTOM_RIGHT });
+          }
         });
       },
     );
@@ -106,6 +117,7 @@ function CustomImageEditor({ url, canvasRef, progresspercent, setProgresspercent
       function waitUntilImageEditorIsUnlocked(imageEditor2) {
         return new Promise((resolve, reject) => {
           const interval = setInterval(() => {
+            if (imageEditor2._invoker === null) return;
             if (!imageEditor2._invoker._isLocked) {
               clearInterval(interval);
               resolve();
@@ -180,10 +192,10 @@ function CustomImageEditor({ url, canvasRef, progresspercent, setProgresspercent
   }, [canvasRef]);
 
   useEffect(() => {
-    if (canvasRef.current.getInstance()._invoker._isLocked) {
+    if (canvasRef.current.getInstance()._invoker._isLocked && canvasRef.current.getInstance()._invoker !== null && canvasRef.current.getInstance()._invoker._isLocked !== null) {
       LoadImage();
     }
-  }, [canvasRef]);
+  }, [url]);
 
   const styles = reactCSS({
     default: {
@@ -251,6 +263,7 @@ function CustomImageEditor({ url, canvasRef, progresspercent, setProgresspercent
         />
       </LinearProgressContainer>
 
+      {canvasRef && url && (
       <ImageEditor
         ref={canvasRef}
         includeUI={{
@@ -283,6 +296,7 @@ function CustomImageEditor({ url, canvasRef, progresspercent, setProgresspercent
         }}
         usageStatistics
       />
+      )}
     </>
   );
 }
