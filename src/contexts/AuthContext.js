@@ -21,7 +21,6 @@ const emptyContextInfo = {
 const AuthContext = React.createContext(emptyContextInfo);
 
 function AuthProvider({ children }) {
-  console.log('🚀 ~ file: AuthContext.js ~ line 24 ~ AuthProvider ~ children', children);
   const [user, setUser] = useState(undefined);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
