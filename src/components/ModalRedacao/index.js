@@ -76,7 +76,6 @@ export default function ModalEnquete() {
   const [redaction, setRedaction] = useState(null);
   const [progresspercent, setProgresspercent] = useState(0);
   const [loading, setLoading] = useState(false);
-  console.log('🚀 ~ file: index.js ~ line 40 ~ ModalEnquete ~ redaction', redaction);
   const classes = useStyles();
 
   async function handleTitleChange(event) {
@@ -134,7 +133,8 @@ export default function ModalEnquete() {
             toast('Redação enviada com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
           } catch (error) {
             console.error(error);
-            toast('Erro', { position: toast.POSITION.BOTTOM_RIGHT });
+            toast('Erro no upload do arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
+            setLoading(false);
           }
         });
       },

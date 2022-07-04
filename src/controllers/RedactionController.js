@@ -1,4 +1,5 @@
 import RedactionModel from '../models/RedactionModel';
+import FirebaseModel from '../models/FirebaseModel';
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -47,8 +48,8 @@ export async function getAll(request, response) {
 
 export async function create(request, response) {
   const info = request.body;
-  console.log('🚀 ~ file: RedactionController.js ~ line 49 ~ create ~  request.session', request.session);
-  const { firebase_id } = request.session.get('user').user;
+  const firebase_id = await FirebaseModel.getSession();
+  console.log("🚀 ~ file: RedactionController.js ~ line 51 ~ create ~ firebase_id", firebase_id)
   info.redaction_id = uuidv4();
   info.firebase_id = firebase_id;
   try {

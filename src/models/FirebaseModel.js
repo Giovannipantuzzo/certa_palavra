@@ -27,11 +27,19 @@ if (!getApps().length) {
 const auth = getAuth();
 
 module.exports = {
-
   async createNewUser(email, password) {
     try {
       const response = await createUserWithEmailAndPassword(auth, email, password);
       return response.user.uid;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+
+  async getSession() {
+    try {
+      const response = auth.currentUser;
+      return response.uid;
     } catch (err) {
       throw new Error(err);
     }
