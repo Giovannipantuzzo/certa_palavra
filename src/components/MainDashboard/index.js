@@ -57,8 +57,7 @@ export default function MainDashboard() {
 
   const getDownload = async (file_url) => {
     try {
-      FileSaver.saveAs(`data:image/jpeg;base64,${file_url}`, 'redação');
-
+      FileSaver.saveAs(file_url, 'redação.jpg');
     } catch (error) {
       toast('Erro ao baixar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
     }
