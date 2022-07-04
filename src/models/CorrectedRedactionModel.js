@@ -50,7 +50,6 @@ module.exports = {
   },
 
   async updateRate(firebase_id, redaction_id, rate) {
-    console.log("🚀 ~ file: CorrectedRedactionModel.js ~ line 53 ~ updateRate ~ rate", rate)
     try {
       const response = await connection('corrected_redactions')
         .where({ redaction_id: redaction_id })

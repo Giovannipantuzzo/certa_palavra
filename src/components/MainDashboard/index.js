@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FaFilter } from 'react-icons/fa';
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
+import { AiOutlineLike, AiOutlineDislike, AiOutlineSend } from 'react-icons/ai';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ import {
   LoaderCardsRedaction, BodyRedactionCard, CardRedaction,
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
   DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
+  TextBox2, MyFormGroup,
 } from '../../../styles/mainDashboardStyle';
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
@@ -33,6 +34,7 @@ function dataNascimentoFormatada(bdate) {
 export default function MainDashboard() {
   const [loading, setLoading] = useState(true);
   const [pendingData, setPendingData] = useState([]);
+  const [comment, setComment] = useState(null);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -53,14 +55,28 @@ export default function MainDashboard() {
   };
 
   const rateRedaction = async (rate, redaction_id) => {
-    if (rate === 'like') {
-      await api.put('/correctedRedactions',
-        { rate: true, firebase_id: user.firebase_id, redaction_id: redaction_id });
-    } else {
-      await api.put('/correctedRedactions',
-        { rate: false, firebase_id: user.firebase_id, redaction_id: redaction_id });
+    try {
+      if (rate === 'like') {
+        await api.put('/correctedRedactions',
+          { rate: true, firebase_id: user.firebase_id, redaction_id: redaction_id });
+      } else {
+        await api.put('/correctedRedactions',
+          { rate: false, firebase_id: user.firebase_id, redaction_id: redaction_id });
+      }
+      getRedactions();
+    } catch (error) {
+      toast('Erro ao avaliar correção', { position: toast.POSITION.BOTTOM_RIGHT });
     }
-    getRedactions();
+  };
+
+  const commentOnRedaction = async (redaction_id) => {
+    try {
+
+
+      getRedactions();
+    } catch (error) {
+      toast('Erro ao comentar sobre correção/redação', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
   };
 
   const getRedactions = async () => {
@@ -216,6 +232,23 @@ export default function MainDashboard() {
                           onClick={() => rateRedaction('dislike', redaction.redaction_id)}
                         />
                       </RedactionsIcons>
+                      <MyFormGroup>
+                        <TextBox2
+                          type="text"
+                          placeholder="Comentário"
+                          required
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                        />
+                        <AiOutlineSend style={{
+                          cursor: 'pointer',
+                          marginTop: '10px',
+                          marginLeft: '10px',
+                          color: '#91ca6c',
+                        }}
+                          onClick={() => commentOnRedaction(redaction.redaction_id)}
+                        />
+                      </MyFormGroup>
                     </DescriptionCardRedactions>
                   )
                 }

@@ -112,6 +112,18 @@ export const TextDDD = styled.input`
   }
 `;
 
+export const ForgotPassword = styled.p`
+  margin-top: 0px;
+  width: 90%;
+  font-size: 15px;
+  justify-content: right;
+  text-align: end;
+  font-weight: 700;
+  cursor: pointer;
+  :hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
 
 export const Submit = styled.button`
     height: 40px;
@@ -119,7 +131,7 @@ export const Submit = styled.button`
     font-family: Roboto;
     font-size: 20px;
     font-weight: 500;
-    background-color: ${({ theme }) => theme.colors.lightGreen};
+    background-color: ${({ theme }) => theme.colors.green};
     color: white;
     border: 0;
     border-radius: 5px;

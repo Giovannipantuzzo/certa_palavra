@@ -16,6 +16,9 @@ export const SearchContainerModal = styled.div`
     border: 0.5px solid ${({ theme }) => theme.colors.primary};
     box-shadow: 24;
     padding: 3%;
+    @media (max-width: 500px) {
+        width: 85%;
+    }
 `;
 
 export const SearchText = styled.div`

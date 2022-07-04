@@ -14,13 +14,14 @@ import styles2 from '../../styles/Editor.module.css';
 import { dataURLtoFile } from '../../src/components/ImageEditor/dataUrlToFile';
 import { storage } from '../../src/components/ImageEditor/firebaseStorage';
 import api from '../../src/utils/api';
+import withAuthCorretor from '../../src/components/Authentication/WithAuthCorretor';
 
 const DynamicComponentWithNoSSR = dynamic(
   () => import('../../src/components/ImageEditor/imageEditor'),
   { ssr: false },
 );
 
-export default function Editor() {
+const Editor = () => {
   const [url, setUrl] = useState(
     'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/526px-Wikipedia-logo-v2.svg.png',
   );
@@ -154,4 +155,5 @@ export default function Editor() {
       </div>
     </div>
   );
-}
+};
+export default withAuthCorretor(Editor);

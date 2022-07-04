@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import {
@@ -21,7 +20,6 @@ import {
   Divider,
 } from '../../src/components/FormComponents';
 import { useAuth } from '../../src/contexts/AuthContext';
-import FullPageLoader from '../../src/components/FullPageLoader';
 import ModalFailedLogin from '../../src/components/ModalFailedLogin';
 import api from '../../src/utils/api';
 
@@ -36,23 +34,9 @@ function Login() {
   const [content, setContent] = useState('');
 
   const {
-    login, user, store, isLoading,
+    login,
   } = useAuth();
   /*eslint-disable*/
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoading && user || store) {
-      router.push('/Home');
-    }
-    if (!isLoading && !user && !store) {
-      router.push('/login');
-    }
-  }, [isLoading, user, store]);
-
-  if (isLoading || user || store) {
-    return <FullPageLoader />;
-  }
 
   function handleEmailChange(event) {
     setEmail(event.target.value);
@@ -128,12 +112,6 @@ function Login() {
             </ItemFormulary>
             <BottomFormulary>
               <Submit type="submit">Entrar</Submit>
-            </BottomFormulary>
-            <BottomFormulary>
-              <CreateAccount>Não tem uma conta?</CreateAccount>
-              <Link href="/cadastro">
-                <CreateAccount.Right>Cadastre-se</CreateAccount.Right>
-              </Link>
             </BottomFormulary>
           </Formulary>
           {showModal && (
