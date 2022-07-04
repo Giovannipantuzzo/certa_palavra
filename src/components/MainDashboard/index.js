@@ -18,6 +18,7 @@ import {
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
 import api from '../../utils/api';
+import FileSaver from 'file-saver';
 
 toast.configure();
 
@@ -52,6 +53,15 @@ export default function MainDashboard() {
 
   const handleFilter = () => {
     setOpenFilter(!openFilter);
+  };
+
+  const getDownload = async (file_url) => {
+    try {
+      FileSaver.saveAs(`data:image/jpeg;base64,${file_url}`, 'redação');
+
+    } catch (error) {
+      toast('Erro ao baixar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
   };
 
   const rateRedaction = async (rate, redaction_id) => {
@@ -229,7 +239,7 @@ export default function MainDashboard() {
                       </DescriptionCardRedactionsP>
                       <ContainerDownload>
                         <Download
-                        // onClick={}
+                          onClick={() => getDownload(redaction.file_url)}
                         >
                           Baixar arquivo
                         </Download>
