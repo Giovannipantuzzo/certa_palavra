@@ -23,6 +23,16 @@ export const ContainerModal = styled.div`
     }
 `;
 
+export const ImageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    @media (max-width: 500px) {
+      width: 90%;
+    }
+`;
+
 export const ExitModal = styled.div`
   display: flex;
   justify-content: flex-start;

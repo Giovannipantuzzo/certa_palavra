@@ -18,7 +18,9 @@ export async function getOne(request, response) {
 
 export async function getAll(request, response) {
   try {
-    const { status, firebase_id, firstDate, secondDate } = request.query;
+    const {
+      status, firebase_id, firstDate, secondDate,
+    } = request.query;
     let redactions;
     if (firebase_id) {
       redactions = await RedactionModel.getAllRedactions(
@@ -45,7 +47,10 @@ export async function getAll(request, response) {
 
 export async function create(request, response) {
   const info = request.body;
+  console.log('🚀 ~ file: RedactionController.js ~ line 49 ~ create ~  request.session', request.session);
+  const { firebase_id } = request.session.get('user').user;
   info.redaction_id = uuidv4();
+  info.firebase_id = firebase_id;
   try {
     const newRedaction = await RedactionModel.createNewRedaction(info);
     return response.status(200).json(newRedaction);

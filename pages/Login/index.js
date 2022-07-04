@@ -29,7 +29,7 @@ moment.locale('pt-br');
 
 toast.configure();
 
-const Login = () => {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -146,6 +146,6 @@ const Login = () => {
       </Body>
     </>
   );
-};
+}
 
 export default Login;

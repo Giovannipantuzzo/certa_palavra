@@ -34,7 +34,7 @@ function Intranet() {
     usersNumber();
     if (user?.type === 'Admin') setSelectedButton('DashboardAdmin');
     else if (user?.type === 'Corretor') setSelectedButton('DashboardCorretor');
-    else setSelectedButton('DashboardCorretor');
+    else setSelectedButton('DashboardAdmin');
   }, []);
 
   const menuDashboard = () => {

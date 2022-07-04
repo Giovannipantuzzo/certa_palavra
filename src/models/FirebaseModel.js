@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import getStorage from 'firebase/storage';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 const admin = require('firebase-admin');
 
@@ -68,8 +68,8 @@ module.exports = {
   async login(email, password) {
     try {
       if (!email.includes('@') || !email.includes('.') || email.indexOf('@') > email.lastIndexOf('.')) throw new Error('Badly formatted email');
-      const result = await firebase.auth()
-        .signInWithEmailAndPassword(email, password);
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      console.log('🚀 ~ file: FirebaseModel.js ~ line 72 ~ login ~ result', result);
       return result.user.uid;
     } catch (error) {
       throw new Error(error);
