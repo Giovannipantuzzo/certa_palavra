@@ -100,6 +100,7 @@ export const DescriptionCardRedactions = styled.div`
   border-radius: 8px;
   background-color: white;
   padding: 10px;
+  margin-bottom: 10px;
 `;
 
 export const DescriptionCardRedactionsP = styled.p`

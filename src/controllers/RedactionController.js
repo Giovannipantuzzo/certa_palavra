@@ -20,7 +20,6 @@ export async function getAll(request, response) {
   try {
     const { status, firebase_id, firstDate, secondDate } = request.query;
     let redactions;
-    console.log("🚀 ~ file: RedactionController.js ~ line 24 ~ getAll ~ firebase_id", firebase_id)
     if (firebase_id) {
       redactions = await RedactionModel.getAllRedactions(
         status,
