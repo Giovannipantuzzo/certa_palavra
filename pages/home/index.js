@@ -34,13 +34,13 @@ function Intranet() {
     usersNumber();
     if (user?.type === 'Admin') setSelectedButton('DashboardAdmin');
     else if (user?.type === 'Corretor') setSelectedButton('DashboardCorretor');
-    else setSelectedButton('Home');
+    else setSelectedButton('DashboardCorretor');
   }, []);
 
   const menuDashboard = () => {
     switch (selectedButton) {
       case 'DashboardAdmin': return <MainDashboard />;
-      case 'DashboardCorretor': return <AdminDashboard />;
+      case 'DashboardCorretor': return <AdminDashboard renderButton />;
       case 'Home': return <MainDashboard />;
       case 'Cadastro': router.push('/Cadastro');
       case 'Informações': return <InternalChangePassword />;
