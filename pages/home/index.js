@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 import MenuHome from '../../src/components/MenuHome';
 import {
   MeanHomeContainer, SideMenuDashboard, MeanDashboard,
@@ -9,13 +10,12 @@ import InternalChangePassword from '../../src/components/InternalChangePassword'
 import AdminDashboard from '../../src/components/AdminDashboard';
 import MainDashboard from '../../src/components/MainDashboard';
 import { useAuth } from '../../src/contexts/AuthContext';
-import { useRouter } from 'next/router';
 import api from '../../src/utils/api';
 import withAuthUser from '../../src/components/Authentication/WithAuthUser';
 
 toast.configure();
 
-const Intranet = () => {
+function Intranet() {
   const [selectedButton, setSelectedButton] = useState('');
   const [usersCounter, setUsersCounter] = useState(0);
   const { logout, user } = useAuth();
@@ -34,7 +34,7 @@ const Intranet = () => {
   useEffect(() => {
     usersNumber();
     if (user?.type === 'Admin') setSelectedButton('DashboardAdmin');
-    else if (user?.type === 'Corretor') setSelectedButton('DashboardCorretor');
+    else if (user?.type === 'Corretor') setSelectedButton('DashboardAdmin');
     else setSelectedButton('DashboardAdmin');
   }, []);
 
@@ -57,7 +57,9 @@ const Intranet = () => {
     <>
       {user?.type === 'Admin' && (
         <UsersCounter>
-          Número de usuários: {usersCounter}
+          Número de usuários:
+          {' '}
+          {usersCounter}
           <UsersCounterLine />
         </UsersCounter>
       )}
@@ -71,6 +73,6 @@ const Intranet = () => {
       </MeanHomeContainer>
     </>
   );
-};
+}
 
 export default withAuthUser(Intranet);
