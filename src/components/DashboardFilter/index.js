@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
-import api from '../../utils/api';
 import DatePicker from '@material-ui/lab/DatePicker';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import TextField from '@mui/material/TextField';
@@ -12,6 +11,7 @@ import {
 import ptBR from 'date-fns/locale/pt-BR';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import api from '../../utils/api';
 import {
   SearchContainerModal, SearchText,
   SearchAdvancedTitle, SearchAdvancedContent,
@@ -21,35 +21,38 @@ import {
 toast.configure();
 
 function DashboardFilter({
-  handleClose, setData, setPendingData,
+  handleClose, setData, setPendingData, getAllAccounts,
 }) {
   const [firstDate, setFirstDate] = useState(moment().toDate());
   const [secondDate, setSecondDate] = useState(moment().toDate());
 
   const handleDataFilter = async () => {
-    try {
-      const response = await api.get('/redaction', {
-        params: {
-          status: true,
-          firstDate: firstDate,
-          secondDate: secondDate,
-        }
-      });
-      setData(response.data)
+    if (getAllAccounts) {
+      getAllAccounts(true, firstDate, secondDate);
+    } else {
+      try {
+        const response = await api.get('/redaction', {
+          params: {
+            status: true,
+            firstDate,
+            secondDate,
+          },
+        });
+        setData(response.data);
 
-      const responsePending = await api.get('/redaction', {
-        params: {
-          status: false,
-          firstDate: firstDate,
-          secondDate: secondDate,
-        }
-      });
-      setPendingData(responsePending.data);
-
+        const responsePending = await api.get('/redaction', {
+          params: {
+            status: false,
+            firstDate,
+            secondDate,
+          },
+        });
+        setPendingData(responsePending.data);
+      } catch (error) {
+        toast('Erro ao aplicar filtro!', { position: toast.POSITION.BOTTOM_RIGHT });
+      }
       handleClose();
       toast('Filtro aplicado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
-    } catch (error) {
-      toast('Erro ao aplicar filtro!', { position: toast.POSITION.BOTTOM_RIGHT });
     }
   };
 

@@ -226,7 +226,7 @@ function TableComponent({
     style: matchesFont85
       ? {
         fontSize: '85%',
-        backgroundColor: '#2574A9',
+        backgroundColor: '#004e7b',
         color: 'white',
         padding: '3px',
         textAlign: 'center',
@@ -234,12 +234,12 @@ function TableComponent({
       : matchesFont90
         ? {
           fontSize: '90%',
-          backgroundColor: '#2574A9',
+          backgroundColor: '#004e7b',
           color: 'white',
         }
         : {
           fontSize: '100%',
-          backgroundColor: '#2574A9',
+          backgroundColor: '#004e7b',
           color: 'white',
         },
   };
@@ -251,7 +251,7 @@ function TableComponent({
         fontSize: '1em',
         fontWeight: '900',
         backgroundColor: '#E5E4E2',
-        color: '#2574A9',
+        color: '#004e7b',
         padding: '6px',
       }
       : matchesFont90
@@ -260,14 +260,14 @@ function TableComponent({
           fontWeight: '900',
           textAlign: 'center',
           backgroundColor: '#E5E4E2',
-          color: '#2574A9',
+          color: '#004e7b',
         }
         : {
           fontSize: '1.2em',
           fontWeight: '900',
           textAlign: 'center',
           backgroundColor: '#E5E4E2',
-          color: '#2574A9',
+          color: '#004e7b',
         },
   };
 
@@ -275,19 +275,19 @@ function TableComponent({
     style: matchesFont85
       ? {
         fontSize: '85%',
-        backgroundColor: '#2574A9',
+        backgroundColor: '#91ca6c',
         color: 'white',
         padding: '6px',
       }
       : matchesFont90
         ? {
           fontSize: '90%',
-          backgroundColor: '#2574A9',
+          backgroundColor: '#91ca6c',
           color: 'white',
         }
         : {
           fontSize: '100%',
-          backgroundColor: '#2574A9',
+          backgroundColor: '#91ca6c',
           color: 'white',
         },
   };

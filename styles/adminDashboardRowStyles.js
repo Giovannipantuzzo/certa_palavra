@@ -17,19 +17,12 @@ export const ContainerModal = styled.div`
     background-color: white;
     border: 0.5px solid ${({ theme }) => theme.colors.primary};
     box-shadow: 24;
-    padding: 3%;
-    @media (max-width: 500px) {
+    padding: 2%;
+    @media (max-width: 625px) {
       width: 90%;
     }
-`;
-
-export const ImageContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     @media (max-width: 500px) {
-      width: 90%;
+      width: 80%;
     }
 `;
 
@@ -45,7 +38,7 @@ export const CloseModal = styled.button`
   border: none;
 `;
 
-export const SendRedactionButton = styled.div`
+export const ExcludeCorrectorButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,14 +80,23 @@ export const TextBox2 = styled.input`
 `;
 
 export const FormRegister = styled(Form)`
-  width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
 `;
 
 export const Subtitle = styled.p`
   display: flex;
   font-size: 30px;
-  text-decoration: underline;
   font-weight: 500;
+  text-align: center;
+  @media (max-width: 1300px) {
+    font-size: 25px;
+    }
+  @media (max-width: 700px) {
+    font-size: 20px;
+    }
 `;
 
 export const SendRedactionButtonP = styled.p`
@@ -123,9 +125,6 @@ export const ButtonSubmit = styled.button`
     width: 40%;
     font-size: 15px;
     font-weight: 500;
-    border: solid black;
-    border-width: 1px;
-    border-radius: 3px;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -135,6 +134,7 @@ export const ButtonSubmit = styled.button`
     background-color: ${({ theme }) => theme.colors.green};
     color: white;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    border: 0;
 `;
 
 export const ButtonAlignP = styled.p`
