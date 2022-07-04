@@ -1,10 +1,24 @@
 import styled from 'styled-components';
+import {
+  FormGroup,
+} from 'react-bootstrap';
+
+export const MyFormGroup = styled(FormGroup)`
+  display : flex;
+  width : 100%;
+  justify-content : center;
+  margin-bottom: 1%;
+  margin-top: 2%;
+`;
 
 export const ContainerCardsRedaction = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   padding: 0 15px 15px;
+  @media (max-width: 700px) {
+    padding: 0;
+  }
 `;
 
 export const DivisionCardsRedaction = styled.div`
@@ -135,5 +149,12 @@ export const ContainerRedactionDate = styled.div`
   margin-right: 10px;
 `;
 
-
+export const TextBox2 = styled.input`
+  width: 80%;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  background: #F8F8F8;
+`;
 

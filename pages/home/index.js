@@ -11,10 +11,11 @@ import MainDashboard from '../../src/components/MainDashboard';
 import { useAuth } from '../../src/contexts/AuthContext';
 import { useRouter } from 'next/router';
 import api from '../../src/utils/api';
+import withAuthUser from '../../src/components/Authentication/WithAuthUser';
 
 toast.configure();
 
-function Intranet() {
+const Intranet = () => {
   const [selectedButton, setSelectedButton] = useState('');
   const [usersCounter, setUsersCounter] = useState(0);
   const { logout, user } = useAuth();
@@ -70,6 +71,6 @@ function Intranet() {
       </MeanHomeContainer>
     </>
   );
-}
+};
 
-export default Intranet;
+export default withAuthUser(Intranet);

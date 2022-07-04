@@ -7,10 +7,12 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import MyDatasEdit from '../../src/components/MyDatasEdit';
 import Image from 'next/image';
+import withAuthUser from '../../src/components/Authentication/WithAuthUser';
+
 
 toast.configure();
 
-export default function MyDatas() {
+const MyDatas = () => {
   const { user, setUser } = useAuth();
   const router = useRouter();
 
@@ -81,4 +83,6 @@ export default function MyDatas() {
     router.push('/404');
     toast('Erro ao obter dados do usuário', { position: toast.POSITION.BOTTOM_RIGHT });
   });
-}
+};
+
+export default withAuthUser(MyDatas);

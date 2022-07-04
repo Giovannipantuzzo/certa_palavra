@@ -17,17 +17,18 @@ import api from '../../src/utils/api';
 import { BodyUser, ItemFormulary } from '../../src/components/BodyForms';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-  WordFormGroup, MyFormGroup, Phone, Pass, NumbersForms, DDD,
+  MyFormGroup, Pass, NumbersForms, DDD,
   Subtitle, Register,
-  Buttons, FormRegister, Submit, ButtonLogin, MyFormGroupPass, MyFormGroupConfirmPass, MyFormGroupDDD
+  Buttons, FormRegister, Submit, MyFormGroupPass, MyFormGroupConfirmPass, MyFormGroupDDD
 } from '../../styles/cadastroStyles';
 import { TextBox2, Senha, ConfirmarSenha, TextDDD, Select } from '../../src/components/FormComponents';
+import withAuthAdmin from '../../src/components/Authentication/WithAuthAdmin';
 
 import ptBR from 'date-fns/locale/pt-BR';
 
 toast.configure();
 
-export default function Signup() {
+const Signup = () => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -275,4 +276,6 @@ export default function Signup() {
       </BodyUser>
     </>
   );
-}
+};
+
+export default withAuthAdmin(Signup);
