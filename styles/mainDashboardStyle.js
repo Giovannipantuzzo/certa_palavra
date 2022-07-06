@@ -183,3 +183,37 @@ export const Download = styled.button`
   }
 `;
 
+export const BlockQuote = styled.div`
+  max-width: 60%;
+  margin-top: 25px;
+  margin-left: 29%;
+  background: ${({ theme }) => theme.colors.lightGreen};
+  padding: 8px;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 11pt;
+  color: white;
+  position: relative;
+  @media (max-width: 1500px) {
+    margin-left: 25%;
+  }
+  @media (max-width: 570px) {
+    font-size: 9pt;
+  }
+  @media (max-width: 400px) {
+    margin-left: 1%;
+    max-width: 85%;
+  }
+`;
+
+export const BlockQuoteDetail = styled.div`
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-right: 10px solid transparent;
+  border-top: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-bottom: 10px solid transparent;
+  right: -19px;
+  top: 6px;
+`;

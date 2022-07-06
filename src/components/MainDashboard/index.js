@@ -13,7 +13,7 @@ import {
   LoaderCardsRedaction, BodyRedactionCard, CardRedaction,
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
   DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
-  TextBox2, MyFormGroup, Download, ContainerDownload
+  TextBox2, MyFormGroup, Download, ContainerDownload, BlockQuote, BlockQuoteDetail,
 } from '../../../styles/mainDashboardStyle';
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
@@ -184,12 +184,12 @@ export default function MainDashboard() {
                         {dataNascimentoFormatada(redaction?.created_at)}
                       </h5>
                       {user?.type === 'Corretor' && (
-                      <MdOutlineModeEditOutline
-                        onClick={() => handlePushEditor(redaction)}
-                        style={{
-                          height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px',
-                        }}
-                      />
+                        <MdOutlineModeEditOutline
+                          onClick={() => handlePushEditor(redaction)}
+                          style={{
+                            height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px',
+                          }}
+                        />
                       )}
                     </ContainerRedactionDate>
                   </TitleCardRedaction>
@@ -288,6 +288,10 @@ export default function MainDashboard() {
                           onClick={() => commentOnRedaction(redaction.redaction_id)}
                         />
                       </MyFormGroup>
+                      <BlockQuote>
+                        <BlockQuoteDetail />
+                        <p>comentário para teste comentário para teste comentário para teste</p>
+                      </BlockQuote>
                     </DescriptionCardRedactions>
                   )
                 }
