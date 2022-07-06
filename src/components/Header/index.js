@@ -17,6 +17,7 @@ Header.Wrapper = styled.div`
   display: flex;
   width: 100%;
   height: 25vh;
+  max-height: 125px;
   flex-direction: column;
   @media (max-width: 400px) {
     height: 21vh;
