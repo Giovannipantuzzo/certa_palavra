@@ -1,7 +1,8 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-async-promise-executor */
+import RedactionCommentsModel from './RedactionCommentsModel';
+
 const { connection } = require('../database/connection');
-import RedactionCommentsModel from '../models/RedactionCommentsModel';
 
 module.exports = {
 
@@ -47,11 +48,18 @@ module.exports = {
             const redactionComments = await RedactionCommentsModel.getAllComments(redaction.redaction_id);
             redaction.comments = redactionComments;
           }
+        } else {
+          response = await connection('redaction')
+            .where('status', status)
+            .select('*');
+
+          for (const redaction of response) {
+            const correctedRedaction = await connection('corrected_redactions')
+              .where('redaction_id', redaction.redaction_id)
+              .first();
+            redaction.rate = correctedRedaction?.rate;
+          }
         }
-      } else {
-        response = await connection('redaction')
-          .where('status', status)
-          .select('*');
       }
 
       return response;
