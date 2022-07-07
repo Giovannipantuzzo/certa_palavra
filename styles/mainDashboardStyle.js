@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {
   FormGroup,
 } from 'react-bootstrap';
+import Image from 'next/image';
 
 export const MyFormGroup = styled(FormGroup)`
   display : flex;
@@ -182,4 +183,94 @@ export const Download = styled.button`
       width: 40%;
   }
 `;
+
+export const BlockQuote = styled.div`
+  max-width: 60%;
+  margin-top: 25px;
+  margin-left: 29%;
+  background: ${({ theme }) => theme.colors.lightGreen};
+  padding: 8px;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 11pt;
+  color: white;
+  position: relative;
+  @media (max-width: 1500px) {
+    margin-left: 25%;
+  }
+  @media (max-width: 570px) {
+    font-size: 9pt;
+  }
+  @media (max-width: 400px) {
+    margin-left: 4.6%;
+    max-width: 85%;
+  }
+`;
+
+export const BlockQuoteResp = styled.div`
+  max-width: 60%;
+  margin-top: 15px;
+  margin-left: 5%;
+  background: ${({ theme }) => theme.colors.lightGreen};
+  padding: 8px;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 11pt;
+  color: white;
+  position: relative;
+  @media (max-width: 570px) {
+    font-size: 9pt;
+  }
+  @media (max-width: 400px) {
+    max-width: 85%;
+    margin-left: 4%;
+  }
+`;
+
+export const BlockQuoteDetail = styled.div`
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-right: 10px solid transparent;
+  border-top: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-bottom: 10px solid transparent;
+  right: -19px;
+  top: 6px;
+`;
+
+export const BlockQuoteDetailResp = styled.div`
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-top: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-bottom: 10px solid transparent;
+  left: -19px;
+  top: 6px;
+`;
+
+export const BlockQuoteDetailRespImageContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-right: 15px;
+`;
+
+export const BlockQuoteName = styled.p`
+  margin-left: 10px;
+  font-size: 9pt;
+  max-width: 70%
+  @media (max-width: 400px) {
+    font-size: 7pt;
+  }
+`;
+
+export const BlockQuoteDetailRespImage = styled(Image)`
+   position: absolute;
+   border-radius: 50%;
+   right: -19px;;
+`;
+
 

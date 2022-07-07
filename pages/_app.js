@@ -19,7 +19,7 @@ const theme = {
     yellow: '#fddf4e',
     green: '#91ca6c',
     lightGreen: '#00b7a1',
-    pink: '##ef476d',
+    pink: '#ef476d',
     lightBlue: '##038dbe',
     background: '#F8F8F8',
     hoverBackground: 'rgba(96, 150, 148, 0.3)',

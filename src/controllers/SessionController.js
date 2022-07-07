@@ -76,8 +76,9 @@ export async function signIn(req, res) {
     try {
       firebase_id = await FirebaseModel.login(email, password);
       const user = await UserModel.getUserById(firebase_id);
+      let accessToken;
       if (user) {
-        const accessToken = jwt.sign(
+        accessToken = jwt.sign(
           { user },
           process.env.NEXT_PUBLIC_JWT_SECRET,
         );
@@ -91,11 +92,14 @@ export async function signIn(req, res) {
         const body = {
           attempts: 0,
         };
+
         await AttemptsModel.updateAttempt(body, email);
 
         return res.status(200).json({ accessToken, user });
       }
-
+      const body = {
+        attempts: 0,
+      };
       await AttemptsModel.updateAttempt(body, email);
       await req.session.save();
 

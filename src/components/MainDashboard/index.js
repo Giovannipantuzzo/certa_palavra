@@ -13,7 +13,9 @@ import {
   LoaderCardsRedaction, BodyRedactionCard, CardRedaction,
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
   DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
-  TextBox2, MyFormGroup, Download, ContainerDownload
+  TextBox2, MyFormGroup, Download, ContainerDownload, BlockQuote, BlockQuoteDetail,
+  BlockQuoteResp, BlockQuoteDetailResp, BlockQuoteDetailRespImage, BlockQuoteDetailRespImageContainer,
+  BlockQuoteName,
 } from '../../../styles/mainDashboardStyle';
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
@@ -55,9 +57,14 @@ export default function MainDashboard() {
     setOpenFilter(!openFilter);
   };
 
+  const handleComment = (value, field) => {
+    setComment({ comment, [field]: value });
+    console.log("🚀 ~ file: index.js ~ line 60 ~ commentOnRedaction ~ comment", comment)
+  };
+
   const getDownload = async (file_url) => {
     try {
-      FileSaver.saveAs(file_url, 'redação.jpg');
+      FileSaver.saveAs(file_url, 'redação');
     } catch (error) {
       toast('Erro ao baixar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
     }
@@ -82,8 +89,21 @@ export default function MainDashboard() {
     }
   };
 
-  const commentOnRedaction = async (redaction_id) => {
+  const commentOnRedaction = async (redaction_id, comment) => {
     try {
+      console.log("🚀 ~ file: index.js ~ line 91 ~ commentOnRedaction ~ redaction_id", redaction_id)
+      console.log("🚀 ~ file: index.js ~ line 101 ~ commentOnRedaction ~ comment", comment)
+      console.log("🚀 ~ file: index.js ~ line 99 ~ commentOnRedaction ~ firebase_id", firebase_id)
+
+      await api.post(
+        '/redactionComments',
+        {
+          firebase_id: user.firebase_id,
+          redaction_id: redaction_id,
+          comment: comment,
+        },
+      );
+
       getRedactions();
     } catch (error) {
       toast('Erro ao comentar sobre correção/redação', { position: toast.POSITION.BOTTOM_RIGHT });
@@ -184,12 +204,12 @@ export default function MainDashboard() {
                         {dataNascimentoFormatada(redaction?.created_at)}
                       </h5>
                       {user?.type === 'Corretor' && (
-                      <MdOutlineModeEditOutline
-                        onClick={() => handlePushEditor(redaction)}
-                        style={{
-                          height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px',
-                        }}
-                      />
+                        <MdOutlineModeEditOutline
+                          onClick={() => handlePushEditor(redaction)}
+                          style={{
+                            height: '20px', width: '20px', cursor: 'pointer', marginLeft: '5px',
+                          }}
+                        />
                       )}
                     </ContainerRedactionDate>
                   </TitleCardRedaction>
@@ -255,7 +275,7 @@ export default function MainDashboard() {
                             height: '25px',
                             width: '25px',
                             marginRight: '2%',
-                            color: `${data === true ? '#91ca6c' : 'black'}`,
+                            color: `${redaction?.rate === true ? '#91ca6c' : 'black'}`,
                             cursor: 'pointer',
                           }}
                           onClick={() => rateRedaction('like', redaction.redaction_id)}
@@ -264,7 +284,7 @@ export default function MainDashboard() {
                           style={{
                             height: '25px',
                             width: '25px',
-                            color: `${data === true ? '#91ca6c' : 'black'}`,
+                            color: `${redaction?.rate === false ? '#91ca6c' : 'black'}`,
                             cursor: 'pointer',
                           }}
                           onClick={() => rateRedaction('dislike', redaction.redaction_id)}
@@ -276,7 +296,7 @@ export default function MainDashboard() {
                           placeholder="Comentário"
                           required
                           value={comment}
-                          onChange={(e) => setComment(e.target.value)}
+                          onChange={(e) => handleComment(e.target.value, 'comment')}
                         />
                         <AiOutlineSend
                           style={{
@@ -288,6 +308,23 @@ export default function MainDashboard() {
                           onClick={() => commentOnRedaction(redaction.redaction_id)}
                         />
                       </MyFormGroup>
+                      {redaction?.comments?.map((response) => {
+                        return (redaction.firebase_id === user?.firebase_id ? (
+                          <BlockQuote>
+                            <BlockQuoteDetail />
+                            <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
+                          </BlockQuote>
+                        ) : (
+                          <BlockQuoteResp>
+                            <BlockQuoteDetailResp />
+                            <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
+                            <BlockQuoteDetailRespImageContainer>
+                              <BlockQuoteDetailRespImage src="/fotoPerfil.jpg" alt="Perfil" width="25" height="25" />
+                              <BlockQuoteName>{redaction.corrector.name}</BlockQuoteName>
+                            </BlockQuoteDetailRespImageContainer>
+                          </BlockQuoteResp>
+                        ));
+                      })}
                     </DescriptionCardRedactions>
                   )
                 }

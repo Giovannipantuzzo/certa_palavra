@@ -3,10 +3,9 @@ const { connection } = require('../database/connection');
 
 module.exports = {
 
-  async getAllComments(firebase_id, redaction_id) {
+  async getAllComments(redaction_id) {
     try {
       const response = await connection('redaction_comments')
-        .where({ firebase_id: firebase_id })
         .where({ redaction_id: redaction_id })
         .orderBy('created_at')
         .select('*');
