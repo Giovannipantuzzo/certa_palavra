@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
-import { useAuth } from '../../src/contexts/AuthContext';
-import {
-  ContainerDatas, PerfilImage, AddressData, InsidePaper, PerfilTitle
-} from '../../styles/perfilStyles';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import MyDatasEdit from '../../src/components/MyDatasEdit';
 import Image from 'next/image';
+import { useAuth } from '../../src/contexts/AuthContext';
+import {
+  ContainerDatas, PerfilImage, AddressData, InsidePaper, PerfilTitle,
+} from '../../styles/perfilStyles';
+import MyDatasEdit from '../../src/components/MyDatasEdit';
 import withAuthUser from '../../src/components/Authentication/WithAuthUser';
-
+import api from '../../src/utils/api';
 
 toast.configure();
 
-const MyDatas = () => {
+function MyDatas() {
   const { user, setUser } = useAuth();
   const router = useRouter();
 
@@ -41,13 +41,31 @@ const MyDatas = () => {
 
   if (user) {
     return (
-      <ContainerDatas >
+      <ContainerDatas>
         <InsidePaper>
           <PerfilTitle>Dados do usuário:</PerfilTitle>
           <PerfilImage>
-            <Image src="/fotoPerfil.jpg" alt="" width="110" height="90" style={{
-              borderRadius: '45%',
-            }} />
+            {user?.perfil_photo_url ? (
+              <Image
+                src={`${user?.perfil_photo_url}`}
+                alt=""
+                width="110"
+                height="90"
+                style={{
+                  borderRadius: '45%',
+                }}
+              />
+            ) : (
+              <Image
+                src="/fotoPerfil.jpg"
+                alt=""
+                width="110"
+                height="90"
+                style={{
+                  borderRadius: '45%',
+                }}
+              />
+            )}
           </PerfilImage>
           <AddressData>
             <b>Nome:</b>
@@ -83,6 +101,6 @@ const MyDatas = () => {
     router.push('/404');
     toast('Erro ao obter dados do usuário', { position: toast.POSITION.BOTTOM_RIGHT });
   });
-};
+}
 
 export default withAuthUser(MyDatas);

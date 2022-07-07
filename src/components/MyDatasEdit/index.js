@@ -1,16 +1,18 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useState, useCallback } from 'react';
 import { FormControl, FormLabel } from 'react-bootstrap';
 import 'date-fns';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { notification } from 'antd';
-import 'antd/dist/antd.css';
-import { useRouter } from 'next/router';
 import Button from '@material-ui/core/Button';
 import { toast } from 'react-toastify';
 import Modal from '@material-ui/core/Modal';
-import { useAuth } from '../../contexts/AuthContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import { makeStyles } from '@material-ui/styles';
+import { useDropzone } from 'react-dropzone';
+import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { useAuth } from '../../contexts/AuthContext';
 import { storage } from '../../utils/firebaseStorage';
 import { Body } from '../BodyForms';
 import WindowDivider from '../WindowDivider';
@@ -18,10 +20,8 @@ import api from '../../utils/api';
 import {
   Title, Edit, MyFormGroup, Phone, Name, NumbersForms, DDD, PhoneFormControl,
   DDDFormControl, Register, Buttons, FormRegister, Submit, CancelSubmit,
-  ContainerDatas,
+  ContainerDatas, ImageContainer,
 } from '../../../styles/myDatasEdit';
-import { useDropzone } from 'react-dropzone';
-import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 
 function CircularProgressWithLabel(
   props,
@@ -77,6 +77,7 @@ export default function MyDatasEdit() {
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [updateImage, setUpdateImage] = useState(false);
+  const [progresspercent, setProgresspercent] = useState(0);
   const classes = useStyles();
 
   const handleOpen = () => {
@@ -90,7 +91,7 @@ export default function MyDatasEdit() {
   async function handleRedactionChange(event) {
     setPhoto(event.target.value);
     setUpdateImage(true);
-  };
+  }
 
   const onDrop = useCallback((accFiles, rejFiles) => {
     if (rejFiles.length > 0) {
@@ -107,7 +108,7 @@ export default function MyDatasEdit() {
       });
       return;
     }
-    setRedaction({ file: accFiles[0], url: URL.createObjectURL(accFiles[0]) });
+    setPhoto({ file: accFiles[0], url: URL.createObjectURL(accFiles[0]) });
     setUpdateImage(true);
   }, [photo]);
 
@@ -131,12 +132,11 @@ export default function MyDatasEdit() {
   const [cpf, setCpf] = useState(user.cpf);
   const [ddd, setDdd] = useState(user.phone.substring(0, 2));
   const [phone, setPhone] = useState(user.phone.substring(2));
-  const router = useRouter();
 
   async function handleSubmit(event) {
+    event.preventDefault();
     setLoading(true);
     setOpen(false);
-    event.preventDefault();
     if (cpf?.length !== 11) {
       alert('CPF inválido');
       return;
@@ -171,20 +171,20 @@ export default function MyDatasEdit() {
               name,
               cpf,
               phone: ddd + phone,
-              photo_url: downloadURL,
+              perfil_photo_url: downloadURL,
             };
-            const response = await api.put(`/user/${user.firebase_id}`, body)
+            const response = await api.put(`/user/${user.firebase_id}`, body);
             setUser(response.data);
+            handleClose();
+            setLoading(false);
           });
-        });
+        },
+      );
       toast('Perfil alterado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
-      handleClose();
-      setLoading(false);
     } catch (error) {
       console.error(error);
       setLoading(false);
       toast('Erro ao alterar perfil!', { position: toast.POSITION.BOTTOM_RIGHT });
-
     }
   }
   const corpo = (
@@ -288,7 +288,7 @@ export default function MyDatasEdit() {
               {!loading && (
                 <>
                   <CancelSubmit onClick={handleClose}>Cancelar</CancelSubmit>
-                  <Submit onClick={handleSubmit}>Atualizar</Submit>
+                  <Submit onClick={(e) => handleSubmit(e)}>Atualizar</Submit>
                 </>
               )}
               {loading && <CircularProgressWithLabel value={progresspercent} />}
@@ -300,11 +300,17 @@ export default function MyDatasEdit() {
   );
   return (
     <Edit>
-      <Button onClick={handleOpen} style={{
-        backgroundColor: '#91ca6c',
-        color: 'black',
-        width: '100%',
-      }}>Editar</Button>
+      <Button
+        onClick={handleOpen}
+        style={{
+          backgroundColor: '#91ca6c',
+          color: 'black',
+          width: '100%',
+        }}
+      >
+        Editar
+
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -313,6 +319,6 @@ export default function MyDatasEdit() {
       >
         {corpo}
       </Modal>
-    </Edit >
+    </Edit>
   );
 }

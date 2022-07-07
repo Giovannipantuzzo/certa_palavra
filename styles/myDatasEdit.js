@@ -18,6 +18,16 @@ color: ${({ theme }) => theme.colors.primary};
 }
 `;
 
+export const ImageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    @media (max-width: 500px) {
+      width: 90%;
+    }
+`;
+
 export const Edit = styled.div`
   display: flex;
   width: 30%;
