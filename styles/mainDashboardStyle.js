@@ -206,6 +206,28 @@ export const BlockQuote = styled.div`
   }
 `;
 
+export const BlockQuoteResp = styled.div`
+  max-width: 60%;
+  margin-top: 15px;
+  margin-left: 0;
+  background: ${({ theme }) => theme.colors.lightGreen};
+  padding: 8px;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 11pt;
+  color: white;
+  position: relative;
+  @media (max-width: 1500px) {
+    margin-left: 0;
+  }
+  @media (max-width: 570px) {
+    font-size: 9pt;
+  }
+  @media (max-width: 400px) {
+    max-width: 85%;
+  }
+`;
+
 export const BlockQuoteDetail = styled.div`
   width: 0px;
   height: 0px;
@@ -217,3 +239,16 @@ export const BlockQuoteDetail = styled.div`
   right: -19px;
   top: 6px;
 `;
+
+export const BlockQuoteDetailResp = styled.div`
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-top: 10px solid ${({ theme }) => theme.colors.lightGreen};
+  border-bottom: 10px solid transparent;
+  right: 380px;
+  top: 6px;
+`;
+

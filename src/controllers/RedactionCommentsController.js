@@ -1,4 +1,5 @@
 import RedactionCommentsModel from '../models/RedactionCommentsModel';
+const { v4: uuidv4 } = require('uuid');
 
 export async function getAllComments(request, response) {
   const { firebase_id, redaction_id } = request.body;
@@ -18,6 +19,8 @@ export async function getAllComments(request, response) {
 
 export async function createComment(request, response) {
   const info = request.body;
+  info.comment_id = uuidv4();
+
   try {
     const newComment = await RedactionCommentsModel.createComment(info);
     return response.status(200).json(newComment);

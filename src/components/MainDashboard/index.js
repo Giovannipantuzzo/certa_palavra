@@ -14,6 +14,7 @@ import {
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
   DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
   TextBox2, MyFormGroup, Download, ContainerDownload, BlockQuote, BlockQuoteDetail,
+  BlockQuoteResp, BlockQuoteDetailResp,
 } from '../../../styles/mainDashboardStyle';
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
@@ -55,6 +56,11 @@ export default function MainDashboard() {
     setOpenFilter(!openFilter);
   };
 
+  const handleComment = (value, field) => {
+    setComment({ comment, [field]: value });
+    console.log("🚀 ~ file: index.js ~ line 60 ~ commentOnRedaction ~ comment", comment)
+  };
+
   const getDownload = async (file_url) => {
     try {
       FileSaver.saveAs(file_url, 'redação.jpg');
@@ -82,8 +88,21 @@ export default function MainDashboard() {
     }
   };
 
-  const commentOnRedaction = async (redaction_id) => {
+  const commentOnRedaction = async (redaction_id, comment) => {
     try {
+      console.log("🚀 ~ file: index.js ~ line 91 ~ commentOnRedaction ~ redaction_id", redaction_id)
+      console.log("🚀 ~ file: index.js ~ line 101 ~ commentOnRedaction ~ comment", comment)
+      console.log("🚀 ~ file: index.js ~ line 99 ~ commentOnRedaction ~ firebase_id", firebase_id)
+
+      await api.post(
+        '/redactionComments',
+        {
+          firebase_id: user.firebase_id,
+          redaction_id: redaction_id,
+          comment: comment,
+        },
+      );
+
       getRedactions();
     } catch (error) {
       toast('Erro ao comentar sobre correção/redação', { position: toast.POSITION.BOTTOM_RIGHT });
@@ -276,7 +295,7 @@ export default function MainDashboard() {
                           placeholder="Comentário"
                           required
                           value={comment}
-                          onChange={(e) => setComment(e.target.value)}
+                          onChange={(e) => handleComment(e.target.value, 'comment')}
                         />
                         <AiOutlineSend
                           style={{
@@ -288,10 +307,27 @@ export default function MainDashboard() {
                           onClick={() => commentOnRedaction(redaction.redaction_id)}
                         />
                       </MyFormGroup>
+                      {/* {historyComments.map((response) => {
+                        response.firebase_id === user.firebase_id ? (
+                          <BlockQuote>
+                            <BlockQuoteDetail />
+                            <p>comentário para teste comentário para teste comentário para teste</p>
+                          </BlockQuote>
+                        ) : (
+                          <BlockQuoteResp>
+                          <BlockQuoteDetailResp />
+                          <p>comentário para teste comentário para teste comentário para teste</p>
+                        </BlockQuoteResp>
+                        );
+                      })} */}
                       <BlockQuote>
                         <BlockQuoteDetail />
                         <p>comentário para teste comentário para teste comentário para teste</p>
                       </BlockQuote>
+                      <BlockQuoteResp>
+                        <BlockQuoteDetailResp />
+                        <p>comentário para teste comentário para teste comentário para teste</p>
+                      </BlockQuoteResp>
                     </DescriptionCardRedactions>
                   )
                 }
