@@ -48,7 +48,7 @@ export default function Header() {
       <Header.Top>
         <ImageBox>
           <Link href="/Home">
-            <Image src="/logo.png" alt="" width="100" height="100" />
+            <Image src="/logo.png" alt="" width="90" height="90" />
           </Link>
         </ImageBox>
         {user ? (
@@ -65,7 +65,7 @@ export default function Header() {
         ) : (
           <LogOut onClick={() => router.push('/login')}>
             <Link href="/login">
-              <FiLogIn size="35" color="#004e7b" style={{ cursor: 'pointer' }} />
+              <FiLogIn size="30" color="#91ca6c" style={{ cursor: 'pointer' }} />
             </Link>
           </LogOut>
         )}

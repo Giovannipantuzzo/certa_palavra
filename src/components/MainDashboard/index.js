@@ -330,7 +330,7 @@ export default function MainDashboard() {
                         <p>comentário para teste comentário para teste comentário para teste</p>
                         <BlockQuoteDetailRespImageContainer>
                           <BlockQuoteDetailRespImage src="/fotoPerfil.jpg" alt="Perfil" width="30" height="30" />
-                          <BlockQuoteName>Nome</BlockQuoteName>
+                          <BlockQuoteName>Nome Nome Nome nomenomedwadawd</BlockQuoteName>
                         </BlockQuoteDetailRespImageContainer>
                       </BlockQuoteResp>
                     </DescriptionCardRedactions>

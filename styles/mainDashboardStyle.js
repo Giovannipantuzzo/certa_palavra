@@ -261,6 +261,7 @@ export const BlockQuoteDetailRespImageContainer = styled.div`
 export const BlockQuoteName = styled.p`
   margin-left: 10px;
   font-size: 9pt;
+  max-width: 70%
   @media (max-width: 400px) {
     font-size: 7pt;
   }
