@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {
   FormGroup,
 } from 'react-bootstrap';
+import Image from 'next/image';
 
 export const MyFormGroup = styled(FormGroup)`
   display : flex;
@@ -201,7 +202,7 @@ export const BlockQuote = styled.div`
     font-size: 9pt;
   }
   @media (max-width: 400px) {
-    margin-left: 1%;
+    margin-left: 4.6%;
     max-width: 85%;
   }
 `;
@@ -209,7 +210,7 @@ export const BlockQuote = styled.div`
 export const BlockQuoteResp = styled.div`
   max-width: 60%;
   margin-top: 15px;
-  margin-left: 0;
+  margin-left: 5%;
   background: ${({ theme }) => theme.colors.lightGreen};
   padding: 8px;
   border-radius: 3px;
@@ -217,14 +218,12 @@ export const BlockQuoteResp = styled.div`
   font-size: 11pt;
   color: white;
   position: relative;
-  @media (max-width: 1500px) {
-    margin-left: 0;
-  }
   @media (max-width: 570px) {
     font-size: 9pt;
   }
   @media (max-width: 400px) {
     max-width: 85%;
+    margin-left: 4%;
   }
 `;
 
@@ -248,7 +247,29 @@ export const BlockQuoteDetailResp = styled.div`
   border-right: 10px solid ${({ theme }) => theme.colors.lightGreen};
   border-top: 10px solid ${({ theme }) => theme.colors.lightGreen};
   border-bottom: 10px solid transparent;
-  right: 380px;
+  left: -19px;
   top: 6px;
 `;
+
+export const BlockQuoteDetailRespImageContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-right: 15px;
+`;
+
+export const BlockQuoteName = styled.p`
+  margin-left: 10px;
+  font-size: 9pt;
+  @media (max-width: 400px) {
+    font-size: 7pt;
+  }
+`;
+
+export const BlockQuoteDetailRespImage = styled(Image)`
+   position: absolute;
+   border-radius: 50%;
+   right: -19px;;
+`;
+
 

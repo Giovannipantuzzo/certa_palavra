@@ -14,7 +14,8 @@ import {
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
   DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
   TextBox2, MyFormGroup, Download, ContainerDownload, BlockQuote, BlockQuoteDetail,
-  BlockQuoteResp, BlockQuoteDetailResp,
+  BlockQuoteResp, BlockQuoteDetailResp, BlockQuoteDetailRespImage, BlockQuoteDetailRespImageContainer,
+  BlockQuoteName,
 } from '../../../styles/mainDashboardStyle';
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
@@ -327,6 +328,10 @@ export default function MainDashboard() {
                       <BlockQuoteResp>
                         <BlockQuoteDetailResp />
                         <p>comentário para teste comentário para teste comentário para teste</p>
+                        <BlockQuoteDetailRespImageContainer>
+                          <BlockQuoteDetailRespImage src="/fotoPerfil.jpg" alt="Perfil" width="30" height="30" />
+                          <BlockQuoteName>Nome</BlockQuoteName>
+                        </BlockQuoteDetailRespImageContainer>
                       </BlockQuoteResp>
                     </DescriptionCardRedactions>
                   )
