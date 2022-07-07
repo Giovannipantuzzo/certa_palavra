@@ -158,7 +158,7 @@ function Editor() {
         <LoadingButton
           variant="contained"
           loading={loading}
-          style={{ backgroundColor: '#1C3854', marginBottom: '5%' }}
+          style={{ backgroundColor: '#004e7b', marginBottom: '5%' }}
           onClick={(e) => handleOpen(e)}
         >
           Cadastrar
