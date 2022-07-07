@@ -37,12 +37,6 @@ export default function Header() {
   const { user } = useAuth();
   const router = useRouter();
 
-  // const handleKeypress = (e) => {
-  //   if (e.key === 'Enter') {
-  //     handleSubmit();
-  //   }
-  // };
-
   return (
     <Header.Wrapper>
       <Header.Top>
@@ -54,8 +48,10 @@ export default function Header() {
         {user ? (
           <YourSpaceContainer onClick={() => router.push('/Perfil')}>
             <YourSpace>
-              {user?.image ? (
-                <BsFillPersonFill style={{ height: '50px', width: '25px' }} />
+              {user?.perfil_photo_url ? (
+                <Image src={`${user.perfil_photo_url}`} alt="perfilPhoto" width="40px" height="40px" style={{
+                  borderRadius: '50%',
+                }} />
               ) : (
                 <BsFillPersonFill style={{ height: '50px', width: '25px' }} />
               )}

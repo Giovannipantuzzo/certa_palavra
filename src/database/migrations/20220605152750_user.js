@@ -8,7 +8,6 @@ exports.up = function (knex) {
     table.string('phone').notNullable();
     table.string('type').notNullable();
     table.string('rate_average');
-    table.string('photo_url');
     table.timestamp('created_at').notNullable().defaultTo(knex.fn.now());
   });
 };

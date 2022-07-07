@@ -40,7 +40,7 @@ module.exports = {
           for (const resp of response) {
             const corrector = await connection('user')
               .where('firebase_id', resp.corrector_firebase_id)
-              .select('name')
+              .select('name', 'perfil_photo_url')
               .first();
             resp.corrector = corrector;
           }

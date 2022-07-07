@@ -319,7 +319,7 @@ export default function MainDashboard() {
                             <BlockQuoteDetailResp />
                             <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
                             <BlockQuoteDetailRespImageContainer>
-                              <BlockQuoteDetailRespImage src="/fotoPerfil.jpg" alt="Perfil" width="25" height="25" />
+                              <BlockQuoteDetailRespImage src={user?.perfil_photo_url ? `${user?.perfil_photo_url}` : "/fotoPerfil.jpg"} alt="Perfil" width="25" height="25" />
                               <BlockQuoteName>{redaction.corrector.name}</BlockQuoteName>
                             </BlockQuoteDetailRespImageContainer>
                           </BlockQuoteResp>
