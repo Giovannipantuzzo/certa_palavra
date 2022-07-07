@@ -18,9 +18,9 @@ module.exports = {
   },
 
   async getAllRedactions(status, firebase_id) {
-    // console.log("🚀 ~ file: RedactionModel.js ~ line 20 ~ getAllRedactions ~ firebase_id", firebase_id)
     try {
       let response;
+      firebase_id = 'LyYHRN8R9oRUdjwIbW6lthgybKp1';
       if (firebase_id) {
         response = await connection('redaction')
           .where('status', status)
@@ -37,8 +37,7 @@ module.exports = {
           .where('status', status)
           .select('*');
       }
-      // .innerJoin('corrected_redactions', 'corrected_redactions.redaction_id', 'redaction.redaction_id');
-      // console.log("🚀 ~ file: RedactionModel.js ~ line 22 ~ getAllRedactions ~ redactions", response)
+
       return response;
     } catch (error) {
       console.error(error);

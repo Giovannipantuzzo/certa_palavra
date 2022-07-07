@@ -275,7 +275,7 @@ export default function MainDashboard() {
                             height: '25px',
                             width: '25px',
                             marginRight: '2%',
-                            color: `${data === true ? '#91ca6c' : 'black'}`,
+                            color: `${redaction?.rate === true ? '#91ca6c' : 'black'}`,
                             cursor: 'pointer',
                           }}
                           onClick={() => rateRedaction('like', redaction.redaction_id)}
@@ -284,7 +284,7 @@ export default function MainDashboard() {
                           style={{
                             height: '25px',
                             width: '25px',
-                            color: `${data === true ? '#91ca6c' : 'black'}`,
+                            color: `${redaction?.rate === false ? '#91ca6c' : 'black'}`,
                             cursor: 'pointer',
                           }}
                           onClick={() => rateRedaction('dislike', redaction.redaction_id)}
