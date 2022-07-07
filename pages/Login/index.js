@@ -62,7 +62,6 @@ function Login() {
         toast('Usuário bloqueado', { position: toast.POSITION.BOTTOM_RIGHT });
       }
       login(email, password, setShowModal, setContent);
-      toast('Login realizado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
     } catch (error) {
       console.error(error); //eslint-disable-line
     }
