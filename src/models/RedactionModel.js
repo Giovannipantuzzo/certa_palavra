@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-async-promise-executor */
 const { connection } = require('../database/connection');
+import RedactionCommentsModel from '../models/RedactionCommentsModel';
 
 module.exports = {
 
@@ -26,11 +27,26 @@ module.exports = {
           .where('status', status)
           .where('firebase_id', firebase_id)
           .select('*');
-        for (const redaction of response) {
-          const correctedRedaction = await connection('corrected_redactions')
-            .where('redaction_id', redaction.redaction_id)
-            .first();
-          redaction.rate = correctedRedaction.rate;
+
+        if (status === true || status === 'true') {
+          for (const redaction of response) {
+            const correctedRedaction = await connection('corrected_redactions')
+              .where('redaction_id', redaction.redaction_id)
+              .first();
+            redaction.rate = correctedRedaction.rate;
+            redaction.corrector_firebase_id = correctedRedaction.firebase_id;
+          }
+          for (const resp of response) {
+            const corrector = await connection('user')
+              .where('firebase_id', resp.corrector_firebase_id)
+              .select('name')
+              .first();
+            resp.corrector = corrector;
+          }
+          for (const redaction of response) {
+            const redactionComments = await RedactionCommentsModel.getAllComments(redaction.redaction_id);
+            redaction.comments = redactionComments;
+          }
         }
       } else {
         response = await connection('redaction')

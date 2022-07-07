@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { useRouter } from 'next/router';
 import {
   Body,
   Formulary,
@@ -32,7 +31,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [content, setContent] = useState('');
-  const router = useRouter();
 
   const {
     login,
@@ -65,7 +63,6 @@ function Login() {
       }
       login(email, password, setShowModal, setContent);
       toast('Login realizado com sucesso!', { position: toast.POSITION.BOTTOM_RIGHT });
-      router.push('/Home');
     } catch (error) {
       console.error(error); //eslint-disable-line
     }

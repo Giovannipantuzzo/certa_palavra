@@ -64,7 +64,7 @@ export default function MainDashboard() {
 
   const getDownload = async (file_url) => {
     try {
-      FileSaver.saveAs(file_url, 'redação.jpg');
+      FileSaver.saveAs(file_url, 'redação');
     } catch (error) {
       toast('Erro ao baixar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
     }
@@ -308,31 +308,23 @@ export default function MainDashboard() {
                           onClick={() => commentOnRedaction(redaction.redaction_id)}
                         />
                       </MyFormGroup>
-                      {/* {historyComments.map((response) => {
-                        response.firebase_id === user.firebase_id ? (
+                      {redaction?.comments?.map((response) => {
+                        return (redaction.firebase_id === user?.firebase_id ? (
                           <BlockQuote>
                             <BlockQuoteDetail />
-                            <p>comentário para teste comentário para teste comentário para teste</p>
+                            <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
                           </BlockQuote>
                         ) : (
                           <BlockQuoteResp>
-                          <BlockQuoteDetailResp />
-                          <p>comentário para teste comentário para teste comentário para teste</p>
-                        </BlockQuoteResp>
-                        );
-                      })} */}
-                      <BlockQuote>
-                        <BlockQuoteDetail />
-                        <p>comentário para teste comentário para teste comentário para teste</p>
-                      </BlockQuote>
-                      <BlockQuoteResp>
-                        <BlockQuoteDetailResp />
-                        <p>comentário para teste comentário para teste comentário para teste</p>
-                        <BlockQuoteDetailRespImageContainer>
-                          <BlockQuoteDetailRespImage src="/fotoPerfil.jpg" alt="Perfil" width="30" height="30" />
-                          <BlockQuoteName>Nome Nome Nome nomenomedwadawd</BlockQuoteName>
-                        </BlockQuoteDetailRespImageContainer>
-                      </BlockQuoteResp>
+                            <BlockQuoteDetailResp />
+                            <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
+                            <BlockQuoteDetailRespImageContainer>
+                              <BlockQuoteDetailRespImage src="/fotoPerfil.jpg" alt="Perfil" width="25" height="25" />
+                              <BlockQuoteName>{redaction.corrector.name}</BlockQuoteName>
+                            </BlockQuoteDetailRespImageContainer>
+                          </BlockQuoteResp>
+                        ));
+                      })}
                     </DescriptionCardRedactions>
                   )
                 }
