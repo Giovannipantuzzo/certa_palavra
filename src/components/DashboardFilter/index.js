@@ -21,7 +21,7 @@ import {
 toast.configure();
 
 function DashboardFilter({
-  handleClose, setData, setPendingData, getAllAccounts,
+  handleClose, setData, setPendingData, getAllAccounts, userId, userType
 }) {
   const [firstDate, setFirstDate] = useState(moment().toDate());
   const [secondDate, setSecondDate] = useState(moment().toDate());
@@ -34,6 +34,8 @@ function DashboardFilter({
         const response = await api.get('/redaction', {
           params: {
             status: true,
+            firebase_id: userId,
+            userType,
             firstDate,
             secondDate,
           },

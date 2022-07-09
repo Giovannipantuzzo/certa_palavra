@@ -23,17 +23,20 @@ export async function getOne(request, response) {
 export async function getAll(request, response) {
   try {
     const {
-      status, firebase_id, firstDate, secondDate,
+      status, firebase_id, userType, firstDate, secondDate,
     } = request.query;
     let redactions;
     if (firebase_id) {
       redactions = await RedactionModel.getAllRedactions(
         status,
         firebase_id,
+        userType,
       );
     } else if (firstDate && secondDate) {
       redactions = await RedactionModel.getAllRedactionsFiltered(
         status,
+        firebase_id,
+        userType,
         firstDate,
         secondDate,
       );

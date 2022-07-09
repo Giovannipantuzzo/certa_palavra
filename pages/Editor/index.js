@@ -17,6 +17,7 @@ import { dataURLtoFile } from '../../src/components/ImageEditor/dataUrlToFile';
 import { storage } from '../../src/components/ImageEditor/firebaseStorage';
 import api from '../../src/utils/api';
 import withAuthCorretor from '../../src/components/Authentication/WithAuthCorretor';
+import { useAuth } from '../../src/contexts/AuthContext';
 
 const DynamicComponentWithNoSSR = dynamic(
   () => import('../../src/components/ImageEditor/imageEditor'),
@@ -34,6 +35,7 @@ function Editor() {
   const [loading, setLoading] = useState(false);
   const [progresspercent, setProgresspercent] = useState(0);
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
 
   async function getRedaction() {
     try {
@@ -89,6 +91,7 @@ function Editor() {
           body.file_url = downloadURL;
           body.status = true;
           body.final_grade = final_grade;
+          body.redaction_corrector_id = user?.firebase_id;
 
           try {
             await api.put(`/redaction/${redaction_id}`, body);

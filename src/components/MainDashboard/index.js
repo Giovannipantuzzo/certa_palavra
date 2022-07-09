@@ -115,11 +115,21 @@ export default function MainDashboard() {
     let responsePending;
     try {
       if (user?.type !== 'User') {
-        response = await api.get('/redaction', {
-          params: {
-            status: true,
-          },
-        });
+        if (user?.type === 'Corretor') {
+          response = await api.get('/redaction', {
+            params: {
+              status: true,
+              firebase_id: user.firebase_id,
+              userType: user?.type,
+            },
+          });
+        } else {
+          response = await api.get('/redaction', {
+            params: {
+              status: true,
+            },
+          });
+        }
         responsePending = await api.get('/redaction', {
           params: {
             status: false,
@@ -130,12 +140,14 @@ export default function MainDashboard() {
           params: {
             status: true,
             firebase_id: user.firebase_id,
+            userType: user?.type,
           },
         });
         responsePending = await api.get('/redaction', {
           params: {
             status: false,
             firebase_id: user.firebase_id,
+            userType: user?.type,
           },
         });
       }
@@ -143,8 +155,8 @@ export default function MainDashboard() {
       setPendingData(responsePending?.data);
       setLoading(false);
     } catch (error) {
-      router.push('/404');
       toast('Erro ao obter redações', { position: toast.POSITION.BOTTOM_RIGHT });
+      setLoading(false);
     }
   };
 
@@ -169,7 +181,7 @@ export default function MainDashboard() {
             {' '}
             {pendingData.length}
           </TitleCardsRedactionPageH1>
-          {user?.type === 'Admin' ? (
+          {(user?.type === 'Admin' || user?.type === 'Corretor') ? (
             <FaFilter
               onClick={handleFilter}
               style={{
@@ -309,7 +321,7 @@ export default function MainDashboard() {
                         />
                       </MyFormGroup>
                       {redaction?.comments?.map((response) => {
-                        return (redaction.firebase_id === user?.firebase_id ? (
+                        return (response.firebase_id === user?.firebase_id ? (
                           <BlockQuote>
                             <BlockQuoteDetail />
                             <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
@@ -320,7 +332,7 @@ export default function MainDashboard() {
                             <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
                             <BlockQuoteDetailRespImageContainer>
                               <BlockQuoteDetailRespImage src={user?.perfil_photo_url ? `${user?.perfil_photo_url}` : "/fotoPerfil.jpg"} alt="Perfil" width="25" height="25" />
-                              <BlockQuoteName>{redaction.corrector.name}</BlockQuoteName>
+                              <BlockQuoteName>{redaction.corrector?.name ? redaction.corrector.name : redaction.user.name}</BlockQuoteName>
                             </BlockQuoteDetailRespImageContainer>
                           </BlockQuoteResp>
                         ));
@@ -339,6 +351,8 @@ export default function MainDashboard() {
             handleClose={handleFilter}
             setData={setData}
             setPendingData={setPendingData}
+            userId={user.firebase_id}
+            userType={user.type}
           />
         )
       }

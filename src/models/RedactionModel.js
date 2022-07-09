@@ -19,30 +19,43 @@ module.exports = {
     }
   },
 
-  async getAllRedactions(status, firebase_id) {
+  async getAllRedactions(status, firebase_id, userType) {
     try {
       let response;
-      firebase_id = 'LyYHRN8R9oRUdjwIbW6lthgybKp1';
       if (firebase_id) {
-        response = await connection('redaction')
-          .where('status', status)
-          .where('firebase_id', firebase_id)
-          .select('*');
+        response = userType === 'User' ? (
+          await connection('redaction')
+            .where('status', status)
+            .where('firebase_id', firebase_id)
+            .select('*')) : (
+          await connection('redaction')
+            .where('status', status)
+            .where('redaction_corrector_id', firebase_id)
+            .select('*')
+        )
 
         if (status === true || status === 'true') {
           for (const redaction of response) {
             const correctedRedaction = await connection('corrected_redactions')
               .where('redaction_id', redaction.redaction_id)
               .first();
-            redaction.rate = correctedRedaction.rate;
-            redaction.corrector_firebase_id = correctedRedaction.firebase_id;
+            redaction.rate = correctedRedaction?.rate;
+            redaction.corrector_firebase_id = correctedRedaction?.firebase_id;
           }
           for (const resp of response) {
-            const corrector = await connection('user')
-              .where('firebase_id', resp.corrector_firebase_id)
-              .select('name', 'perfil_photo_url')
-              .first();
-            resp.corrector = corrector;
+            if (userType === 'Corretor') {
+              const user = await connection('user')
+                .where('firebase_id', resp.firebase_id)
+                .select('name', 'perfil_photo_url')
+                .first();
+              resp.user = user;
+            } else {
+              const corrector = await connection('user')
+                .where('firebase_id', resp.corrector_firebase_id)
+                .select('name', 'perfil_photo_url')
+                .first();
+              resp.corrector = corrector;
+            }
           }
           for (const redaction of response) {
             const redactionComments = await RedactionCommentsModel.getAllComments(redaction.redaction_id);
@@ -69,13 +82,21 @@ module.exports = {
     }
   },
 
-  async getAllRedactionsFiltered(status, firstDate, secondDate) {
+  async getAllRedactionsFiltered(status, firebase_id, userType, firstDate, secondDate) {
     try {
-      const response = await connection('redaction')
-        .where('status', status)
-        .where('redaction.created_at', '>=', `${firstDate}`)
-        .where('redaction.corrected_at', '<=', `${secondDate}`)
-        .select('*');
+      const response = userType === 'Corretor' ? (
+        await connection('redaction')
+          .where('status', status)
+          .where('redaction_corrector_id', firebase_id)
+          .where('redaction.created_at', '>=', `${firstDate}`)
+          .where('redaction.corrected_at', '<=', `${secondDate}`)
+          .select('*')) : (
+        await connection('redaction')
+          .where('status', status)
+          .where('redaction.created_at', '>=', `${firstDate}`)
+          .where('redaction.corrected_at', '<=', `${secondDate}`)
+          .select('*')
+      )
       return response;
     } catch (error) {
       console.error(error);
