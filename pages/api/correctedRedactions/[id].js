@@ -1,4 +1,4 @@
-import { getById, deleteByID } from '../../../src/controllers/CorrectedRedactionsController';
+import { getById, deleteByID } from '../../../src/controllers/CorrectedRedactionController';
 import { withAuthValidation } from '../../../src/utils/Auth';
 
 export default function handler(req, res) {
