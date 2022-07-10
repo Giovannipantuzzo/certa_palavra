@@ -32,7 +32,6 @@ function dataNascimentoFormatada(bdate) {
 export default function MainDashboard() {
   const [loading, setLoading] = useState(true);
   const [pendingData, setPendingData] = useState([]);
-  const [comment, setComment] = useState(null);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
@@ -45,11 +44,6 @@ export default function MainDashboard() {
 
   const handleFilter = () => {
     setOpenFilter(!openFilter);
-  };
-
-  const handleComment = (value, field) => {
-    setComment({ comment, [field]: value });
-    console.log("🚀 ~ file: index.js ~ line 60 ~ commentOnRedaction ~ comment", comment)
   };
 
   const getDownload = async (file_url) => {
@@ -79,27 +73,6 @@ export default function MainDashboard() {
     }
   };
 
-  const commentOnRedaction = async (redaction_id, comment) => {
-    try {
-      console.log("🚀 ~ file: index.js ~ line 91 ~ commentOnRedaction ~ redaction_id", redaction_id)
-      console.log("🚀 ~ file: index.js ~ line 101 ~ commentOnRedaction ~ comment", comment)
-      console.log("🚀 ~ file: index.js ~ line 99 ~ commentOnRedaction ~ firebase_id", firebase_id)
-
-      await api.post(
-        '/redactionComments',
-        {
-          firebase_id: user.firebase_id,
-          redaction_id: redaction_id,
-          comment: comment,
-        },
-      );
-
-      getRedactions();
-    } catch (error) {
-      toast('Erro ao comentar sobre correção/redação', { position: toast.POSITION.BOTTOM_RIGHT });
-    }
-  };
-
   const getRedactions = async () => {
     let response;
     let responsePending;
@@ -125,7 +98,6 @@ export default function MainDashboard() {
             status: false,
           },
         });
-        console.log("🚀 ~ file: index.js ~ line 138 ~ getRedactions ~ responsePending", responsePending)
       } else {
         response = await api.get('/redaction', {
           params: {
@@ -239,10 +211,8 @@ export default function MainDashboard() {
               <RedactionCard
                 redaction={redaction}
                 rateRedaction={rateRedaction}
-                commentOnRedaction={commentOnRedaction}
-                handleComment={handleComment}
-                comment={comment}
                 getDownload={getDownload}
+                getRedactions={getRedactions}
               />
             ))}
           </div>

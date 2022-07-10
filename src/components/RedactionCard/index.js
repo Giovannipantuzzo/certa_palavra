@@ -10,6 +10,8 @@ import {
 import { AiOutlineLike, AiOutlineDislike, AiOutlineSend } from 'react-icons/ai';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useAuth } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
+import api from '../../utils/api';
 
 function dataNascimentoFormatada(bdate) {
   const data = new Date(bdate);
@@ -21,15 +23,33 @@ function dataNascimentoFormatada(bdate) {
   return `${diaF}/${mesF}/${anoF}`;
 }
 
+toast.configure();
+
 export default function RedactionCard({
-  redaction, rateRedaction, getDownload, commentOnRedaction, handleComment,
-  comment,
+  redaction, rateRedaction, getDownload, getRedactions,
 }) {
   const [open, setOpen] = useState(false);
+  const [comment, setComment] = useState();
   const { user } = useAuth();
 
   const handleOpen = () => {
     setOpen(!open);
+  };
+
+  const commentOnRedaction = async (redaction_id) => {
+    try {
+      const body = {
+        firebase_id: user.firebase_id,
+        redaction_id: redaction_id,
+        comment: comment,
+      }
+      await api.post(
+        '/redactionComments', body
+      );
+      getRedactions();
+    } catch (error) {
+      toast('Erro ao comentar sobre correção/redação', { position: toast.POSITION.BOTTOM_RIGHT });
+    }
   };
 
   return (
@@ -68,34 +88,35 @@ export default function RedactionCard({
                 Baixar arquivo
               </Download>
             </ContainerDownload>
-            <RedactionsIcons>
-              <AiOutlineLike
-                style={{
-                  height: '25px',
-                  width: '25px',
-                  marginRight: '2%',
-                  color: `${redaction?.rate === true ? '#91ca6c' : 'black'}`,
-                  cursor: 'pointer',
-                }}
-                onClick={() => rateRedaction('like', redaction.redaction_id)}
-              />
-              <AiOutlineDislike
-                style={{
-                  height: '25px',
-                  width: '25px',
-                  color: `${redaction?.rate === false ? '#91ca6c' : 'black'}`,
-                  cursor: 'pointer',
-                }}
-                onClick={() => rateRedaction('dislike', redaction.redaction_id)}
-              />
-            </RedactionsIcons>
+            {user.type === 'User' && (
+              <RedactionsIcons>
+                <AiOutlineLike
+                  style={{
+                    height: '25px',
+                    width: '25px',
+                    marginRight: '2%',
+                    color: `${redaction?.rate === true ? '#91ca6c' : 'black'}`,
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => rateRedaction('like', redaction.redaction_id)}
+                />
+                <AiOutlineDislike
+                  style={{
+                    height: '25px',
+                    width: '25px',
+                    color: `${redaction?.rate === false ? '#91ca6c' : 'black'}`,
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => rateRedaction('dislike', redaction.redaction_id)}
+                />
+              </RedactionsIcons>
+            )}
             <MyFormGroup>
               <TextBox2
                 type="text"
                 placeholder="Comentário"
-                required
                 value={comment}
-                onChange={(e) => handleComment(e.target.value, 'comment')}
+                onChange={(e) => setComment(e.target.value)}
               />
               <AiOutlineSend
                 style={{

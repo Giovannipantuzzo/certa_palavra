@@ -1,4 +1,4 @@
-import { createComment, getAllComments } from '../../../src/controllers/RedactionController';
+import { createComment, getAllComments } from '../../../src/controllers/RedactionCommentsController';
 import { withAuthValidation } from '../../../src/utils/Auth';
 
 export default function handler(req, res) {
