@@ -1,10 +1,14 @@
-const admin = require('firebase-admin');
-const firebase = require('firebase/app');
+import { initializeApp, getApps } from 'firebase/app';
+import getStorage from 'firebase/storage';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
-require('firebase/auth');
+const admin = require('firebase-admin');
 
 const serviceAccount = require('../../serviceAccountKey.json');
 
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
@@ -15,24 +19,27 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
 };
 
-if (!firebase.apps.length) {
-  try {
-    firebase.initializeApp(firebaseConfig);
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
-    });
-  } catch (err) {
-    console.error(err); //eslint-disable-line
-  }
+// Initialize Firebase
+if (!getApps().length) {
+  initializeApp(firebaseConfig);
 }
+
+const auth = getAuth();
 
 module.exports = {
   async createNewUser(email, password) {
     try {
-      const response = await firebase.auth()
-        .createUserWithEmailAndPassword(email, password);
+      const response = await createUserWithEmailAndPassword(auth, email, password);
       return response.user.uid;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+
+  async getSession() {
+    try {
+      const response = auth.currentUser;
+      return response.uid;
     } catch (err) {
       throw new Error(err);
     }
@@ -69,8 +76,7 @@ module.exports = {
   async login(email, password) {
     try {
       if (!email.includes('@') || !email.includes('.') || email.indexOf('@') > email.lastIndexOf('.')) throw new Error('Badly formatted email');
-      const result = await firebase.auth()
-        .signInWithEmailAndPassword(email, password);
+      const result = await signInWithEmailAndPassword(auth, email, password);
       return result.user.uid;
     } catch (error) {
       throw new Error(error);

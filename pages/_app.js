@@ -1,22 +1,26 @@
-import '../styles/globals.css'
-import { ThemeProvider } from 'styled-components';
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { AuthProvider } from '../src/contexts/AuthContext';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Quicksand', sans-serif;
+    background-color: #F8F8F8;
+  }
+`;
+
 const theme = {
   colors: {
-    primary: '#0070f3',
-    rose: '#F6C8CA',
-    lightGreen: '#A6DAD8',
-    mediumGreen: '#609694',
-    darkGreen: '#426A69',
-    mediumRed: '#AA4545',
-    darkRed: '#9C1D1D',
-    strongRed: '#BD2B2B',
-    baseGray: '#AAABB0',
-    mediumGray: '#C4C4C4',
-    titleGray: '#E8E8E8',
+    primary: '#004e7b',
+    yellow: '#fddf4e',
+    green: '#91ca6c',
+    lightGreen: '#00b7a1',
+    pink: '#ef476d',
+    lightBlue: '##038dbe',
     background: '#F8F8F8',
     hoverBackground: 'rgba(96, 150, 148, 0.3)',
     borderBoxColor: 'rgba(0, 0, 0, 0.2)',
@@ -28,16 +32,20 @@ const theme = {
 
 
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component }) {
   return (
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <Header categories={categories} />
-        <Component {...pageProps} />
-        <Footer />
-      </AuthProvider>
-    </ThemeProvider>
+    <>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <Header />
+          <Component />
+          <Footer />
+        </AuthProvider>
+      </ThemeProvider>
+    </>
   );
 }
+
 
 export default MyApp

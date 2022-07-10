@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Ubuntu:wght@700&display=swap");
+
+.container-exclude-user-module {
+  padding: 25px 15px 45px;
+}
+
+.title-user-module-exclude h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.title-user-module-exclude {
+  margin-bottom: 10px;
+}
+
+.content-user-module-exclude h1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--color2);
+}
+
+.content-user-module-exclude {
+  margin-bottom: 25px;
+}
+
+.exit-user-module-exclude {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-user-module-exclude {  
+  margin-left: 1%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.user-module-exclude-buttons {
+  display: flex;
+  justify-content: flex-end;
+} 
+
+.user-module-exclude-buttons button {
+  min-width: 27%;
+  min-height: 40px;
+  border: thin solid var(--button);
+  border-radius: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 5px 10px;
+}
+
+.confirm-user-module-exclude {
+  background-color: var(--button);
+  color: var(--fontColor1);
+}
+
+.user-module-exclude-buttons button:hover {
+  background-color: var(--hover);
+  border-color: var(--hover);
+  color: var(--fontColor1);
+}
+
+.cancel-user-module-exclude {
+  background-color: transparent;
+  border-width: 1px;
+  border-color: var(--fontColor2);
+  color: var(--fontColor2);
+}
