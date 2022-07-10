@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FaFilter } from 'react-icons/fa';
-import { AiOutlineLike, AiOutlineDislike, AiOutlineSend } from 'react-icons/ai';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -11,16 +9,13 @@ import {
   ContainerCardsRedaction, DivisionCardsRedaction,
   TitleCardsRedactionPage, TitleCardsRedactionPageH1, LineTableCardsRedaction,
   LoaderCardsRedaction, BodyRedactionCard, CardRedaction,
-  TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
-  DescriptionCardRedactionsP, RedactionsIcons, ContainerRedactionStatus, ContainerRedactionDate,
-  TextBox2, MyFormGroup, Download, ContainerDownload, BlockQuote, BlockQuoteDetail,
-  BlockQuoteResp, BlockQuoteDetailResp, BlockQuoteDetailRespImage, BlockQuoteDetailRespImageContainer,
-  BlockQuoteName,
+  TitleCardRedaction, TitleCardRedactionP, ContainerRedactionDate,
 } from '../../../styles/mainDashboardStyle';
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
 import api from '../../utils/api';
 import FileSaver from 'file-saver';
+import RedactionCard from '../RedactionCard';
 
 toast.configure();
 
@@ -40,17 +35,12 @@ export default function MainDashboard() {
   const [comment, setComment] = useState(null);
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const { user } = useAuth();
   const router = useRouter();
 
   const handleOpen = () => {
     setOpen(!open);
-  };
-
-  const handleOpen2 = () => {
-    setOpen2(!open2);
   };
 
   const handleFilter = () => {
@@ -135,6 +125,7 @@ export default function MainDashboard() {
             status: false,
           },
         });
+        console.log("🚀 ~ file: index.js ~ line 138 ~ getRedactions ~ responsePending", responsePending)
       } else {
         response = await api.get('/redaction', {
           params: {
@@ -202,7 +193,6 @@ export default function MainDashboard() {
           <div>
             {pendingData && pendingData.map((redaction) => (
               <BodyRedactionCard>
-                {console.log('🚀 ~ file: index.js ~ line 159 ~ MainDashboard ~ redaction', redaction)}
                 <CardRedaction>
                   <TitleCardRedaction type="button" onClick={handleOpen}>
                     <TitleCardRedactionP>
@@ -246,116 +236,29 @@ export default function MainDashboard() {
         ) : (
           <div>
             {data && data.map((redaction) => (
-              <>
-                <BodyRedactionCard>
-                  <CardRedaction>
-                    <TitleCardRedaction type="button" onClick={handleOpen2}>
-                      <TitleCardRedactionP>
-                        {' '}
-                        {redaction.title}
-                      </TitleCardRedactionP>
-                      <ContainerRedactionStatus>
-                        <h5>{redaction?.final_grade}</h5>
-                      </ContainerRedactionStatus>
-                      <KeyboardArrowDownIcon style={{ color: '#91ca6c' }} />
-                    </TitleCardRedaction>
-                  </CardRedaction>
-                </BodyRedactionCard>
-                {
-                  open2 === true && (
-                    <DescriptionCardRedactions>
-                      <DescriptionCardRedactionsP>
-                        <b>Corrigida em:</b>
-                        {' '}
-                        {dataNascimentoFormatada(redaction?.corrected_at)}
-                      </DescriptionCardRedactionsP>
-                      <DescriptionCardRedactionsP>
-                        <b>Comentário do corretor:</b>
-                        {' '}
-                        {redaction?.description}
-                      </DescriptionCardRedactionsP>
-                      <ContainerDownload>
-                        <Download
-                          onClick={() => getDownload(redaction.file_url)}
-                        >
-                          Baixar arquivo
-                        </Download>
-                      </ContainerDownload>
-                      <RedactionsIcons>
-                        <AiOutlineLike
-                          style={{
-                            height: '25px',
-                            width: '25px',
-                            marginRight: '2%',
-                            color: `${redaction?.rate === true ? '#91ca6c' : 'black'}`,
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => rateRedaction('like', redaction.redaction_id)}
-                        />
-                        <AiOutlineDislike
-                          style={{
-                            height: '25px',
-                            width: '25px',
-                            color: `${redaction?.rate === false ? '#91ca6c' : 'black'}`,
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => rateRedaction('dislike', redaction.redaction_id)}
-                        />
-                      </RedactionsIcons>
-                      <MyFormGroup>
-                        <TextBox2
-                          type="text"
-                          placeholder="Comentário"
-                          required
-                          value={comment}
-                          onChange={(e) => handleComment(e.target.value, 'comment')}
-                        />
-                        <AiOutlineSend
-                          style={{
-                            cursor: 'pointer',
-                            marginTop: '10px',
-                            marginLeft: '10px',
-                            color: '#91ca6c',
-                          }}
-                          onClick={() => commentOnRedaction(redaction.redaction_id)}
-                        />
-                      </MyFormGroup>
-                      {redaction?.comments?.map((response) => {
-                        return (response.firebase_id === user?.firebase_id ? (
-                          <BlockQuote>
-                            <BlockQuoteDetail />
-                            <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
-                          </BlockQuote>
-                        ) : (
-                          <BlockQuoteResp>
-                            <BlockQuoteDetailResp />
-                            <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
-                            <BlockQuoteDetailRespImageContainer>
-                              <BlockQuoteDetailRespImage src={user?.perfil_photo_url ? `${user?.perfil_photo_url}` : "/fotoPerfil.jpg"} alt="Perfil" width="25" height="25" />
-                              <BlockQuoteName>{redaction.corrector?.name ? redaction.corrector.name : redaction.user.name}</BlockQuoteName>
-                            </BlockQuoteDetailRespImageContainer>
-                          </BlockQuoteResp>
-                        ));
-                      })}
-                    </DescriptionCardRedactions>
-                  )
-                }
-              </>
+              <RedactionCard
+                redaction={redaction}
+                rateRedaction={rateRedaction}
+                commentOnRedaction={commentOnRedaction}
+                handleComment={handleComment}
+                comment={comment}
+                getDownload={getDownload}
+              />
             ))}
           </div>
         )}
+        {
+          openFilter && (
+            <DashboardFilter
+              handleClose={handleFilter}
+              setData={setData}
+              setPendingData={setPendingData}
+              userId={user.firebase_id}
+              userType={user.type}
+            />
+          )
+        }
       </DivisionCardsRedaction>
-      {
-        openFilter && (
-          <DashboardFilter
-            handleClose={handleFilter}
-            setData={setData}
-            setPendingData={setPendingData}
-            userId={user.firebase_id}
-            userType={user.type}
-          />
-        )
-      }
     </ContainerCardsRedaction>
   );
 }

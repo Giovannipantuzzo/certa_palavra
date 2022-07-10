@@ -21,6 +21,9 @@ module.exports = {
 
   async getAllRedactions(status, firebase_id, userType) {
     try {
+      if (status === 'true') status = true;
+      if (status === 'false') status = false;
+
       let response;
       if (firebase_id) {
         response = userType === 'User' ? (
@@ -33,7 +36,6 @@ module.exports = {
             .where('redaction_corrector_id', firebase_id)
             .select('*')
         )
-
         if (status === true || status === 'true') {
           for (const redaction of response) {
             const correctedRedaction = await connection('corrected_redactions')
@@ -49,7 +51,7 @@ module.exports = {
                 .select('name', 'perfil_photo_url')
                 .first();
               resp.user = user;
-            } else {
+            } else if (resp.corrector_firebase_id) {
               const corrector = await connection('user')
                 .where('firebase_id', resp.corrector_firebase_id)
                 .select('name', 'perfil_photo_url')
@@ -73,6 +75,10 @@ module.exports = {
             redaction.rate = correctedRedaction?.rate;
           }
         }
+      } else {
+        response = await connection('redaction')
+          .where('status', status)
+          .select('*');
       }
 
       return response;

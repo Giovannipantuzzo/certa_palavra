@@ -77,7 +77,6 @@ module.exports = {
     try {
       if (!email.includes('@') || !email.includes('.') || email.indexOf('@') > email.lastIndexOf('.')) throw new Error('Badly formatted email');
       const result = await signInWithEmailAndPassword(auth, email, password);
-      console.log('🚀 ~ file: FirebaseModel.js ~ line 72 ~ login ~ result', result);
       return result.user.uid;
     } catch (error) {
       throw new Error(error);
