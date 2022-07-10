@@ -1,5 +1,5 @@
 import { deleteComment } from '../../../src/controllers/RedactionCommentsController';
-import { isAdminOrSelf } from '../../../src/utils/Auth';
+import { isAdminOrSelf } from '../../../src/utils/auth';
 
 export default function handler(req, res) {
   try {

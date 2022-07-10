@@ -1,5 +1,5 @@
 import { signIn } from '../../src/controllers/SessionController';
-import { withSession } from '../../src/utils/Auth';
+import { withSession } from '../../src/utils/auth';
 
 export default function handler(req, res) {
   try {

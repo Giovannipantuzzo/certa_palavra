@@ -1,5 +1,5 @@
 import { getById, deleteByID } from '../../../src/controllers/CorrectedRedactionController';
-import { withAuthValidation } from '../../../src/utils/Auth';
+import { withAuthValidation } from '../../../src/utils/auth';
 
 export default function handler(req, res) {
   try {
