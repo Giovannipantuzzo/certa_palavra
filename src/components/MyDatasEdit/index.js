@@ -14,13 +14,11 @@ import { useDropzone } from 'react-dropzone';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { useAuth } from '../../contexts/AuthContext';
 import { storage } from '../../utils/firebaseStorage';
-import { Body } from '../BodyForms';
-import WindowDivider from '../WindowDivider';
 import api from '../../utils/api';
 import {
   Title, Edit, MyFormGroup, Phone, Name, NumbersForms, DDD, PhoneFormControl,
   DDDFormControl, Register, Buttons, FormRegister, Submit, CancelSubmit,
-  ContainerDatas, ImageContainer,
+  ContainerDatas, ImageContainer, Body,
 } from '../../../styles/myDatasEdit';
 
 function CircularProgressWithLabel(
@@ -189,113 +187,110 @@ export default function MyDatasEdit() {
   }
   const corpo = (
     <Body>
-      <WindowDivider />
-      <Body.Right>
-        <Register>
-          <FormRegister>
-            <Title>Formulário de edição</Title>
-            <MyFormGroup>
-              <FormLabel style={{ marginBottom: '8px' }}>Arquivo</FormLabel>
-              <>
-                <div {...getRootProps({ className: classes.dropzone })}>
-                  <input {...getInputProps()} />
-                  <p style={{ marginTop: '10px' }}>
-                    Arraste e solte a imagem aqui
-                  </p>
-                </div>
-                {updateImage && (
-                  <ImageContainer>
-                    <div key={photo.url}>
-                      {photo?.file?.type?.substring(0, 5) === 'image'
-                        && (
-                          <div>
-                            <img src={photo.url} style={{ width: '100%' }} alt="preview" />
-                          </div>
-                        )}
-                    </div>
-                    <Button
-                      variant="contained"
-                      style={{
-                        backgroundColor: '#004e7b', marginBottom: '1%', marginTop: '2%',
-                      }}
-                      onClick={() => {
-                        setUpdateImage(false);
-                      }}
-                      onChange={() => {
-                        handlePhotoChange();
-                      }}
-                    >
-                      remover
-                    </Button>
+      <Register>
+        <FormRegister>
+          <Title>Formulário de edição</Title>
+          <MyFormGroup>
+            <FormLabel style={{ marginBottom: '8px' }}>Arquivo</FormLabel>
+            <>
+              <div {...getRootProps({ className: classes.dropzone })}>
+                <input {...getInputProps()} />
+                <p style={{ marginTop: '10px' }}>
+                  Arraste e solte a imagem aqui
+                </p>
+              </div>
+              {updateImage && (
+                <ImageContainer>
+                  <div key={photo.url}>
+                    {photo?.file?.type?.substring(0, 5) === 'image'
+                      && (
+                        <div>
+                          <img src={photo.url} style={{ width: '100%' }} alt="preview" />
+                        </div>
+                      )}
+                  </div>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: '#004e7b', marginBottom: '1%', marginTop: '2%',
+                    }}
+                    onClick={() => {
+                      setUpdateImage(false);
+                    }}
+                    onChange={() => {
+                      handlePhotoChange();
+                    }}
+                  >
+                    remover
+                  </Button>
 
-                  </ImageContainer>
-                )}
-              </>
+                </ImageContainer>
+              )}
+            </>
+          </MyFormGroup>
+          <Name>
+            <MyFormGroup>
+              <FormLabel>Nome</FormLabel>
+              <FormControl
+                type="text"
+                placeholder="Nome"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </MyFormGroup>
-            <Name>
-              <MyFormGroup>
-                <FormLabel>Nome</FormLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Nome"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </MyFormGroup>
-            </Name>
-            <NumbersForms>
-              <MyFormGroup>
-                <FormLabel>CPF</FormLabel>
-                <FormControl
-                  type="number"
-                  placeholder="CPF"
-                  pattern="[0-9]$"
-                  required
-                  title="Digite um CPF válido"
-                  value={cpf}
-                  onChange={(e) => setCpf(e.target.value)}
-                />
-              </MyFormGroup>
-              <Phone>
-                <DDD>
-                  <MyFormGroup>
-                    <FormLabel>DDD</FormLabel>
-                    <DDDFormControl
-                      type="numbers"
-                      placeholder="(00)"
-                      pattern="[0-9]$"
-                      required
-                      value={ddd}
-                      onChange={(e) => setDdd(e.target.value)}
-                    />
-                  </MyFormGroup>
-                </DDD>
+          </Name>
+          <NumbersForms>
+            <MyFormGroup>
+              <FormLabel>CPF</FormLabel>
+              <FormControl
+                type="number"
+                placeholder="CPF"
+                pattern="[0-9]$"
+                required
+                title="Digite um CPF válido"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+              />
+            </MyFormGroup>
+            <Phone>
+              <DDD>
                 <MyFormGroup>
-                  <FormLabel>Telefone</FormLabel>
-                  <PhoneFormControl
-                    type="number"
-                    placeholder="00000-0000"
+                  <FormLabel>DDD</FormLabel>
+                  <DDDFormControl
+                    type="numbers"
+                    placeholder="(00)"
                     pattern="[0-9]$"
                     required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    value={ddd}
+                    onChange={(e) => setDdd(e.target.value)}
                   />
                 </MyFormGroup>
-              </Phone>
-            </NumbersForms>
-            <Buttons>
-              {!loading && (
-                <>
-                  <CancelSubmit onClick={handleClose}>Cancelar</CancelSubmit>
-                  <Submit onClick={(e) => handleSubmit(e)}>Atualizar</Submit>
-                </>
-              )}
-              {loading && <CircularProgressWithLabel value={progresspercent} />}
-            </Buttons>
-          </FormRegister>
-        </Register>
-      </Body.Right>
+              </DDD>
+              <MyFormGroup>
+                <FormLabel>Telefone</FormLabel>
+                <PhoneFormControl
+                  type="number"
+                  placeholder="00000-0000"
+                  pattern="[0-9]$"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </MyFormGroup>
+            </Phone>
+          </NumbersForms>
+          <Buttons>
+            {!loading && (
+              <>
+                <CancelSubmit onClick={handleClose}>Cancelar</CancelSubmit>
+                <Submit onClick={(e) => handleSubmit(e)}>Atualizar</Submit>
+              </>
+            )}
+            {loading && <CircularProgressWithLabel value={progresspercent} />}
+          </Buttons>
+        </FormRegister>
+      </Register>
     </Body>
   );
   return (
