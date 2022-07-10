@@ -1,10 +1,8 @@
 import { initializeApp, getApps } from 'firebase/app';
-import getStorage from 'firebase/storage';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../../serviceAccountKey.json');
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
