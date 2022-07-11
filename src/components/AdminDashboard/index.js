@@ -42,6 +42,7 @@ const titles = [
   'Nº correções',
   'Email',
   'Celular',
+  'Avaliação',
 ];
 
 function TablePaginationActions(props) {
@@ -133,9 +134,9 @@ function TableComponent({
   const matchesFont85 = useMediaQuery('(max-width:680px)');
   const matchesFont400px = useMediaQuery('(max-width:400px)');
 
-  function createData(name, correctedRedactions, email, phone) {
+  function createData(name, correctedRedactions, email, phone, average_rate) {
     return {
-      name, correctedRedactions, email, phone,
+      name, correctedRedactions, email, phone, average_rate,
     };
   }
 
@@ -157,6 +158,7 @@ function TableComponent({
           object.correctedRedactions,
           object.email,
           object.phone,
+          object.average_rate,
         ));
       });
       allAccounts.data.forEach((object) => {
