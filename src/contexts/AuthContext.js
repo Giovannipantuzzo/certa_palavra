@@ -50,7 +50,11 @@ function AuthProvider({ children }) {
   async function forgottenPassword(email) {
     try {
       await api.post('forgottenPassword', { email });
-      router.push('/');
+      router.push('/Login');
+      toast.success('Email enviado com sucesso!', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
     } catch (error) {
       console.error(error); //eslint-disable-line
     }

@@ -5,30 +5,22 @@ import {
   InternalChangePasswordButton, PopUpInternalChangePassword, PopUpInternalChangePasswordH1,
   PopUpInternalChangePasswordP, GroupButtonsInternalChangePassword, SendButtonInternalChangePassword,
   CancelButtonInternalChangePassword,
-} from '../../../styles/InternalChangePasswordStyles';
+} from '../../../styles/internalChangePasswordStyles';
 import { toast } from 'react-toastify';
 import { Modal } from '@material-ui/core';
-import { useRouter } from 'next/router';
-// import withAuthUser from '../../../../src/components/WithAuth/WithAuthUser';
+import { useAuth } from '../../contexts/AuthContext';
 
 const InternalChangePassword = () => {
   const [open, setOpen] = useState(false);
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  const { user, forgottenPassword } = useAuth();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const JSONToSend = JSON.stringify({ email });
-  const router = useRouter();
 
   const handleClick = async (e) => {
     try {
       e.preventDefault();
-      await managerService.sendResetEmail(JSONToSend);
-      router.push('/login');
-      toast.success('Email enviado com sucesso!', {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
-      });
-    } catch {
+      forgottenPassword(user.email);
+    } catch (error) {
       toast.error('Email não cadastrado!!', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,

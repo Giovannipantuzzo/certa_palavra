@@ -1,10 +1,12 @@
 import { initializeApp, getApps } from 'firebase/app';
-import getStorage from 'firebase/storage';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+const firebase = require('firebase/app');
+
+require('firebase/auth');
 
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../../serviceAccountKey.json');
+// const serviceAccount = require('../../serviceAccountKey.json');
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -85,7 +87,7 @@ module.exports = {
 
   async firebaseChangeUserPassword(email) {
     try {
-      const result = await firebase.auth().sendPasswordResetEmail(email);
+      const result = await sendPasswordResetEmail(auth, email);
       return result;
     } catch (error) {
       throw new Error(error);
