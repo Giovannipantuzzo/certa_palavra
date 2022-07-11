@@ -2,6 +2,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { AuthProvider } from '../src/contexts/AuthContext';
 import Header from '../src/components/Header';
 import Footer from '../src/components/Footer';
+import Head from 'next/head';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -35,6 +36,10 @@ const theme = {
 function MyApp({ Component }) {
   return (
     <>
+      <Head>
+        <title>Certa Palavra</title>
+        <link rel="icon" src="/loginFoto.png" />
+      </Head>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <AuthProvider>

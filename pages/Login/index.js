@@ -73,10 +73,10 @@ function Login() {
       <Body>
         <Body.Left>
           <Image
-            src="/images/BannerLogin.jpg"
+            src="/loginFoto.png"
             alt=""
-            width="600"
-            height="400"
+            width="450"
+            height="300"
           />
         </Body.Left>
         <Divider width="1" display="block" size="300" />

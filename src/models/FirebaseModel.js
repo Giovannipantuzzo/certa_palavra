@@ -1,5 +1,7 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+
+require('firebase/auth');
 
 const admin = require('firebase-admin');
 
@@ -83,7 +85,7 @@ module.exports = {
 
   async firebaseChangeUserPassword(email) {
     try {
-      const result = await firebase.auth().sendPasswordResetEmail(email);
+      const result = await sendPasswordResetEmail(auth, email);
       return result;
     } catch (error) {
       throw new Error(error);

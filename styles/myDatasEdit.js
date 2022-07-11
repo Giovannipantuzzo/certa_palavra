@@ -15,11 +15,13 @@ color: ${({ theme }) => theme.colors.primary};
   align-items: center;
   justify-content: center;
   margin-bottom: 2%;
+  font-size: 18pt;
 }
 `;
 
 export const ImageContainer = styled.div`
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -46,9 +48,14 @@ export const MyFormGroup = styled(FormGroup)`
 
 export const Phone = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: center;
   flex-direction: row;
   margin-left: 30px;
   margin-right: 2%;
+  @media (max-width: 700px) {
+    margin-left: 2%;
+  }
 `;
 
 export const Name = styled.div`
@@ -58,6 +65,9 @@ export const NumbersForms = styled.div`
   flex-direction: row;
   display: flex;
   padding: 1%;
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
 `;
 export const DDD = styled.div`
   flex-direction: row;
@@ -67,7 +77,14 @@ export const DDD = styled.div`
 
 export const PhoneFormControl = styled(FormControl)`
   display: flex;
-  width: 140px;
+  width: 100%;
+  margin-right: 2%;
+  @media (max-width: 630px) {
+    width: 90%;
+  }
+  @media (max-width: 450px) {
+    width: 142px;
+  }
 `;
 export const DDDFormControl = styled(FormControl)`
   display: flex;
@@ -80,7 +97,23 @@ export const Register = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.green};
   border-radius: 3px;
   padding-bottom: 5%;
+  width: 50%;
   background: #FFF;
+  @media (max-width: 450px) {
+    width: 90%;
+  }
+`;
+
+export const Body = styled.div`
+  height: 70vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10%;
+  padding-bottom: 10%;
+  justify-content: center;
+  border-radius: 5px;
 `;
 
 export const Buttons = styled.div`
@@ -104,6 +137,9 @@ export const Submit = styled.button`
   border: 0;
   border-radius: 5px;
   cursor: pointer;
+  @media (max-width: 620px) {
+    width: 40%;
+  }
 `;
 
 export const CancelSubmit = styled.button`
@@ -118,6 +154,9 @@ export const CancelSubmit = styled.button`
   border: 0;
   border-radius: 5px;
   cursor: pointer;
+  @media (max-width: 620px) {
+    width: 40%;
+  }
 `;
 
 export const ContainerDatas = styled.div`

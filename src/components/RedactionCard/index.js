@@ -47,6 +47,7 @@ export default function RedactionCard({
         '/redactionComments', body
       );
       getRedactions();
+      toast('Comentário feito com sucesso!!', { position: toast.POSITION.BOTTOM_RIGHT });
     } catch (error) {
       toast('Erro ao comentar sobre correção/redação', { position: toast.POSITION.BOTTOM_RIGHT });
     }

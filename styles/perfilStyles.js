@@ -60,6 +60,7 @@ export const AddressData = styled.p`
 export const ContainerDatas = styled.div`
   display: flex;
   width: 100%;
+  min-height: 68.8vh;
   align-items: center;
   flex-direction: row;
   justify-content: center;
