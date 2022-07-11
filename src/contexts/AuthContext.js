@@ -64,7 +64,7 @@ function AuthProvider({ children }) {
     try {
       await api.get('logout');
       setUser(undefined);
-      router.push('/login');
+      router.push('/Login');
     } catch (error) {
       console.error(error); //eslint-disable-line
     }

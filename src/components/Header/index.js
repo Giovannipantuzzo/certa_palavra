@@ -59,7 +59,7 @@ export default function Header() {
             </YourSpace>
           </YourSpaceContainer>
         ) : (
-          <LogOut onClick={() => router.push('/login')}>
+          <LogOut onClick={() => router.push('/Login')}>
             <Link href="/login">
               <FiLogIn size="30" color="#91ca6c" style={{ cursor: 'pointer' }} />
             </Link>

@@ -24,6 +24,7 @@ const buttonsUser = [
 
 const buttonsAdmin = [
   { buttonName: 'Dashboard', value: 'DashboardAdmin' },
+  { buttonName: 'Corretores' },
   { buttonName: 'Cadastro' },
   { buttonName: 'Alterar senha' },
   { buttonName: 'Sair' },
