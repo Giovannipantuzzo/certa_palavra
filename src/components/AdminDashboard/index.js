@@ -247,7 +247,7 @@ function TableComponent({
   const tableFontProps = {
     style: matchesFont85
       ? {
-        textAlign: 'center',
+        textAlign: 'left',
         fontSize: '1em',
         fontWeight: '900',
         backgroundColor: '#E5E4E2',

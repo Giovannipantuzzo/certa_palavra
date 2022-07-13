@@ -6,7 +6,8 @@ export const MeanHomeContainer = styled.div`
     justify-content: space-between;
     padding: 0 10%;
     min-height: calc(100vh - 221px);
-    @media (max-width: 700px) {
+    overflow: hidden;
+    @media (max-width: 850px) {
       flex-direction: column;
     }
 `;
@@ -23,8 +24,9 @@ export const SideMenuDashboard = styled.div`
 export const MeanDashboard = styled.div`
     padding: 75px 30px;
     width: 100%;
-    @media (max-width: 700px) {
+    @media (max-width: 850px) {
       padding: 35px 0;
+      padding-bottom: 60px;
     }
 `;
 

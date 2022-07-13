@@ -35,7 +35,7 @@ module.exports = {
             .where('status', status)
             .where('redaction_corrector_id', firebase_id)
             .select('*')
-        )
+        );
         if (status === true || status === 'true') {
           for (const redaction of response) {
             const correctedRedaction = await connection('corrected_redactions')
@@ -94,15 +94,15 @@ module.exports = {
         await connection('redaction')
           .where('status', status)
           .where('redaction_corrector_id', firebase_id)
-          .where('redaction.created_at', '>=', `${firstDate}`)
+          .where('redaction.corrected_at', '>=', `${firstDate}`)
           .where('redaction.corrected_at', '<=', `${secondDate}`)
           .select('*')) : (
         await connection('redaction')
           .where('status', status)
-          .where('redaction.created_at', '>=', `${firstDate}`)
+          .where('redaction.corrected_at', '>=', `${firstDate}`)
           .where('redaction.corrected_at', '<=', `${secondDate}`)
           .select('*')
-      )
+      );
       return response;
     } catch (error) {
       console.error(error);

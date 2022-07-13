@@ -4,6 +4,7 @@ import { FaFilter } from 'react-icons/fa';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import FileSaver from 'file-saver';
 import { useAuth } from '../../contexts/AuthContext';
 import {
   ContainerCardsRedaction, DivisionCardsRedaction,
@@ -14,7 +15,6 @@ import {
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
 import api from '../../utils/api';
-import FileSaver from 'file-saver';
 import RedactionCard from '../RedactionCard';
 
 toast.configure();
@@ -48,8 +48,15 @@ export default function MainDashboard() {
 
   const getDownload = async (file_url) => {
     try {
-      FileSaver.saveAs(file_url, 'redação');
+      fetch(file_url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const reader = new FileReader();
+          reader.onload = function () { FileSaver.saveAs(this.result, 'redação'); }; // <--- `this.result` contains a base64 data URI
+          reader.readAsDataURL(blob);
+        });
     } catch (error) {
+      console.error(error);
       toast('Erro ao baixar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
     }
   };
