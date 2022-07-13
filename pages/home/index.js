@@ -33,7 +33,9 @@ function Intranet() {
 
   useEffect(() => {
     usersNumber();
-    setSelectedButton('DashboardAdmin');
+    if (user?.type === 'Admin') setSelectedButton('DashboardAdmin');
+    else if (user?.type === 'Corretor') setSelectedButton('DashboardAdmin');
+    else setSelectedButton('DashboardAdmin');
   }, []);
 
   const menuDashboard = () => {

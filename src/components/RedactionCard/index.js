@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { AiOutlineLike, AiOutlineDislike, AiOutlineSend } from 'react-icons/ai';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { toast } from 'react-toastify';
+import { useAuth } from '../../contexts/AuthContext';
 import {
   BodyRedactionCard, CardRedaction,
   TitleCardRedaction, TitleCardRedactionP, DescriptionCardRedactions,
@@ -7,10 +11,6 @@ import {
   BlockQuoteResp, BlockQuoteDetailResp, BlockQuoteDetailRespImage, BlockQuoteDetailRespImageContainer,
   BlockQuoteName,
 } from '../../../styles/mainDashboardStyle';
-import { AiOutlineLike, AiOutlineDislike, AiOutlineSend } from 'react-icons/ai';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useAuth } from '../../contexts/AuthContext';
-import { toast } from 'react-toastify';
 import api from '../../utils/api';
 
 function dataNascimentoFormatada(bdate) {
@@ -40,12 +40,10 @@ export default function RedactionCard({
     try {
       const body = {
         firebase_id: user.firebase_id,
-        redaction_id: redaction_id,
-        comment: comment,
-      }
-      await api.post(
-        '/redactionComments', body
-      );
+        redaction_id,
+        comment,
+      };
+      await api.post('/redactionComments', body);
       getRedactions();
       toast('Comentário feito com sucesso!!', { position: toast.POSITION.BOTTOM_RIGHT });
     } catch (error) {
@@ -84,7 +82,9 @@ export default function RedactionCard({
             </DescriptionCardRedactionsP>
             <ContainerDownload>
               <Download
-                onClick={() => getDownload(redaction.file_url)}
+                onClick={() => {
+                  getDownload(redaction.file_url);
+                }}
               >
                 Baixar arquivo
               </Download>
@@ -129,23 +129,21 @@ export default function RedactionCard({
                 onClick={() => commentOnRedaction(redaction.redaction_id)}
               />
             </MyFormGroup>
-            {redaction?.comments?.map((response) => {
-              return (response.firebase_id === user?.firebase_id ? (
-                <BlockQuote>
-                  <BlockQuoteDetail />
-                  <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
-                </BlockQuote>
-              ) : (
-                <BlockQuoteResp>
-                  <BlockQuoteDetailResp />
-                  <p style={{ display: 'flex', marginLeft: '5px' }} >{response.comment}</p>
-                  <BlockQuoteDetailRespImageContainer>
-                    <BlockQuoteDetailRespImage src={user?.perfil_photo_url ? `${user?.perfil_photo_url}` : "/fotoPerfil.jpg"} alt="Perfil" width="25" height="25" />
-                    <BlockQuoteName>{redaction.corrector?.name ? redaction.corrector.name : redaction.user.name}</BlockQuoteName>
-                  </BlockQuoteDetailRespImageContainer>
-                </BlockQuoteResp>
-              ));
-            })}
+            {redaction?.comments?.map((response) => (response.firebase_id === user?.firebase_id ? (
+              <BlockQuote>
+                <BlockQuoteDetail />
+                <p style={{ display: 'flex', marginLeft: '5px' }}>{response.comment}</p>
+              </BlockQuote>
+            ) : (
+              <BlockQuoteResp>
+                <BlockQuoteDetailResp />
+                <p style={{ display: 'flex', marginLeft: '5px' }}>{response.comment}</p>
+                <BlockQuoteDetailRespImageContainer>
+                  <BlockQuoteDetailRespImage src={user?.perfil_photo_url ? `${user?.perfil_photo_url}` : '/fotoPerfil.jpg'} alt="Perfil" width="25" height="25" />
+                  <BlockQuoteName>{redaction.corrector?.name ? redaction.corrector.name : redaction.user.name}</BlockQuoteName>
+                </BlockQuoteDetailRespImageContainer>
+              </BlockQuoteResp>
+            )))}
           </DescriptionCardRedactions>
         )
       }
