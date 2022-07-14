@@ -1,0 +1,14 @@
+import { updateAverage } from '../../../src/controllers/UserController';
+import { withAuthValidation } from '../../../src/utils/auth';
+
+export default function handler(req, res) {
+  try {
+    const { method } = req;
+    if (method === 'PUT') {
+      return withAuthValidation(updateAverage)(req, res);
+    }
+    return res.status(500).json({ message: 'Internal Server Error' });
+  } catch (err) {
+    return res.status(500).json({ statusCode: 500, message: err.message });
+  }
+}

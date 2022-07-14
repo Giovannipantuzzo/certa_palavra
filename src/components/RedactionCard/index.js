@@ -99,7 +99,12 @@ export default function RedactionCard({
                     color: `${redaction?.rate === true ? '#91ca6c' : 'black'}`,
                     cursor: 'pointer',
                   }}
-                  onClick={() => rateRedaction('like', redaction.redaction_id)}
+                  onClick={() => rateRedaction(
+                    'like',
+                    redaction.redaction_id,
+                    redaction.redaction_corrector_id,
+                    redaction?.rate,
+                  )}
                 />
                 <AiOutlineDislike
                   style={{
@@ -108,7 +113,12 @@ export default function RedactionCard({
                     color: `${redaction?.rate === false ? '#91ca6c' : 'black'}`,
                     cursor: 'pointer',
                   }}
-                  onClick={() => rateRedaction('dislike', redaction.redaction_id)}
+                  onClick={() => rateRedaction(
+                    'dislike',
+                    redaction.redaction_id,
+                    redaction.redaction_corrector_id,
+                    redaction?.rate,
+                  )}
                 />
               </RedactionsIcons>
             )}

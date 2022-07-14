@@ -25,8 +25,6 @@ export async function getAll(request, response) {
     const {
       status, firebase_id, userType, firstDate, secondDate,
     } = request.query;
-    console.log("🚀 ~ file: RedactionController.js ~ line 27 ~ getAll ~ secondDate", secondDate)
-    console.log("🚀 ~ file: RedactionController.js ~ line 27 ~ getAll ~ firstDate", firstDate)
     let redactions;
     if (firebase_id && !firstDate && !secondDate) {
       redactions = await RedactionModel.getAllRedactions(
