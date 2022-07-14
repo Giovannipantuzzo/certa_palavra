@@ -48,26 +48,79 @@ export default function MainDashboard() {
 
   const getDownload = async (file_url) => {
     try {
+
       FileSaver.saveAs(file_url, 'redação');
     } catch (error) {
       toast('Erro ao baixar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
     }
   };
 
-  const rateRedaction = async (rate, redaction_id) => {
+  const rateRedaction = async (rate, redaction_id, redaction_corrector_id, rateStatus) => {
     try {
+      if ((rate === 'like' && rateStatus === true) || (rate === 'dislike' && rateStatus === false)) {
+        return toast('Avaliação feita com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
+      }
+      console.log('PASSOU')
+      const averageNumbers = await api.get('/averageNumbers', {
+        params: {
+          redaction_corrector_id: redaction_corrector_id,
+        },
+      });
+      console.log('PASSOU 2')
+      console.log("🚀 ~ file: index.js ~ line 65 ~ rateRedaction ~ averageNumbers", averageNumbers)
       if (rate === 'like') {
         await api.put(
           '/correctedRedactions',
           { rate: true, firebase_id: user.firebase_id, redaction_id },
         );
+        if (rateStatus === false) {
+          let average = (Math.floor(
+            (averageNumbers.like_number + 1) / (averageNumbers.dislike_number + averageNumbers.like_number)) // O total de avaliações é o mesmo
+          ).toFixed(1);
+          average = (average * 100) + '%';
+          console.log("🚀 ~ file: index.js ~ line 74 ~ rateRedaction ~ average", average)
+          console.log("🚀 ~ file: index.js ~ line 74 ~ rateRedaction ~ average", typeof average)
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: averageNumbers.like_number + 1,
+            dislike_number: averageNumbers.dislike_number - 1,
+            average_rate: (averageNumbers.dislike_number - 1) === 0 ? '100%' : average,
+          });
+        } else {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: averageNumbers.like_number + 1,
+            dislike_number: averageNumbers.dislike_number,
+            average_rate: averageNumbers.dislike_number === 0 ? '100%' : average,
+          });
+        }
       } else {
         await api.put(
           '/correctedRedactions',
           { rate: false, firebase_id: user.firebase_id, redaction_id },
         );
+        console.log("🚀 ~ file: index.js ~ line 96 ~ rateRedaction ~ rateStatus", rateStatus)
+        if (rateStatus === true) {
+
+          let average = (Math.floor(
+            (averageNumbers.like_number - 1) / (averageNumbers.dislike_number + averageNumbers.like_number)) // O total de avaliações é o mesmo
+          ).toFixed(1);
+          average = (average * 100) + '%';
+          console.log("🚀 ~ file: index.js ~ line 74 ~ rateRedaction ~ average", average)
+          console.log("🚀 ~ file: index.js ~ line 74 ~ rateRedaction ~ average", typeof average)
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: averageNumbers.like_number - 1,
+            dislike_number: averageNumbers.dislike_number + 1,
+            average_rate: average,
+          });
+        } else {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: averageNumbers.like_number,
+            dislike_number: averageNumbers.dislike_number + 1,
+            average_rate: averageNumbers.dislike_number === 0 ? '100%' : average,
+          });
+        }
       }
       getRedactions();
+      toast('Avaliação feita com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
     } catch (error) {
       toast('Erro ao avaliar correção', { position: toast.POSITION.BOTTOM_RIGHT });
     }

@@ -41,6 +41,21 @@ export async function getAllUsers(request, response) {
   }
 }
 
+export async function getAverageNumbers(request, response) {
+  const { redaction_corrector_id } = request.query;
+  console.log("🚀 ~ file: UserController.js ~ line 46 ~ getAverageNumbers ~ id", redaction_corrector_id)
+
+  try {
+    const numbers = await UserModel.getAverageNumbers(redaction_corrector_id);
+    return response.status(200).json(numbers);
+  } catch (error) {
+    if (error.message) {
+      return response.status(400).json({ notification: error.message });
+    }
+    return response.status(500).json({ notification: 'Internal Server Error' });
+  }
+}
+
 export async function create(request, response) {
   const user = request.body;
   let firebase_id;
@@ -110,6 +125,27 @@ export async function update(request, response) {
 
     const updatedUser = await UserModel.getUserById(id);
     return response.status(200).json(updatedUser, { message: 'Sucesso!' });
+  } catch (error) {
+    console.error(error); //eslint-disable-line
+    return response.status(500).json({ notification: 'Internal Server Error' });
+  }
+}
+
+export async function updateAverage(request, response) {
+  try {
+    const { id } = request.query;
+    const { like_number, dislike_number, average_rate } = request.body;
+    console.log("🚀 ~ file: UserController.js ~ line 137 ~ updateAverage ~ average_rate", average_rate)
+    console.log("🚀 ~ file: UserController.js ~ line 137 ~ updateAverage ~ dislike_number", dislike_number)
+    console.log("🚀 ~ file: UserController.js ~ line 137 ~ updateAverage ~ like_number", like_number)
+    let newUser = {};
+    newUser.like_number = like_number;
+    newUser.dislike_number = dislike_number;
+    newUser.average_rate = average_rate;
+
+    await UserModel.updateUser(newUser, id);
+
+    return response.status(200).json({ message: 'Sucesso!' });
   } catch (error) {
     console.error(error); //eslint-disable-line
     return response.status(500).json({ notification: 'Internal Server Error' });
