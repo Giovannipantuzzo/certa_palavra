@@ -4,6 +4,7 @@ import { FaFilter } from 'react-icons/fa';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import FileSaver from 'file-saver';
 import { useAuth } from '../../contexts/AuthContext';
 import {
   ContainerCardsRedaction, DivisionCardsRedaction,
@@ -14,7 +15,6 @@ import {
 import ModalRedacao from '../ModalRedacao';
 import DashboardFilter from '../DashboardFilter';
 import api from '../../utils/api';
-import FileSaver from 'file-saver';
 import RedactionCard from '../RedactionCard';
 
 toast.configure();
@@ -48,26 +48,76 @@ export default function MainDashboard() {
 
   const getDownload = async (file_url) => {
     try {
-      FileSaver.saveAs(file_url, 'redação');
+      fetch(file_url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const reader = new FileReader();
+          reader.onload = function () { FileSaver.saveAs(this.result, 'redação'); }; // <--- `this.result` contains a base64 data URI
+          reader.readAsDataURL(blob);
+        });
     } catch (error) {
+      console.error(error);
       toast('Erro ao baixar arquivo', { position: toast.POSITION.BOTTOM_RIGHT });
     }
   };
 
-  const rateRedaction = async (rate, redaction_id) => {
+  const rateRedaction = async (rate, redaction_id, redaction_corrector_id, rateStatus) => {
     try {
+      if ((rate === 'like' && rateStatus === true) || (rate === 'dislike' && rateStatus === false)) {
+        return toast('Avaliação feita com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
+      }
+      const averageNumbers = await api.get('/averageNumbers', {
+        params: {
+          redaction_corrector_id: redaction_corrector_id,
+        },
+      });
       if (rate === 'like') {
         await api.put(
           '/correctedRedactions',
-          { rate: true, firebase_id: user.firebase_id, redaction_id },
+          { rate: true, redaction_id },
         );
+        let average = (averageNumbers.data.like_number + 1) / (averageNumbers.data.dislike_number + averageNumbers.data.like_number); // O total de avaliações é o mesmo
+        average = (average * 100).toString();
+        average = average.substr(0, 4) + '%';
+
+        if (rateStatus === false) {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: (averageNumbers.data.like_number),
+            dislike_number: (averageNumbers.data.dislike_number),
+            average_rate: (averageNumbers.data.dislike_number - 1) === 0 ? '100%' : average,
+          });
+        } else {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: (averageNumbers.data.like_number + 1),
+            dislike_number: averageNumbers.data.dislike_number,
+            average_rate: averageNumbers.data.dislike_number === 0 ? '100%' : average,
+          });
+        }
       } else {
         await api.put(
           '/correctedRedactions',
-          { rate: false, firebase_id: user.firebase_id, redaction_id },
+          { rate: false, redaction_id },
         );
+        let average = (averageNumbers.data.like_number - 1) / (averageNumbers.data.dislike_number + averageNumbers.data.like_number); // O total de avaliações é o mesmo
+        average = (average * 100).toString();
+        average = average.substr(0, 4) + '%';
+
+        if (rateStatus === true) {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: (averageNumbers.data.like_number - 1),
+            dislike_number: (averageNumbers.data.dislike_number + 1),
+            average_rate: average,
+          });
+        } else {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: averageNumbers.data.like_number,
+            dislike_number: (averageNumbers.data.dislike_number + 1),
+            average_rate: averageNumbers.data.dislike_number === 0 ? '100%' : average,
+          });
+        }
       }
       getRedactions();
+      toast('Avaliação feita com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
     } catch (error) {
       toast('Erro ao avaliar correção', { position: toast.POSITION.BOTTOM_RIGHT });
     }

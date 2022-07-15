@@ -41,7 +41,8 @@ function Intranet() {
   const menuDashboard = () => {
     switch (selectedButton) {
       case 'DashboardAdmin': return <MainDashboard />;
-      case 'DashboardCorretor': return <AdminDashboard renderButton />;
+      case 'DashboardCorretor': return <MainDashboard />;
+      case 'Corretores': return <AdminDashboard renderButton />;
       case 'Home': return <MainDashboard />;
       case 'Cadastro': router.push('/Cadastro');
       case 'Informações': return <InternalChangePassword />;

@@ -25,8 +25,10 @@ export async function getAll(request, response) {
     const {
       status, firebase_id, userType, firstDate, secondDate,
     } = request.query;
+    const formatedFirstDate = `${moment(firstDate).format('Y')}-${moment(firstDate).format('MM')}-${moment(firstDate).format('DD')}T00:00:00.000Z`;
+    const formatedSecondDate = `${moment(secondDate).format('Y')}-${moment(secondDate).format('MM')}-${moment(secondDate).format('DD')}T23:59:59.000Z`;
     let redactions;
-    if (firebase_id) {
+    if (firebase_id && !firstDate && !secondDate) {
       redactions = await RedactionModel.getAllRedactions(
         status,
         firebase_id,
@@ -37,8 +39,8 @@ export async function getAll(request, response) {
         status,
         firebase_id,
         userType,
-        firstDate,
-        secondDate,
+        formatedFirstDate,
+        formatedSecondDate,
       );
     } else {
       redactions = await RedactionModel.getAllRedactions(status);

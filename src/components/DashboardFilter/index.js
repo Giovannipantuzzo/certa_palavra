@@ -29,6 +29,7 @@ function DashboardFilter({
   const handleDataFilter = async () => {
     if (getAllAccounts) {
       getAllAccounts(true, firstDate, secondDate);
+      handleClose();
     } else {
       try {
         const response = await api.get('/redaction', {

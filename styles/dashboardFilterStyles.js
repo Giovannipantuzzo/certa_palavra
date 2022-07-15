@@ -10,12 +10,15 @@ export const SearchContainerModal = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     height: 50%;
-    width: 62vh;
+    width: 50%;
     border-radius: 3px;
     background-color: white;
     border: 0.5px solid ${({ theme }) => theme.colors.primary};
     box-shadow: 24;
     padding: 3%;
+    @media (max-width: 1000px) {
+        width: 75%;
+    }
     @media (max-width: 500px) {
         width: 85%;
     }
@@ -73,6 +76,9 @@ export const SearchAdvancedButtonSubmit = styled.button`
     background-color: ${({ theme }) => theme.colors.green};
     color: white;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    @media (max-width: 420px) {
+        width: 11vh;
+    }
 `;
 
 export const SearchAdvancedButtonAlignP = styled.p`

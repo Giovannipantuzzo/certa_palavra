@@ -38,7 +38,7 @@ function MyApp({ Component }) {
     <>
       <Head>
         <title>Certa Palavra</title>
-        <link rel="icon" src="/loginFoto.png" />
+        <link rel="icon" href="/loginFoto.png" />
       </Head>
       <GlobalStyle />
       <ThemeProvider theme={theme}>

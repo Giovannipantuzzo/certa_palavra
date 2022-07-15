@@ -49,11 +49,10 @@ module.exports = {
     }
   },
 
-  async updateRate(firebase_id, redaction_id, rate) {
+  async updateRate(redaction_id, rate) {
     try {
       const response = await connection('corrected_redactions')
         .where({ redaction_id })
-        .where({ firebase_id })
         .update({ rate });
       return response;
     } catch (error) {
