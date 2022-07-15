@@ -51,7 +51,6 @@ export async function getAverageNumbers(request, response) {
     if (error.message) {
       return response.status(400).json({ notification: error.message });
     }
-    console.log("🚀 ~ file: UserController.js ~ line 53 ~ getAverageNumbers ~ error", error)
     return response.status(500).json({ notification: 'Internal Server Error' });
   }
 }
