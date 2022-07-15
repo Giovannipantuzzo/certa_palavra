@@ -93,7 +93,7 @@ export async function update(request, response) {
     created_at: moment(),
   };
   try {
-    const corrected = redaction.corrected_at ? await CorrectedRedactionModel.updateCorrection(correctedRedaction) : await CorrectedRedactionModel.createNewCorrectedRedaction(correctedRedaction);
+    redaction.corrected_at ? await CorrectedRedactionModel.updateCorrection(correctedRedaction) : await CorrectedRedactionModel.createNewCorrectedRedaction(correctedRedaction);
     redaction.corrected_at = moment();
     await RedactionModel.updateRedaction(redaction, id);
   } catch (error) {
