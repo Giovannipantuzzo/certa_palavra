@@ -362,7 +362,7 @@ function TableComponent({
                 <TableCell
                   align="center"
                   {...tableFontProps}
-                  colSpan={5}
+                  colSpan={6}
                 >
                   {titleTable}
                 </TableCell>
