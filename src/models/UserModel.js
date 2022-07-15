@@ -54,6 +54,19 @@ module.exports = {
     }
   },
 
+  async getAverageNumbers(id) {
+    try {
+      const user = await connection('user')
+        .where('firebase_id', id)
+        .select('average_rate', 'like_number', 'dislike_number')
+        .first();
+      return user;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  },
+
   async createNewUser(user) {
     try {
       const user_aux = await connection('user')

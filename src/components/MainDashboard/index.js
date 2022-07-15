@@ -61,20 +61,63 @@ export default function MainDashboard() {
     }
   };
 
-  const rateRedaction = async (rate, redaction_id) => {
+  const rateRedaction = async (rate, redaction_id, redaction_corrector_id, rateStatus) => {
     try {
+      if ((rate === 'like' && rateStatus === true) || (rate === 'dislike' && rateStatus === false)) {
+        return toast('Avaliação feita com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
+      }
+      const averageNumbers = await api.get('/averageNumbers', {
+        params: {
+          redaction_corrector_id: redaction_corrector_id,
+        },
+      });
       if (rate === 'like') {
         await api.put(
           '/correctedRedactions',
-          { rate: true, firebase_id: user.firebase_id, redaction_id },
+          { rate: true, redaction_id },
         );
+        let average = (averageNumbers.data.like_number + 1) / (averageNumbers.data.dislike_number + averageNumbers.data.like_number); // O total de avaliações é o mesmo
+        average = (average * 100).toString();
+        average = average.substr(0, 4) + '%';
+
+        if (rateStatus === false) {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: (averageNumbers.data.like_number),
+            dislike_number: (averageNumbers.data.dislike_number),
+            average_rate: (averageNumbers.data.dislike_number - 1) === 0 ? '100%' : average,
+          });
+        } else {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: (averageNumbers.data.like_number + 1),
+            dislike_number: averageNumbers.data.dislike_number,
+            average_rate: averageNumbers.data.dislike_number === 0 ? '100%' : average,
+          });
+        }
       } else {
         await api.put(
           '/correctedRedactions',
-          { rate: false, firebase_id: user.firebase_id, redaction_id },
+          { rate: false, redaction_id },
         );
+        let average = (averageNumbers.data.like_number - 1) / (averageNumbers.data.dislike_number + averageNumbers.data.like_number); // O total de avaliações é o mesmo
+        average = (average * 100).toString();
+        average = average.substr(0, 4) + '%';
+
+        if (rateStatus === true) {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: (averageNumbers.data.like_number - 1),
+            dislike_number: (averageNumbers.data.dislike_number + 1),
+            average_rate: average,
+          });
+        } else {
+          await api.put(`/averageNumbers/${redaction_corrector_id}`, {
+            like_number: averageNumbers.data.like_number,
+            dislike_number: (averageNumbers.data.dislike_number + 1),
+            average_rate: averageNumbers.data.dislike_number === 0 ? '100%' : average,
+          });
+        }
       }
       getRedactions();
+      toast('Avaliação feita com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
     } catch (error) {
       toast('Erro ao avaliar correção', { position: toast.POSITION.BOTTOM_RIGHT });
     }
