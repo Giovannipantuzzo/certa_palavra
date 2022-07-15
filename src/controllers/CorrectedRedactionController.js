@@ -53,10 +53,10 @@ export async function deleteRedact(request, response) {
 }
 
 export async function updateRate(request, response) {
-  const { rate, firebase_id, redaction_id } = request.body;
+  const { rate, redaction_id } = request.body;
 
   try {
-    await CorrectedRedactionModel.updateRate(firebase_id, redaction_id, rate);
+    await CorrectedRedactionModel.updateRate(redaction_id, rate);
   } catch (error) {
     if (error.message) {
       return response.status(400).json({ notification: error.message });
