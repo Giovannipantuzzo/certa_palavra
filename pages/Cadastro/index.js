@@ -110,7 +110,7 @@ const Signup = () => {
     try {
       await api.post('/user', body);
       toast('Sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
-      router.push('/login');
+      router.push('/Home');
     } catch (error) {
       console.error(error);
       toast('Erro', { position: toast.POSITION.BOTTOM_RIGHT });

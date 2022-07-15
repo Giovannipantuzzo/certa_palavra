@@ -1,5 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 const { connection } = require('../database/connection');
+const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
 
@@ -27,6 +28,7 @@ module.exports = {
   },
 
   async createNewCorrectedRedaction(redaction) {
+    redaction.corrected_redaction_id = uuidv4();
     try {
       const redaction_aux = await connection('corrected_redactions')
         .insert(redaction);
