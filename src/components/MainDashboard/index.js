@@ -188,8 +188,8 @@ export default function MainDashboard() {
           <TitleCardsRedactionPageH1>
             Redações
             {' '}
-            {user?.type === 'Corretor'
-              ? 'Pendentes' : 'Enviadas'}
+            {user?.type === 'User'
+              ? 'Enviadas' : 'Pendentes'}
             :
             {' '}
             {pendingData.length}
