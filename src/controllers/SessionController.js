@@ -75,7 +75,9 @@ export async function signIn(req, res) {
     }
     try {
       firebase_id = await FirebaseModel.login(email, password);
+      console.log("🚀 ~ file: SessionController.js ~ line 78 ~ signIn ~ firebase_id", firebase_id)
       const user = await UserModel.getUserById(firebase_id);
+      console.log("🚀 ~ file: SessionController.js ~ line 80 ~ signIn ~ user", user)
       let accessToken;
       if (user) {
         accessToken = jwt.sign(
@@ -122,11 +124,7 @@ export async function signIn(req, res) {
 export async function validateSession(req, res) {
   try {
     const session = await req.session.get('user');
-    if (session) {
-      return res.status(200).json(session);
-    }
-    const sessionStore = await req.session.get('store');
-    return res.status(200).json(sessionStore);
+    return res.status(200).json(session);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
