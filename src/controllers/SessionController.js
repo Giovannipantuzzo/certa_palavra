@@ -9,6 +9,7 @@ export async function signIn(req, res) {
     const { email, password } = req.body;
     let firebase_id;
     let attempt = await AttemptsModel.getAttemptByEmail(email);
+    console.log("🚀 ~ file: SessionController.js ~ line 12 ~ signIn ~ attempt", attempt)
     if (attempt.attempts === 0) {
       const body = {
         lock_time: moment().add(5, 'minutes'),
@@ -117,6 +118,7 @@ export async function signIn(req, res) {
       return res.status(400).json({ message: 'Email ou senha incorreto' });
     }
   } catch (error) {
+    console.log("🚀 ~ file: SessionController.js ~ line 120 ~ signIn ~ error", error)
     return res.status(500).json({ message: error.message });
   }
 }
