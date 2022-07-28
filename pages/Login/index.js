@@ -83,7 +83,7 @@ function Login() {
         <Body.Right>
           <Formulary onSubmit={handleSubmit}>
             <TopFormulary>
-              <TitleLogin>Bem vindo de volta!</TitleLogin>
+              <TitleLogin>Bem-vindo de volta!</TitleLogin>
               <SubtitleLogin>
                 Por favor, entre com seu email e sua senha:
               </SubtitleLogin>
