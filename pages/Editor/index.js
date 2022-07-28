@@ -122,7 +122,7 @@ function Editor() {
       </div>
       <div
         style={{
-          width: '100vw',
+          width: '100%',
           height: '125vh',
           display: 'flex',
           flexDirection: 'column',
@@ -131,7 +131,13 @@ function Editor() {
           marginBottom: '5%',
         }}
       >
-        {url && <DynamicComponentWithNoSSR url={url} canvasRef={canvasRef} progresspercent={progresspercent} setProgresspercent={setProgresspercent} redaction_id={redaction_id} />}
+        {url && <DynamicComponentWithNoSSR
+          url={url}
+          canvasRef={canvasRef}
+          progresspercent={progresspercent}
+          setProgresspercent={setProgresspercent}
+          redaction_id={redaction_id}
+        />}
       </div>
       <div className={styles['register-note-container']}>
         {formsCadastroNota?.map((line) => (
@@ -164,7 +170,7 @@ function Editor() {
           style={{ backgroundColor: '#004e7b', marginBottom: '5%' }}
           onClick={(e) => handleOpen(e)}
         >
-          Cadastrar
+          Editar
         </LoadingButton>
         <div className={styles2['form-note-container']}>
           <FormControl className={styles2['form-content-note']}>
