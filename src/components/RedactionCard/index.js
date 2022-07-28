@@ -80,15 +80,17 @@ export default function RedactionCard({
               {' '}
               {redaction?.description}
             </DescriptionCardRedactionsP>
-            <ContainerDownload>
-              <Download
-                onClick={() => {
-                  getDownload(redaction.file_url);
-                }}
-              >
-                Baixar arquivo
-              </Download>
-            </ContainerDownload>
+            {user.type !== 'Corretor' && (
+              <ContainerDownload>
+                <Download
+                  onClick={() => {
+                    getDownload(redaction.file_url);
+                  }}
+                >
+                  Baixar arquivo
+                </Download>
+              </ContainerDownload>
+            )}
             {user.type === 'User' && (
               <RedactionsIcons>
                 <AiOutlineLike
