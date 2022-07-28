@@ -28,11 +28,9 @@ function AuthProvider({ children }) {
   async function login(email, password, setShowModal, setContent) {
     try {
       const response = await api.post('login', { email, password });
-      if (response.data.user !== undefined) {
-        setUser(response.data.user);
-        router.push('/Home');
-        toast('Login efetuado com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
-      }
+      setUser(response.data.user);
+      router.push('/Home');
+      toast('Login efetuado com sucesso', { position: toast.POSITION.BOTTOM_RIGHT });
     } catch (error) {
       const resp = await api.get(`attempts/${email}`);
       if (resp.data.attempts === 3 && moment() < moment(resp.data.lock_time)) {
