@@ -99,7 +99,7 @@ const Signup = () => {
       return;
     }
     const body = {
-      type: 'buyer',
+      type: userType,
       name: name + ' ' + lastName,
       birth_date: date,
       email,
