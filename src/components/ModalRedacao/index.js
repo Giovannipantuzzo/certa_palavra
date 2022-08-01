@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { storage } from '../../utils/firebaseStorage';
 import {
-  SendRedactionButton, SendRedactionButtonP, MyFormGroup,
+  SendRedactionButton, SendRedactionButtonP, MyFormGroup, DivContainerModal,
   ItemFormulary, TextBox2, FormRegister, Subtitle, ContainerModal,
   ExitModal, CloseModal, ButtonSubmit, ButtonAlignP, ButtonSubmitContainer, ImageContainer,
 } from '../../../styles/modalRedacaoStyle';
@@ -168,95 +168,100 @@ export default function ModalEnquete() {
 
   const body = (
     <ContainerModal>
-      <ExitModal>
-        <CloseModal
-          type="button"
-          onClick={() => {
-            handleClose();
-          }}
-        >
-          <CloseIcon
-            size={30}
-            sx={[
-              {
-                color: '#264A6F',
-                '&:hover': {
-                  color: 'white',
-                  backgroundColor: '#91ca6c',
-                  borderRadius: '5px',
-                },
-              },
-            ]}
-          />
-        </CloseModal>
-      </ExitModal>
-      <FormRegister>
-        <Subtitle>Formulário de envio</Subtitle>
-        <MyFormGroup>
-          <FormLabel style={{ marginBottom: '8px' }}>Tema da redação</FormLabel>
-          <ItemFormulary>
-            <TextBox2
-              type="text"
-              placeholder="Tema da redação"
-              required
-              value={title}
-              onChange={(e) => handleTitleChange(e)}
-            />
-          </ItemFormulary>
-        </MyFormGroup>
-        <MyFormGroup>
-          <FormLabel style={{ marginBottom: '8px' }}>Arquivo</FormLabel>
-          <>
-            <div {...getRootProps({ className: classes.dropzone })}>
-              <input {...getInputProps()} />
-              <p style={{ marginTop: '10px' }}>
-                Arraste e solte a imagem aqui
-              </p>
-            </div>
-            {updateImage && (
-              <ImageContainer>
-                <div key={redaction.url}>
-                  {redaction?.file?.type?.substring(0, 5) === 'image'
-                    && (
-                      <div>
-                        <img src={redaction.url} style={{ width: '100%' }} alt="preview" />
-                      </div>
-                    )}
-                </div>
-                <Button
-                  variant="contained"
-                  style={{
-                    backgroundColor: '#004e7b', marginBottom: '1%', marginTop: '2%',
-                  }}
-                  onClick={() => {
-                    setUpdateImage(false);
-                  }}
-                  onChange={() => {
-                    handleRedactionChange();
-                  }}
-                >
-                  remover
-                </Button>
-
-              </ImageContainer>
-            )}
-          </>
-        </MyFormGroup>
-        <ButtonSubmitContainer>
-          {!loading && (
-          <ButtonSubmit
+      <DivContainerModal>
+        <ExitModal>
+          <CloseModal
             type="button"
-            onClick={(e) => {
-              setLoading(true);
-              handleData(e);
+            onClick={() => {
+              handleClose();
             }}
           >
-            <ButtonAlignP>Enviar</ButtonAlignP>
-          </ButtonSubmit>
-          )}
-          {loading && <CircularProgressWithLabel value={progresspercent} />}
-        </ButtonSubmitContainer>
-      </FormRegister>
+            <CloseIcon
+              size={30}
+              sx={[
+                {
+                  color: '#264A6F',
+                  '&:hover': {
+                    color: 'white',
+                    backgroundColor: '#91ca6c',
+                    borderRadius: '5px',
+                  },
+                },
+              ]}
+            />
+          </CloseModal>
+        </ExitModal>
+        <FormRegister>
+          <Subtitle>Formulário de envio</Subtitle>
+          <MyFormGroup>
+            <FormLabel style={{ marginBottom: '8px' }}>Tema da redação</FormLabel>
+            <ItemFormulary>
+              <TextBox2
+                type="text"
+                placeholder="Tema da redação"
+                required
+                value={title}
+                onChange={(e) => handleTitleChange(e)}
+              />
+            </ItemFormulary>
+          </MyFormGroup>
+          <MyFormGroup>
+            <FormLabel style={{ marginBottom: '8px' }}>Arquivo</FormLabel>
+            <>
+              <div {...getRootProps({ className: classes.dropzone })}>
+                <input {...getInputProps()} />
+                <p style={{ marginTop: '10px' }}>
+                  Arraste e solte a imagem aqui
+                </p>
+              </div>
+              {updateImage && (
+                <ImageContainer>
+                  <div key={redaction.url}>
+                    {redaction?.file?.type?.substring(0, 5) === 'image'
+                      && (
+                        <div style={{ display: 'flex', justifyContent: 'center', }}>
+                          <img src={redaction.url} style={{
+                            width: '60%',
+                            height: '10%'
+                          }} alt="preview" />
+                        </div>
+                      )}
+                  </div>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: '#004e7b', marginBottom: '1%', marginTop: '2%',
+                    }}
+                    onClick={() => {
+                      setUpdateImage(false);
+                    }}
+                    onChange={() => {
+                      handleRedactionChange();
+                    }}
+                  >
+                    remover
+                  </Button>
+
+                </ImageContainer>
+              )}
+            </>
+          </MyFormGroup>
+          <ButtonSubmitContainer>
+            {!loading && (
+              <ButtonSubmit
+                type="button"
+                onClick={(e) => {
+                  setLoading(true);
+                  handleData(e);
+                }}
+              >
+                <ButtonAlignP>Enviar</ButtonAlignP>
+              </ButtonSubmit>
+            )}
+            {loading && <CircularProgressWithLabel value={progresspercent} />}
+          </ButtonSubmitContainer>
+        </FormRegister>
+      </DivContainerModal>
     </ContainerModal>
   );
 
@@ -271,14 +276,19 @@ export default function ModalEnquete() {
         </SendRedactionButtonP>
         <AddCircleOutlineIcon />
       </SendRedactionButton>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {body}
-      </Modal>
+      {open && (
+        <DivContainerModal>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            style={{ overflowY: 'scroll' }}
+          >
+            {body}
+          </Modal>
+        </DivContainerModal>
+      )}
     </div>
   );
 }
