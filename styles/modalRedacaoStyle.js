@@ -3,6 +3,13 @@ import {
   Form, FormGroup,
 } from 'react-bootstrap';
 
+export const DivContainerModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const ContainerModal = styled.div`
     display: flex;
     flex-direction: column;
@@ -13,6 +20,8 @@ export const ContainerModal = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     width: 62vh;
+    max-height: 85vh;
+    overflow-y: scroll;
     border-radius: 3px;
     background-color: white;
     border: 0.5px solid ${({ theme }) => theme.colors.primary};
@@ -87,7 +96,7 @@ export const TextBox2 = styled.input`
 `;
 
 export const FormRegister = styled(Form)`
-  width: 80%;
+  width: 100%;
 `;
 
 export const Subtitle = styled.p`
